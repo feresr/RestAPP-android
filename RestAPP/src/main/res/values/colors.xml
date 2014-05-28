@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="pressed">#FF9922</color>
+    <color name="normal">#FF8800</color>
+    <color name="transparent_pressed">#bbFF8800</color>
+    <color name="transparent_normal">#55FF8800</color>
+    <color name="white_background">#f6f6f6</color>
+
+    <color name="dark_black">#2a2a2a</color>
+    <color name="black">#000</color>
+    <color name="white">#eee</color>
+    <color name="dark_white">#2a2a2a</color>
+
+    <color name="yellow">#FFBB33</color>
+	<color name="dark_yellow">#FF8800</color>
+</resources>

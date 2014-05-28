@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RestAPP</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="button_log_in">LOG IN</string>
+    <string name="login_user_hint">Username</string>
+    <string name="login_password_hint">Password</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="invalid_credentials">Invalid credentials</string>
+    <string name="server_not_found">RestAPP Server not found</string>
+    <string name="waiter_name_sample">Fernando Raviola</string>
+    <string name="waiter_username_sample">#feresr</string>
+    <string name="new_order">NEW ORDER</string>
+</resources>
