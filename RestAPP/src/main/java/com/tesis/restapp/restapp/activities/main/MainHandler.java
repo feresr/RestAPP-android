@@ -11,4 +11,6 @@ public interface MainHandler {
 
     public void onNewOrderSelected();
 
+    public void onTableSelected(int tableId);
+
 }

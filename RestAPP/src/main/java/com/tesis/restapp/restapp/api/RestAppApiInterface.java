@@ -25,15 +25,15 @@ public interface RestAppApiInterface {
     public void logIn(@Field("username") String username, @Field("password") String password, Callback<User> callback);
 
 
-
     @GET(Constants.URL_ORDERS)
     public void retrieveOrders(Callback<List<Order>> callback);
 
     @GET(Constants.URL_ORDERS + "/{id}")
     public void retrieveOrder(@Path("id") int orderId, Callback<Order> callback);
 
-
     @GET(Constants.URL_AVAILABLE_TABLES)
     public void retrieveTables(Callback<List<Table>> callback);
 
+    @POST(Constants.URL_ORDERS)
+    public void newOrder(Order order, Boolean callback);
 }

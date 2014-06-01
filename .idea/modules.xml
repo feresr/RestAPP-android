@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/APP.iml" filepath="$PROJECT_DIR$/APP.iml" />
       <module fileurl="file://$PROJECT_DIR$/RestAPP.iml" filepath="$PROJECT_DIR$/RestAPP.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RestAPP/RestAPP-RestAPP.iml" filepath="$PROJECT_DIR$/RestAPP/RestAPP-RestAPP.iml" />
     </modules>
   </component>
 </project>

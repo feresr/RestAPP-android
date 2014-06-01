@@ -65,4 +65,9 @@ public class MainActivity extends Activity implements MainHandler {
         transaction.replace(R.id.container, tablesFragment);
         transaction.commit();
     }
+
+    @Override
+    public void onTableSelected(int tableId) {
+
+    }
 }
