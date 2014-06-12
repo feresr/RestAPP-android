@@ -30,41 +30,24 @@ public class TablesAdapter extends ArrayAdapter<Table> {
     public TablesAdapter(Context context, int resource){
         super(context, resource);
         this.context = context;
-        RestAppApiInterface restAppApiInterface = ApiClient.getRestAppApiClient();
-        restAppApiInterface.retrieveTables(new Callback<List<Table>>() {
-            @Override
-            public void success(List<Table> tables, Response response) {
-                if(tables != null) {
-                    onTablesFetched(tables);
-                }
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Log.e(TAG, "Couldn't retrieve tables");
-            }
-        });
 
     }
 
-    public void onTablesFetched(List<Table> tables) {
-        Table.setTables(tables);
-        notifyDataSetChanged();
-    }
 
     @Override
     public int getCount() {
-        return Table.getTables().size();
+        return 0;//Table.getTables().size();
     }
 
     @Override
     public long getItemId(int position) {
-        return Table.getTables().get(position).getId();
+        return 0;// Table.getTables().get(position).getId();
     }
 
     @Override
     public Table getItem(int position) {
-        return Table.getTables().get(position);
+        return null;//Table.getTables().get(position);
     }
 
     @Override

@@ -21,8 +21,8 @@ public class ApiClient{
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade requestFacade) {
-                            if (User.getToken() != null) {
-                                requestFacade.addHeader("Cookie", User.getToken().getValue());
+                            if (User.getUser()!= null) {
+                                requestFacade.addHeader("Cookie", User.getUser().getToken().getValue());
                             }
                         }
                     })

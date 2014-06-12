@@ -1,46 +1,44 @@
 package com.tesis.restapp.restapp.models;
 
+import android.content.Context;
+
+import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
+
 import java.util.ArrayList;
 
-public class Item {
+public class Item extends SugarRecord<Item> {
 
-    public static String TAG_ID = "id";
-    public static String TAG_NAME = "name";
-    public static String TAG_DESCRIPTION = "description";
-    public static String TAG_PRICE = "price";
-    public static String TAG_CATEGORY_ID = "category_id";
-
-    public static String TAG_CATEGORY_CAFE = "cafeteria";
-    public static String TAG_CATEGORY_MAIN = "cafeteria";
-    public static String TAG_CATEGORY_SANDWICH = "cafeteria";
-    public static String TAG_CATEGORY_BEER = "cafeteria";
-    public static String TAG_CATEGORY_WINE = "cafeteria";
-    public static String TAG_CATEGORY_SODA = "cafeteria";
-    public static String TAG_CATEGORY_DESSERT = "cafeteria";
-
-
-
-    public static ArrayList<Item> items = new ArrayList<Item>();
-
-    private int id;
+    @SerializedName("id")
+    private int uai;
     private String description;
     private String name;
     private double price;
+    private Category category;
 
-    public double getPrice() {
-        return price;
+
+    public Item(Context ctx) {
+        super(ctx);
     }
 
-    public void setPrice(double price) {
+    public Item(Context ctx, int uai, String description, String name, double price, Category category){
+        super(ctx);
+        this.uai = uai;
+        this.name = name;
         this.price = price;
+        this.description = description;
+        this.category = category;
     }
 
-    public int getId() {
-        return id;
+
+    //GETTERS AND SETTERS
+
+    public int getUai() {
+        return uai;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUai(int id) {
+        this.uai = id;
     }
 
     public String getDescription() {
@@ -59,8 +57,21 @@ public class Item {
         this.name = name;
     }
 
+    public double getPrice() {
+        return price;
+    }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
 
 }

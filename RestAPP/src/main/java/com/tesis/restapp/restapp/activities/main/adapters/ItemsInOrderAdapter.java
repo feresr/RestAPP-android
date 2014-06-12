@@ -29,21 +29,6 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
         super(context, resource);
         this.context = context;
         this.order = order;
-        RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient();
-        apiInterface.retrieveOrder(order.getId(), new Callback<Order>() {
-
-            @Override
-            public void success(Order order, Response response) {
-                if (order != null) {
-                    onOrderFetched(order);
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
 
     }
 

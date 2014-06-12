@@ -8,24 +8,34 @@ import retrofit.client.Header;
 public class User {
 
     //+++Static methods+++
-    public final static String TAG_FIRSTNAME = "firstname";
-    public final static String TAG_LASTNAME = "lastname";
-    public final static String TAG_USERNAME = "username";
-    private static Header token;
+    private static User mUser;
 
-    public static void setToken(Header e ){
-        token = e;
+    private User() {
+
     }
 
-    public static Header getToken(){
-        return token;
+    public static User getUser() {
+        return mUser;
     }
 
 
+    public static void setUser(User user) {
+        mUser = user;
+    }
+
+    private Header token;
     private int id;
     private String firstname;
     private String lastname;
     private String username;
+
+
+    public void setToken(Header e) {
+        token = e;
+    }
+    public Header getToken() {
+        return token;
+    }
 
     public int getId() {
         return id;

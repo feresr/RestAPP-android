@@ -30,35 +30,21 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
     public OrdersAdapter(Context context, int resource) {
         super(context, resource);
         this.context = context;
-
-        RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient();
-        apiInterface.retrieveOrders(new Callback<List<Order>>() {
-            @Override
-            public void success(List<Order> orders, Response response) {
-                onOrdersFetched(orders);
-            }
-
-            @Override
-            public void failure(RetrofitError retrofitError) {
-                Log.e("server not found?", retrofitError.toString());
-            }
-        });
-
     }
 
     @Override
     public int getCount() {
-        return Order.getOrders().size();
+        return Order.listAll(Order.class).size();
     }
 
     @Override
     public long getItemId(int position) {
-        return Order.getOrders().get(position).getId();
+        return Order.findById(Order.class, ((long) position)).getId();
     }
 
     @Override
     public Order getItem(int position) {
-        return Order.getOrders().get(position);
+        return Order.findById(Order.class, ((long) position));
     }
 
     @Override
@@ -75,11 +61,10 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
 
         }
 
-        description = (TextView) v
-                .findViewById(R.id.description_txt);
+        description = (TextView) v.findViewById(R.id.description_txt);
         tableNumber = (TextView) v.findViewById(R.id.table_number_txt);
 
-        Order order = Order.getOrders().get(position);
+        Order order = Order.findById(Order.class, ((long) position));
 
         description.setText(order.getTable().getDescription());
         tableNumber.setText(Integer.toString(order.getTable().getNumber()));
@@ -87,9 +72,5 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
         return v;
     }
 
-    public void onOrdersFetched(List<Order> orders) {
-        Order.setOrders(orders);
-        notifyDataSetChanged();
 
-    }
 }

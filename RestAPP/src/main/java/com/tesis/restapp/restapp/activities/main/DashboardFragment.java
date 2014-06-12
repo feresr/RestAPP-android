@@ -40,8 +40,8 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
         TextView usernameTxtView = (TextView) rootView.findViewById(R.id.firstLastNameTxt);
         TextView username = (TextView) rootView.findViewById(R.id.usernameTxt);
 
-        usernameTxtView.setText(getArguments().getString(User.TAG_FIRSTNAME) + " " + getArguments().getString(User.TAG_LASTNAME));
-        username.setText("#" + getArguments().getString(User.TAG_USERNAME));
+        usernameTxtView.setText(User.getUser().getFirstname() + " " + User.getUser().getLastname());
+        username.setText("#" + User.getUser().getUsername());
 
         OrdersAdapter adapter = new OrdersAdapter(getActivity(), R.id.orders_listview);
         ListView listView = (ListView)rootView.findViewById(R.id.orders_listview);

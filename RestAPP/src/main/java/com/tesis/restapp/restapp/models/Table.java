@@ -1,54 +1,44 @@
 package com.tesis.restapp.restapp.models;
 
 
+import android.content.Context;
+
+import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table {
+public class Table extends SugarRecord<Table> {
 
-    public static String TAG_NUMBER = "number";
-    public static String TAG_SEATS = "seats";
-    public static String TAG_DESCRIPTION = "description";
-    public static String TAG_ID = "id";
-    public static String TAG_TAKEN = "taken";
-
-
-    private static List<Table> tables = new ArrayList<Table>();
-
-    public static void setTables(List<Table> tables) {
-        Table.tables = tables;
-    }
-
-
-    public static List<Table> getTables(){
-
-        return tables;
-
-    }
-
-
-
-    private int id;
+    @SerializedName("id")
+    private int uai;
     private String description;
     private int seats;
     private int number;
 
 
-
-
-
-
-
-
-    private boolean taken;
-
-
-    public boolean isTaken() {
-        return taken;
+    public Table(Context context) {
+        super(context);
     }
 
-    public void setTaken(boolean taken) {
-        this.taken = taken;
+    public Table(Context context, int uai, String description, int seats, int number) {
+        super(context);
+        this.uai = uai;
+        this.seats = seats;
+        this.number = number;
+        this.description = description;
+
+    }
+
+    //GETTERS ANN SETTERS
+
+    public int getUai() {
+        return uai;
+    }
+
+    public void setUai(int uai) {
+        this.uai = uai;
     }
 
     public String getDescription() {
@@ -76,29 +66,4 @@ public class Table {
     }
 
 
-
-    public Table(int number, int seats, String description){
-        this.number = number;
-        this.seats = seats;
-        this.description = description;
-    }
-
-    public Table(int number, int seats){
-        this.number = number;
-        this.seats = seats;
-        this.description = "";
-    }
-
-
-    public Table(){
-    }
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 }

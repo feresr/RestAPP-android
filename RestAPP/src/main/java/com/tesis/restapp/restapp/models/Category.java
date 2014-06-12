@@ -1,44 +1,24 @@
 package com.tesis.restapp.restapp.models;
 
-import java.util.ArrayList;
+import android.content.Context;
 
-/**
- * Created by feresr on 5/17/14.
- */
-public class Category {
+import com.google.gson.annotations.SerializedName;
+import com.orm.SugarRecord;
 
-    private static ArrayList<Category> categories = new ArrayList<Category>();
+public class Category extends SugarRecord<Category>{
 
-    private int id;
+    @SerializedName("id")
+    private int uai;
     private String name;
 
-    public static String TAG_ID = "id";
-    public static String TAG_NAME = "name";
-
-
-    public static ArrayList<Category> getCategories(){
-
-        return categories;
-
+    public Category(Context ctx){
+        super(ctx);
     }
 
-
-    public static void addCategory(Category category){
-
-        categories.add(category);
-
-    }
-
-    public static void clearCategories(){
-
-        categories.clear();
-
-    }
-
-
-    public Category(){
-
-
+    public Category(Context ctx, int uai, String name ){
+        super(ctx);
+        this.uai = uai;
+        this.name = name;
     }
 
     public String getName() {
@@ -49,11 +29,11 @@ public class Category {
         this.name = name;
     }
 
-    public int getId() {
-        return id;
+    public int getUai() {
+        return uai;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUai(int uai) {
+        this.uai = uai;
     }
 }

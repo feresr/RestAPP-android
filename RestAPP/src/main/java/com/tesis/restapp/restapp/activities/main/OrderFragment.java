@@ -44,8 +44,8 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        int orderId = getArguments().getInt("order_id");
-        order = Order.getOrderById(orderId);
+        Long orderId = getArguments().getLong("order_id");
+        order = Order.findById(Order.class, orderId);
         View rootView = inflater.inflate(R.layout.fragment_order, container,
                 false);
 

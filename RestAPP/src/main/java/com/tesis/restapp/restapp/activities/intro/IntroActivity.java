@@ -79,14 +79,16 @@ public class IntroActivity extends Activity implements IntroHandler {
             apiInterface.logIn(username, password, new Callback<User>() {
                 @Override
                 public void success(User user, Response response) {
-                    for(Header header : response.getHeaders()) {
-                        if (header.getValue().contains("laravel_session")) {
-                            User.setToken(header);
-                        }
-                    }
-
                     if (user != null) {
-                        onLoginSuccessful(user);
+
+                        User.setUser(user);
+
+                        for (Header header : response.getHeaders()) {
+                            if (header.getValue().contains("laravel_session")) {
+                                User.getUser().setToken(header);
+                            }
+                        }
+                        onLoginSuccessful();
                     } else {
                         onInvalidCredentials();
                     }
@@ -104,13 +106,10 @@ public class IntroActivity extends Activity implements IntroHandler {
         }
     }
 
-    private void onLoginSuccessful(User user) {
+    private void onLoginSuccessful() {
 
         pDialog.dismiss();
         Intent i = new Intent(this, MainActivity.class);
-        i.putExtra(User.TAG_FIRSTNAME, user.getFirstname());
-        i.putExtra(User.TAG_LASTNAME, user.getLastname());
-        i.putExtra(User.TAG_USERNAME, user.getUsername());
 
         startActivity(i);
         finish();
