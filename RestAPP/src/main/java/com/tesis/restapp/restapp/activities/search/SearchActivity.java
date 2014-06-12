@@ -1,15 +1,12 @@
 package com.tesis.restapp.restapp.activities.search;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import com.tesis.restapp.restapp.R;
-import com.tesis.restapp.restapp.activities.intro.IntroFragment;
 
-/**
- * Created by feresr on 6/12/14.
- */
-public class SearchActivity extends Activity {
+public class SearchActivity extends Activity implements  SearchHandler {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,5 +16,18 @@ public class SearchActivity extends Activity {
                     .add(R.id.container, new CategoriesFragment())
                     .commit();
         }
+    }
+
+    @Override
+    public void onCategorySelected(int categoryId) {
+        ItemsFragment itemsFragment = new ItemsFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        Bundle args = new Bundle();
+        args.putInt("category_id", categoryId);
+        itemsFragment.setArguments(args);
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.container, itemsFragment);
+        transaction.commit();
     }
 }

@@ -187,7 +187,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         item.setName(itemCursor.getString(1));
                         item.setDescription(itemCursor.getString(2));
                         item.setPrice(itemCursor.getDouble(3));
-                        item.setCategory(new Category());
+                        Category category = new Category();
+
+                        String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + itemCursor.getInt(4);
+                        Cursor categoryCursor = db.rawQuery(selectCategory, null);
+                        if (categoryCursor.moveToFirst()) {
+                            category.setId(categoryCursor.getInt(0));
+                            category.setName(categoryCursor.getString(1));
+                        }
+                        item.setCategory(category);
 
                         items.add(item);
                     }while (itemCursor.moveToNext());
@@ -200,6 +208,63 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         // return contact list
         return orderList;
+    }
+
+    public List<Category> getCategories() {
+        List<Category> categoryList = new ArrayList<Category>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_CATEGORIES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+
+                Category category = new Category();
+                category.setId(cursor.getInt(0));
+                category.setName(cursor.getString(1));
+
+                categoryList.add(category);
+
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        // return contact list
+        return categoryList;
+    }
+
+    public List<Item> getItemsInCategory(int categoryID){
+        ArrayList<Item> items = new ArrayList<Item>();
+        String selectQuery = "SELECT * FROM " + TABLE_ITEMS + " WHERE " + TABLE_ITEMS + "." + KEY_CATEGORY_ID + "=" + categoryID;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+            do {
+
+                Item item = new Item();
+                item.setId(cursor.getInt(0));
+                item.setName(cursor.getString(1));
+                item.setDescription(cursor.getString(2));
+                item.setPrice(cursor.getDouble(3));
+                Category category = new Category();
+
+                String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + categoryID;
+                Cursor categoryCursor = db.rawQuery(selectCategory, null);
+                if (categoryCursor.moveToFirst()) {
+                    category.setId(categoryCursor.getInt(0));
+                    category.setName(categoryCursor.getString(1));
+                }
+                item.setCategory(category);
+
+                items.add(item);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        // return contact list
+        return items;
+
     }
 
     public Order getOrderById(int id) {

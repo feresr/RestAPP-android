@@ -7,8 +7,8 @@ import com.google.gson.annotations.SerializedName;
 
 public class Category{
 
-    @SerializedName("id")
-    private int uai;
+
+    private int id;
     private String name;
 
 
@@ -21,11 +21,11 @@ public class Category{
         this.name = name;
     }
 
-    public int getUai() {
-        return uai;
+    public int getId() {
+        return id;
     }
 
-    public void setUai(int uai) {
-        this.uai = uai;
+    public void setId(int id) {
+        this.id = id;
     }
 }

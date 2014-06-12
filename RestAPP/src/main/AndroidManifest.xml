@@ -26,6 +26,10 @@
             android:name="com.tesis.restapp.restapp.activities.main.MainActivity"
             android:label="@string/title_activity_main" >
         </activity>
+        <activity
+            android:name="com.tesis.restapp.restapp.activities.search.SearchActivity"
+            android:label="@string/title_activity_search" >
+        </activity>
     </application>
 
 </manifest>
