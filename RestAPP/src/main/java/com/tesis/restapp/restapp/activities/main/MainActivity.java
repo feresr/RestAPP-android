@@ -3,22 +3,22 @@ package com.tesis.restapp.restapp.activities.main;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
+import com.tesis.restapp.restapp.activities.search.SearchActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.CategoryRow;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.database.ItemRow;
 import com.tesis.restapp.restapp.database.OrderRow;
+import com.tesis.restapp.restapp.database.Order_itemRow;
 import com.tesis.restapp.restapp.database.TableRow;
-import com.tesis.restapp.restapp.models.Item;
-import com.tesis.restapp.restapp.models.Order;
-import com.tesis.restapp.restapp.models.Table;
 
 import java.util.List;
 
@@ -34,6 +34,12 @@ public class MainActivity extends Activity implements MainHandler {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        pDialog = new ProgressDialog(this);
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(false);
+
+
         if (savedInstanceState == null) {
             DashboardFragment dashboardFragment = new DashboardFragment();
 
@@ -41,9 +47,7 @@ public class MainActivity extends Activity implements MainHandler {
                     .add(R.id.container, dashboardFragment)
                     .commit();
 
-            pDialog = new ProgressDialog(this);
-            pDialog.setIndeterminate(false);
-            pDialog.setCancelable(false);
+
             syncDb();
 
 
@@ -52,7 +56,12 @@ public class MainActivity extends Activity implements MainHandler {
     }
 
     private void syncDb() {
+
+        pDialog.setMessage("Actualizando BD....");
+        pDialog.show();
+
         apiInterface = ApiClient.getRestAppApiClient();
+
         final DatabaseHandler db = new DatabaseHandler(this);
         apiInterface.retrieveCategories(new Callback<List<CategoryRow>>() {
             @Override
@@ -102,7 +111,10 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<OrderRow> orderRows, Response response) {
                 if (orderRows != null) {
                     db.addOrders(orderRows);
+
                 }
+
+                pDialog.dismiss();
             }
 
             @Override
@@ -111,7 +123,21 @@ public class MainActivity extends Activity implements MainHandler {
             }
         });
 
-        apiInterface.retrieveOrderItems();
+        apiInterface.retrieveOrderItems(new Callback<List<Order_itemRow>>() {
+            @Override
+            public void success(List<Order_itemRow> order_itemRows, Response response) {
+                if (order_itemRows != null) {
+                    db.addOrderItems(order_itemRows);
+                }
+
+
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+
+            }
+        });
 
     }
 
@@ -186,6 +212,12 @@ public class MainActivity extends Activity implements MainHandler {
             }
         });*/
 
+    }
+
+    @Override
+    public void onAddItemOptionSelected() {
+        Intent i = new Intent(this, SearchActivity.class);
+        startActivityForResult(i, 1);
     }
 
     @Override

@@ -13,4 +13,6 @@ public interface MainHandler {
 
     public void onTableSelected(int tableId);
 
+    public void onAddItemOptionSelected();
+
 }

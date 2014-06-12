@@ -4,42 +4,24 @@ package com.tesis.restapp.restapp.models;
 import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
-import com.orm.SugarRecord;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Table extends SugarRecord<Table> {
+public class Table {
 
-    @SerializedName("id")
-    private int uai;
+    private int id;
     private String description;
     private int seats;
     private int number;
+    private boolean taken;
 
 
-    public Table(Context context) {
-        super(context);
-    }
-
-    public Table(Context context, int uai, String description, int seats, int number) {
-        super(context);
-        this.uai = uai;
-        this.seats = seats;
-        this.number = number;
-        this.description = description;
-
-    }
 
     //GETTERS ANN SETTERS
 
-    public int getUai() {
-        return uai;
-    }
 
-    public void setUai(int uai) {
-        this.uai = uai;
-    }
 
     public String getDescription() {
         return description;
@@ -66,4 +48,19 @@ public class Table extends SugarRecord<Table> {
     }
 
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isTaken() {
+        return taken;
+    }
+
+    public void setTaken(boolean taken) {
+        this.taken = taken;
+    }
 }

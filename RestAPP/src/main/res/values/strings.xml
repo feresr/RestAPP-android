@@ -13,4 +13,5 @@
     <string name="waiter_name_sample">Fernando Raviola</string>
     <string name="waiter_username_sample">#feresr</string>
     <string name="new_order">NEW ORDER</string>
+    <string name="add_hint">Agregar ítem</string>
 </resources>

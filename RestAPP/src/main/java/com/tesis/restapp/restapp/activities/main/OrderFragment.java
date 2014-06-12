@@ -1,8 +1,13 @@
 package com.tesis.restapp.restapp.activities.main;
 
+import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,6 +17,8 @@ import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.main.adapters.ItemsInOrderAdapter;
+import com.tesis.restapp.restapp.database.DatabaseHandler;
+import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 
 
@@ -28,6 +35,22 @@ public class OrderFragment extends Fragment {
     private ItemsInOrderAdapter adapter;
     private Order order;
     private String TAG = OrderFragment.class.getSimpleName();
+
+
+    private MainHandler activity;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            this.activity = (MainHandler) activity;
+        }catch(ClassCastException e){
+            throw new ClassCastException(activity.toString()
+                    + " must implement MainHandler");
+        }
+    }
+
+
     public OrderFragment() {
 
 
@@ -44,8 +67,10 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        Long orderId = getArguments().getLong("order_id");
-        order = Order.findById(Order.class, orderId);
+        int orderId = getArguments().getInt("order_id");
+        DatabaseHandler db = new DatabaseHandler(getActivity());
+
+        order =  db.getOrderById(orderId);
         View rootView = inflater.inflate(R.layout.fragment_order, container,
                 false);
 
@@ -65,6 +90,27 @@ public class OrderFragment extends Fragment {
                 Toast.LENGTH_SHORT).show();
 
         return rootView;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.order, menu);
+        getActivity().getActionBar().setTitle("Order");
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.action_add_item:
+                activity.onAddItemOptionSelected();
+
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 
