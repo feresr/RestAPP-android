@@ -19,6 +19,8 @@ import com.tesis.restapp.restapp.database.ItemRow;
 import com.tesis.restapp.restapp.database.OrderRow;
 import com.tesis.restapp.restapp.database.Order_itemRow;
 import com.tesis.restapp.restapp.database.TableRow;
+import com.tesis.restapp.restapp.models.Item;
+import com.tesis.restapp.restapp.models.Order;
 
 import java.util.List;
 
@@ -27,8 +29,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MainActivity extends Activity implements MainHandler {
-    ProgressDialog pDialog;
-    RestAppApiInterface apiInterface;
+    private ProgressDialog pDialog;
+    private RestAppApiInterface apiInterface;
+    private Order selectedOrder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,12 +165,31 @@ public class MainActivity extends Activity implements MainHandler {
         OrderFragment orderFragment = new OrderFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        Bundle args = new Bundle();
-        args.putInt("order_id", orderId);
-        orderFragment.setArguments(args);
+        DatabaseHandler db = new DatabaseHandler(this);
+        selectedOrder =  db.getOrderById(orderId);
+
         transaction.addToBackStack(null);
         transaction.replace(R.id.container, orderFragment);
         transaction.commit();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode == 1) {
+            if(resultCode == RESULT_OK){
+                int result = data.getIntExtra("itemId", -1);
+                if(result>=0){
+
+                    DatabaseHandler db = new DatabaseHandler(this);
+                    Item item =  db.getItemById(result);
+                    db.addItemToOrder(this, selectedOrder, item);
+                }
+            }
+            if (resultCode == RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
     }
 
     @Override
@@ -218,6 +240,11 @@ public class MainActivity extends Activity implements MainHandler {
     public void onAddItemOptionSelected() {
         Intent i = new Intent(this, SearchActivity.class);
         startActivityForResult(i, 1);
+    }
+
+    @Override
+    public Order getSelectedOrder() {
+        return  selectedOrder;
     }
 
     @Override

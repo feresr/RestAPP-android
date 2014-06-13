@@ -1,5 +1,6 @@
 package com.tesis.restapp.restapp.activities.search;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +17,18 @@ public class ItemsFragment extends Fragment implements AdapterView.OnItemClickLi
     private ListView itemsListView;
     private ItemsAdapter itemsAdapter;
     private int category_id;
+    private SearchHandler activity;
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            this.activity = (SearchHandler) activity;
+        }catch(ClassCastException e){
+            throw new ClassCastException(activity.toString()
+                    + " must implement MainHandler");
+        }
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +52,8 @@ public class ItemsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        activity.onItemSelected((int) id);
 
     }
 }

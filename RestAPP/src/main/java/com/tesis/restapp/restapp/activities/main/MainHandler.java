@@ -15,4 +15,6 @@ public interface MainHandler {
 
     public void onAddItemOptionSelected();
 
+    public Order getSelectedOrder();
+
 }

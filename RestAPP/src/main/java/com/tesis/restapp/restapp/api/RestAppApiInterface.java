@@ -29,6 +29,11 @@ public interface RestAppApiInterface {
     @POST(URL_LOGIN)
     public void logIn(@Field("username") String username, @Field("password") String password, Callback<User> callback);
 
+    @FormUrlEncoded
+    @POST(URL_ORDER_ITEMS)
+    public void addItemToOrder(@Field("order_id") int user, @Field("item_id") int item, @Field("quantity") int quantity, Callback<Order_itemRow> callback);
+
+
     @GET(URL_ORDERS)
     public void retrieveOrders(Callback<List<OrderRow>> callback);
 

@@ -8,14 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
-import com.tesis.restapp.restapp.api.ApiClient;
-import com.tesis.restapp.restapp.api.RestAppApiInterface;
+import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by feresr on 5/28/14.
@@ -24,12 +20,17 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
 
     private Context context;
     private Order order;
-
-    public ItemsInOrderAdapter(Context context, int resource, Order order) {
+    private int orderId;
+    DatabaseHandler db;
+    public ItemsInOrderAdapter(Context context, int resource, int orderId) {
         super(context, resource);
         this.context = context;
-        this.order = order;
+        this.orderId = orderId;
 
+        db = new DatabaseHandler(getContext());
+
+        this.order = db.getOrderById(orderId);
+        DatabaseHandler.registerAdapter(this);
     }
 
     @Override
@@ -75,11 +76,10 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
     }
 
 
-    private void onOrderFetched(Order order){
-
-        this.order = order;
-        notifyDataSetChanged();
-
+    @Override
+    public void notifyDataSetChanged() {
+        this.order = db.getOrderById(orderId);
+        super.notifyDataSetChanged();
     }
 
 }

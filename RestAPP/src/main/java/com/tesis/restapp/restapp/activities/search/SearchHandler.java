@@ -7,4 +7,5 @@ public interface SearchHandler {
 
     public void onCategorySelected(int categoryId);
 
+    public void onItemSelected(int itemId);
 }

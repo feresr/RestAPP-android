@@ -3,6 +3,7 @@ package com.tesis.restapp.restapp.models;
 import android.content.Context;
 
 import com.google.gson.annotations.SerializedName;
+import com.tesis.restapp.restapp.database.DatabaseHandler;
 
 import java.util.Collections;
 import java.util.List;
@@ -27,7 +28,6 @@ public class Order {
     public void setItems(List<Item> items) {
         this.items = items;
     }
-
 
 
     public Table getTable() {

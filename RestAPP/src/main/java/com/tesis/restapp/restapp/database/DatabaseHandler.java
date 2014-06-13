@@ -6,8 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.tesis.restapp.restapp.activities.main.adapters.ItemsInOrderAdapter;
 import com.tesis.restapp.restapp.activities.main.adapters.OrdersAdapter;
+import com.tesis.restapp.restapp.api.ApiClient;
+import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
@@ -18,13 +22,24 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observer;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static OrdersAdapter ordersAdapter;
+    private static ItemsInOrderAdapter itemsInOrderAdapter;
 
-    public static void registerAdapter(OrdersAdapter adapter){
+
+    public static void registerAdapter(OrdersAdapter adapter) {
 
         ordersAdapter = adapter;
+
+    }
+    public static void registerAdapter(ItemsInOrderAdapter adapter){
+
+        itemsInOrderAdapter = adapter;
 
     }
 
@@ -67,6 +82,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+
         String CREATE_CATEGORIES_TABLE = "CREATE TABLE " + TABLE_CATEGORIES + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_NAME + " TEXT,"
@@ -90,7 +106,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CREATE_ITEMS_TABLE);
 
 
-        String CREATE_TABLES_TABLE = "CREATE TABLE " +TABLE_TABLES + " ("
+        String CREATE_TABLES_TABLE = "CREATE TABLE " + TABLE_TABLES + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_NUMBER + " INTEGER,"
                 + KEY_SEATS + " INTEGER,"
@@ -148,11 +164,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         List<Order> orderList = new ArrayList<Order>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_ORDERS
-                                              + " JOIN " + TABLE_TABLES + " ON " + TABLE_ORDERS + "." + KEY_TABLE_ID + "=" + TABLE_TABLES + "." + KEY_ID;
+                + " JOIN " + TABLE_TABLES + " ON " + TABLE_ORDERS + "." + KEY_TABLE_ID + "=" + TABLE_TABLES + "." + KEY_ID;
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-
 
 
         // looping through all rows and adding to list
@@ -174,7 +189,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 order.setTable(table);
 
                 String selectItemsQuery = "SELECT * FROM " + TABLE_ITEMS
-                        + " JOIN " + TABLE_ORDER_ITEM + " ON " +  TABLE_ITEMS + "." + KEY_ID + "=" + TABLE_ORDER_ITEM + "." + KEY_ITEM_ID
+                        + " JOIN " + TABLE_ORDER_ITEM + " ON " + TABLE_ITEMS + "." + KEY_ID + "=" + TABLE_ORDER_ITEM + "." + KEY_ITEM_ID
                         + " AND " + TABLE_ORDER_ITEM + "." + KEY_ORDER_ID + " = " + order.getId();
 
                 Cursor itemCursor = db.rawQuery(selectItemsQuery, null);
@@ -198,7 +213,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         item.setCategory(category);
 
                         items.add(item);
-                    }while (itemCursor.moveToNext());
+                    } while (itemCursor.moveToNext());
                 }
                 order.setItems(items);
 
@@ -235,7 +250,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return categoryList;
     }
 
-    public List<Item> getItemsInCategory(int categoryID){
+    public Item getItemById(int itemID) {
+        Item item = new Item();
+        String selectQuery = "SELECT * FROM " + TABLE_ITEMS + " WHERE " + TABLE_ITEMS + "." + KEY_ID + "=" + itemID;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        if (cursor.moveToFirst()) {
+
+
+            item.setId(cursor.getInt(0));
+            item.setName(cursor.getString(1));
+            item.setDescription(cursor.getString(2));
+            item.setPrice(cursor.getDouble(3));
+            Category category = new Category();
+
+            String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + cursor.getInt(4);
+            Cursor categoryCursor = db.rawQuery(selectCategory, null);
+            if (categoryCursor.moveToFirst()) {
+                category.setId(categoryCursor.getInt(0));
+                category.setName(categoryCursor.getString(1));
+            }
+            item.setCategory(category);
+        }
+        db.close();
+        // return contact list
+        Log.e("e",item.toString());
+        return item;
+    }
+
+    public List<Item> getItemsInCategory(int categoryID) {
         ArrayList<Item> items = new ArrayList<Item>();
         String selectQuery = "SELECT * FROM " + TABLE_ITEMS + " WHERE " + TABLE_ITEMS + "." + KEY_CATEGORY_ID + "=" + categoryID;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -278,41 +321,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
 
-                order.setId(cursor.getInt(0));
+            order.setId(cursor.getInt(0));
 
-                Table table = new Table();
-                table.setId(cursor.getInt(4));
+            Table table = new Table();
+            table.setId(cursor.getInt(4));
 
-                table.setNumber(cursor.getInt(5));
+            table.setNumber(cursor.getInt(5));
 
-                table.setSeats(cursor.getInt(6));
-                table.setDescription(cursor.getString(7));
-                table.setTaken(cursor.getInt(8) == 1);
+            table.setSeats(cursor.getInt(6));
+            table.setDescription(cursor.getString(7));
+            table.setTaken(cursor.getInt(8) == 1);
 
-                order.setTable(table);
+            order.setTable(table);
 
-                String selectItemsQuery = "SELECT * FROM " + TABLE_ITEMS
-                        + " JOIN " + TABLE_ORDER_ITEM + " ON " +  TABLE_ITEMS + "." + KEY_ID + "=" + TABLE_ORDER_ITEM + "." + KEY_ITEM_ID
-                        + " AND " + TABLE_ORDER_ITEM + "." + KEY_ORDER_ID + " = " + order.getId();
+            String selectItemsQuery = "SELECT * FROM " + TABLE_ITEMS
+                    + " JOIN " + TABLE_ORDER_ITEM + " ON " + TABLE_ITEMS + "." + KEY_ID + "=" + TABLE_ORDER_ITEM + "." + KEY_ITEM_ID
+                    + " AND " + TABLE_ORDER_ITEM + "." + KEY_ORDER_ID + " = " + order.getId();
 
-                Cursor itemCursor = db.rawQuery(selectItemsQuery, null);
-                ArrayList<Item> items = new ArrayList<Item>();
-                if (itemCursor.moveToFirst()) {
-                    do {
+            Cursor itemCursor = db.rawQuery(selectItemsQuery, null);
+            ArrayList<Item> items = new ArrayList<Item>();
+            if (itemCursor.moveToFirst()) {
+                do {
 
-                        Item item = new Item();
-                        item.setId(itemCursor.getInt(0));
-                        item.setName(itemCursor.getString(1));
-                        item.setDescription(itemCursor.getString(2));
-                        item.setPrice(itemCursor.getDouble(3));
-                        item.setCategory(new Category());
+                    Item item = new Item();
+                    item.setId(itemCursor.getInt(0));
+                    item.setName(itemCursor.getString(1));
+                    item.setDescription(itemCursor.getString(2));
+                    item.setPrice(itemCursor.getDouble(3));
+                    item.setCategory(new Category());
 
-                        items.add(item);
-                    }while (itemCursor.moveToNext());
-                }
-                order.setItems(items);
+                    items.add(item);
+                } while (itemCursor.moveToNext());
+            }
+            order.setItems(items);
 
 
         }
@@ -324,7 +367,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addItems(List<ItemRow> items) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ITEMS, null, null);
-        for(ItemRow item : items){
+        for (ItemRow item : items) {
 
             ContentValues values = new ContentValues();
             values.put(KEY_ID, item.getId()); // Contact Name
@@ -346,7 +389,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addTables(List<TableRow> tables) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_TABLES, null, null);
-        for(TableRow table : tables){
+        for (TableRow table : tables) {
 
             ContentValues values = new ContentValues();
             values.put(KEY_ID, table.getId()); // Contact Name
@@ -368,7 +411,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addCategories(List<CategoryRow> categories) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_CATEGORIES, null, null);
-        for(CategoryRow category : categories){
+        for (CategoryRow category : categories) {
 
             ContentValues values = new ContentValues();
             values.put(KEY_ID, category.getId()); // Contact Name
@@ -387,7 +430,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addOrders(List<OrderRow> orders) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDERS, null, null);
-        for(OrderRow order : orders){
+        for (OrderRow order : orders) {
 
             ContentValues values = new ContentValues();
             values.put(KEY_ID, order.getId()); // Contact Name
@@ -403,10 +446,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void addOrderItems(List<Order_itemRow> orderItems){
+    public void addOrderItems(List<Order_itemRow> orderItems) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDER_ITEM, null, null);
-        for(Order_itemRow orderItem : orderItems){
+        for (Order_itemRow orderItem : orderItems) {
 
             ContentValues values = new ContentValues();
             values.put(KEY_ID, orderItem.getId()); // Contact Name
@@ -426,5 +469,59 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+
+    public void addItemToOrder(Context context, final Order order, final Item item){
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final Toast errorToast = Toast.makeText(context, "Problema en el servidor", Toast.LENGTH_SHORT);
+        ApiClient.getRestAppApiClient().addItemToOrder(order.getId(), item.getId(), 1, new Callback<Order_itemRow>() {
+            @Override
+            public void success(Order_itemRow order_itemRow, Response response) {
+
+
+                ContentValues values = new ContentValues();
+                values.put(KEY_ID, order_itemRow.getId());
+                values.put(KEY_ORDER_ID, order.getId());
+                values.put(KEY_ITEM_ID, item.getId());
+                values.put(KEY_QUANTITY, 1);
+                values.put(KEY_PRICE, item.getPrice());
+                // Inserting Row
+                db.insert(TABLE_ORDER_ITEM, null, values);
+
+                itemsInOrderAdapter.notifyDataSetChanged();
+                db.close(); // Closing database connection
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                errorToast.show();
+                db.close();
+            }
+        });
+
+
+
+    }
+
+    public void updateOrder(Order order) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        List<Item> items = order.getItems();
+
+        db.delete(TABLE_ORDER_ITEM, KEY_ORDER_ID + " = ?",
+                new String[] { String.valueOf(order.getId()) });
+        for(Item item : items){
+            ContentValues values = new ContentValues();
+            //values.put(KEY_ID, item.getId());
+            values.put(KEY_ORDER_ID, order.getId());
+            values.put(KEY_ITEM_ID, item.getId());
+            values.put(KEY_QUANTITY, 1);
+            values.put(KEY_PRICE, item.getPrice());
+            // Inserting Row
+            db.insert(TABLE_ORDER_ITEM, null, values);
+        }
+        itemsInOrderAdapter.notifyDataSetChanged();
+        db.close(); // Closing database connection
+
+    }
 
 }

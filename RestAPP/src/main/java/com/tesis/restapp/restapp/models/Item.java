@@ -19,7 +19,6 @@ public class Item{
 
     //GETTERS AND SETTERS
 
-
     public String getDescription() {
         return description;
     }

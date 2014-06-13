@@ -16,13 +16,13 @@ public class CategoriesFragment extends Fragment implements AdapterView.OnItemCl
 
     private ListView categoriesListView;
     private CategoriesAdapter categoriesAdapter;
-    private SearchActivity activity;
+    private SearchHandler activity;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            this.activity = (SearchActivity) activity;
+            this.activity = (SearchHandler) activity;
         }catch(ClassCastException e){
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");

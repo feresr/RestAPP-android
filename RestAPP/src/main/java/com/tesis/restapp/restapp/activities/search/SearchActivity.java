@@ -2,6 +2,7 @@ package com.tesis.restapp.restapp.activities.search;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.tesis.restapp.restapp.R;
@@ -29,5 +30,13 @@ public class SearchActivity extends Activity implements  SearchHandler {
         transaction.addToBackStack(null);
         transaction.replace(R.id.container, itemsFragment);
         transaction.commit();
+    }
+
+    @Override
+    public void onItemSelected(int itemId) {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("itemId",itemId);
+        setResult(RESULT_OK,returnIntent);
+        finish();
     }
 }

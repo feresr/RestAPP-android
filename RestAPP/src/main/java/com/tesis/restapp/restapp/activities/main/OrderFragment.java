@@ -67,16 +67,15 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        int orderId = getArguments().getInt("order_id");
-        DatabaseHandler db = new DatabaseHandler(getActivity());
 
-        order =  db.getOrderById(orderId);
+
         View rootView = inflater.inflate(R.layout.fragment_order, container,
                 false);
 
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
 
-        adapter = new ItemsInOrderAdapter(getActivity(), R.layout.listview_order_item ,order);
+        adapter = new ItemsInOrderAdapter(getActivity(), R.layout.listview_order_item ,activity.getSelectedOrder().getId());
+
         itemsListView.setAdapter(adapter);
         emptyListViewText = (TextView) rootView.findViewById(R.id.empty);
         itemsListView.setEmptyView(emptyListViewText);
@@ -84,9 +83,9 @@ public class OrderFragment extends Fragment {
         orderTotal = (TextView) rootView.findViewById(R.id.order_total);
 
         tableNumber = (TextView) rootView.findViewById(R.id.table_number_txt);
-        tableNumber.setText(String.valueOf(order.getTable().getNumber()));
+        tableNumber.setText(String.valueOf(activity.getSelectedOrder().getTable().getNumber()));
 
-        Toast.makeText(getActivity(), String.valueOf(order.getItems().size()),
+        Toast.makeText(getActivity(), String.valueOf(activity.getSelectedOrder().getItems().size()),
                 Toast.LENGTH_SHORT).show();
 
         return rootView;
