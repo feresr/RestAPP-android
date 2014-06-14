@@ -42,7 +42,7 @@ public class ItemsFragment extends Fragment implements AdapterView.OnItemClickLi
         category_id = getArguments().getInt("category_id");
 
         itemsListView = (ListView) rootView.findViewById(R.id.search_listview);
-        itemsAdapter = new ItemsAdapter(getActivity(), R.layout.listview_order_item , category_id);
+        itemsAdapter = new ItemsAdapter(getActivity(), R.layout.listview_item , category_id);
         itemsListView.setAdapter(itemsAdapter);
         itemsListView.setOnItemClickListener(this);
 

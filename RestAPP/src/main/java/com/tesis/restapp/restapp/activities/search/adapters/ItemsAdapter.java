@@ -52,7 +52,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) super.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.listview_order_item, null);
+            v = inflater.inflate(R.layout.listview_item, null);
 
         }
 

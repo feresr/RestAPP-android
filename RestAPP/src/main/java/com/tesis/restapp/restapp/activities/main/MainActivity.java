@@ -73,7 +73,6 @@ public class MainActivity extends Activity implements MainHandler {
                     db.addCategories(categoryRows);
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
 
@@ -87,7 +86,6 @@ public class MainActivity extends Activity implements MainHandler {
                     db.addItems(itemRows);
                 }
             }
-
             @Override
             public void failure(RetrofitError error) {
 
@@ -116,13 +114,11 @@ public class MainActivity extends Activity implements MainHandler {
                     db.addOrders(orderRows);
 
                 }
-
                 pDialog.dismiss();
             }
 
             @Override
             public void failure(RetrofitError error) {
-
             }
         });
 
@@ -132,8 +128,6 @@ public class MainActivity extends Activity implements MainHandler {
                 if (order_itemRows != null) {
                     db.addOrderItems(order_itemRows);
                 }
-
-
             }
 
             @Override

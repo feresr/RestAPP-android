@@ -43,14 +43,6 @@
             android:typeface="sans" />
 
     </LinearLayout>
-    <ImageButton
-        android:id="@+id/item_remove_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:paddingLeft="10sp"
-        android:paddingRight="10sp"
-        android:src="@drawable/abc_ic_clear"
-        android:background="#f000"
-        />
+
 
 </LinearLayout>

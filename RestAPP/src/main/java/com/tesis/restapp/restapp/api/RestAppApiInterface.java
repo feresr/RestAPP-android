@@ -12,6 +12,7 @@ import java.util.List;
 
 import retrofit.Callback;
 import retrofit.http.Body;
+import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -31,8 +32,11 @@ public interface RestAppApiInterface {
 
     @FormUrlEncoded
     @POST(URL_ORDER_ITEMS)
-    public void addItemToOrder(@Field("order_id") int user, @Field("item_id") int item, @Field("quantity") int quantity, Callback<Order_itemRow> callback);
+    public void addItemToOrder(@Field("order_id") int order, @Field("item_id") int item, @Field("quantity") int quantity, Callback<Order_itemRow> callback);
 
+
+    @DELETE(URL_ORDER_ITEMS + "/{id}")
+    public void removeItemFromOrder(@Path("id") int id, Callback<Order_itemRow> callback);
 
     @GET(URL_ORDERS)
     public void retrieveOrders(Callback<List<OrderRow>> callback);

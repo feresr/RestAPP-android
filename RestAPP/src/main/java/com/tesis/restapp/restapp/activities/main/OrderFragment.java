@@ -11,7 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +27,7 @@ import com.tesis.restapp.restapp.models.Order;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class OrderFragment extends Fragment {
+public class OrderFragment extends Fragment{
 
     private Button closeOrder;
     private TextView orderTotal;
@@ -34,6 +36,8 @@ public class OrderFragment extends Fragment {
     private TextView tableNumber;
     private ItemsInOrderAdapter adapter;
     private Order order;
+
+
     private String TAG = OrderFragment.class.getSimpleName();
 
 
@@ -73,6 +77,7 @@ public class OrderFragment extends Fragment {
                 false);
 
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
+
 
         adapter = new ItemsInOrderAdapter(getActivity(), R.layout.listview_order_item ,activity.getSelectedOrder().getId());
 
