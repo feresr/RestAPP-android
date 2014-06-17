@@ -59,4 +59,8 @@ public interface RestAppApiInterface {
     @FormUrlEncoded
     @POST(URL_ORDERS)
     public void newOrder(@Field("table_id") int tableId, Callback<OrderRow> callback);
+
+    @DELETE(URL_ORDERS + "/{id}")
+    public void closeOrder(@Path("id") int id, Callback<OrderRow> callback);
+
 }

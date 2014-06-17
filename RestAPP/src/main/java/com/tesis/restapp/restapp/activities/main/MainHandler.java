@@ -7,7 +7,7 @@ import com.tesis.restapp.restapp.models.Order;
  */
 public interface MainHandler {
 
-    public void onOrderSelected(int orderId);
+    public void onOrderSelected(int orderId, boolean newOrder);
 
     public void onNewOrderSelected();
 
@@ -16,5 +16,9 @@ public interface MainHandler {
     public void onAddItemOptionSelected();
 
     public Order getSelectedOrder();
+
+    public void onCloseOrderSelected();
+
+    public void onCloseOrder();
 
 }

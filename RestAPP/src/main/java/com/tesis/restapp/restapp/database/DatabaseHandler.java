@@ -10,17 +10,15 @@ import android.widget.Toast;
 
 import com.tesis.restapp.restapp.activities.main.adapters.ItemsInOrderAdapter;
 import com.tesis.restapp.restapp.activities.main.adapters.OrdersAdapter;
+import com.tesis.restapp.restapp.activities.main.adapters.TablesAdapter;
 import com.tesis.restapp.restapp.api.ApiClient;
-import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Observer;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -30,7 +28,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     private static OrdersAdapter ordersAdapter;
     private static ItemsInOrderAdapter itemsInOrderAdapter;
-
+    public static TablesAdapter tablesAdapter;
 
     public static void registerAdapter(OrdersAdapter adapter) {
 
@@ -40,6 +38,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public static void registerAdapter(ItemsInOrderAdapter adapter){
 
         itemsInOrderAdapter = adapter;
+
+    }
+
+    public static void registerAdapter(TablesAdapter adapter){
+
+        tablesAdapter = adapter;
 
     }
 
@@ -169,10 +173,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+        for(int i=0;i<cursor.getColumnCount();i++){
+            Log.e("s", cursor.getColumnName(i));
+        }
+
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
+
 
                 Order order = new Order();
                 order.setId(cursor.getInt(0));
@@ -223,6 +232,35 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         // return contact list
         return orderList;
+    }
+
+    public List<Table> getTables() {
+        List<Table> tableList = new ArrayList<Table>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM " + TABLE_TABLES;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+
+                Table table = new Table();
+                table.setId(cursor.getInt(0));
+                table.setNumber(cursor.getInt(1));
+                table.setSeats(cursor.getInt(2));
+                table.setDescription(cursor.getString(3));
+                table.setTaken(cursor.getInt(4) == 1);
+
+
+                tableList.add(table);
+
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        // return contact list
+        return tableList;
     }
 
     public List<Category> getCategories() {
@@ -533,7 +571,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     }
+    public void removeOrder(OrderRow order){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_ORDERS, "id = ?", new String[] { String.valueOf(order.getId())});
+        ordersAdapter.notifyDataSetChanged();
+        db.close();
+    }
 
+    public void addOrder(OrderRow order) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+
+            ContentValues values = new ContentValues();
+            values.put(KEY_ID, order.getId()); // Contact Name
+            values.put(KEY_TABLE_ID, order.getTable_id()); // Contact Phone Number
+            values.put(KEY_CREATED_AT, order.getCreated_at());
+            values.put(KEY_UPDATED_AT, order.getUpdated_at());
+
+            // Inserting Row
+            db.insert(TABLE_ORDERS, null, values);
+
+
+        ordersAdapter.notifyDataSetChanged();
+        db.close(); // Closing database connection
+    }
 
     public void updateOrder(Order order) {
         SQLiteDatabase db = this.getWritableDatabase();

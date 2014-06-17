@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
+import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
 
@@ -26,28 +27,34 @@ import retrofit.client.Response;
 public class TablesAdapter extends ArrayAdapter<Table> {
 
     private Context context;
+    private DatabaseHandler db;
+    private List<Table> tables;
+
     private String TAG = this.getClass().getSimpleName();
     public TablesAdapter(Context context, int resource){
         super(context, resource);
         this.context = context;
 
+        db = new DatabaseHandler(getContext());
+        DatabaseHandler.registerAdapter(this);
+        tables =  db.getTables();
 
     }
 
 
     @Override
     public int getCount() {
-        return 0;//Table.getTables().size();
+        return tables.size();
     }
 
     @Override
     public long getItemId(int position) {
-        return 0;// Table.getTables().get(position).getId();
+        return tables.get(position).getId();
     }
 
     @Override
     public Table getItem(int position) {
-        return null;//Table.getTables().get(position);
+        return tables.get(position);
     }
 
     @Override

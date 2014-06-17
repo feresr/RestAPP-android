@@ -56,7 +56,7 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        activity.onOrderSelected((int)id);
+        activity.onOrderSelected((int)id, false);
     }
 
     @Override

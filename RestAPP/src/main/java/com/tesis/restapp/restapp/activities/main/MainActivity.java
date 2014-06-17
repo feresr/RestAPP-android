@@ -155,14 +155,15 @@ public class MainActivity extends Activity implements MainHandler {
     }
 
     @Override
-    public void onOrderSelected(int orderId) {
+    public void onOrderSelected(int orderId, boolean newOrder) {
         OrderFragment orderFragment = new OrderFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
         DatabaseHandler db = new DatabaseHandler(this);
         selectedOrder =  db.getOrderById(orderId);
-
-        transaction.addToBackStack(null);
+        if(!newOrder) {
+            transaction.addToBackStack(null);
+        }
         transaction.replace(R.id.container, orderFragment);
         transaction.commit();
     }
@@ -205,28 +206,24 @@ public class MainActivity extends Activity implements MainHandler {
 
         pDialog.setMessage("Creando orden...");
         pDialog.show();
-/*
-        apiInterface.newOrder(tableId, new Callback<Order>() {
+        final DatabaseHandler db = new DatabaseHandler(this);
+        apiInterface = ApiClient.getRestAppApiClient();
+        apiInterface.newOrder(tableId, new Callback<OrderRow>() {
             @Override
-            public void success(Order order, Response response) {
-
+            public void success(OrderRow order, Response response) {
                 pDialog.dismiss();
-
-                if(order != null){
-                    //Order.addOrder(order);
-                    //onOrderSelected(order.getId());
-
-                }else{
-                    pDialog.dismiss();
-
-                }
+                db.addOrder(order);
+                onOrderSelected(order.getId(),true);
+                db.close();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 pDialog.dismiss();
+                onTableOccupied();
+                db.close();
             }
-        });*/
+        });
 
     }
 
@@ -239,6 +236,38 @@ public class MainActivity extends Activity implements MainHandler {
     @Override
     public Order getSelectedOrder() {
         return  selectedOrder;
+    }
+
+    @Override
+    public void onCloseOrderSelected() {
+        CheckoutFragment checkoutFragment = new CheckoutFragment();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+        transaction.addToBackStack(null);
+        transaction.replace(R.id.container, checkoutFragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void onCloseOrder() {
+       final DatabaseHandler db = new DatabaseHandler(this);
+       apiInterface = ApiClient.getRestAppApiClient();
+       apiInterface.closeOrder(selectedOrder.getId(),new Callback<OrderRow>() {
+           @Override
+           public void success(OrderRow orderRow, Response response) {
+               db.removeOrder(orderRow);
+               getFragmentManager().beginTransaction()
+                       .add(R.id.container, new DashboardFragment())
+                       .commit();
+               db.close();
+           }
+
+           @Override
+           public void failure(RetrofitError error) {
+               db.close();
+           }
+       });
+
     }
 
     @Override

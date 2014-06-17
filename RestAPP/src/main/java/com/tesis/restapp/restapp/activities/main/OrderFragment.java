@@ -27,7 +27,7 @@ import com.tesis.restapp.restapp.models.Order;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class OrderFragment extends Fragment{
+public class OrderFragment extends Fragment implements View.OnClickListener {
 
     private Button closeOrder;
     private TextView orderTotal;
@@ -48,7 +48,7 @@ public class OrderFragment extends Fragment{
         super.onAttach(activity);
         try {
             this.activity = (MainHandler) activity;
-        }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");
         }
@@ -72,14 +72,13 @@ public class OrderFragment extends Fragment{
                              Bundle savedInstanceState) {
 
 
-
         View rootView = inflater.inflate(R.layout.fragment_order, container,
                 false);
 
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
 
 
-        adapter = new ItemsInOrderAdapter(getActivity(), R.layout.listview_order_item ,activity.getSelectedOrder().getId());
+        adapter = new ItemsInOrderAdapter(getActivity(), R.layout.listview_order_item, activity.getSelectedOrder().getId());
 
         itemsListView.setAdapter(adapter);
         emptyListViewText = (TextView) rootView.findViewById(R.id.empty);
@@ -92,6 +91,10 @@ public class OrderFragment extends Fragment{
 
         Toast.makeText(getActivity(), String.valueOf(activity.getSelectedOrder().getItems().size()),
                 Toast.LENGTH_SHORT).show();
+
+        closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
+        closeOrder.setOnClickListener(this);
+
 
         return rootView;
     }
@@ -118,5 +121,16 @@ public class OrderFragment extends Fragment{
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
 
+            case R.id.close_order_btn:
+
+                activity.onCloseOrderSelected();
+
+                break;
+
+        }
+    }
 }
