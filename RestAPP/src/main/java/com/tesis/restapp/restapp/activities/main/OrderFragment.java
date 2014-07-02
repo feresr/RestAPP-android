@@ -78,7 +78,10 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
 
 
-        adapter = new ItemsInOrderAdapter(getActivity(), R.layout.listview_order_item, activity.getSelectedOrder().getId());
+        adapter = new ItemsInOrderAdapter(
+                getActivity(),
+                R.layout.listview_order_item,
+                activity.getSelectedOrder().getId());
 
         itemsListView.setAdapter(adapter);
         emptyListViewText = (TextView) rootView.findViewById(R.id.empty);

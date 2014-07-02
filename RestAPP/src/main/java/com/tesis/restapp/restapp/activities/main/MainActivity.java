@@ -31,7 +31,7 @@ import retrofit.client.Response;
 public class MainActivity extends Activity implements MainHandler {
     private ProgressDialog pDialog;
     private RestAppApiInterface apiInterface;
-    private Order selectedOrder;
+    private int orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +50,12 @@ public class MainActivity extends Activity implements MainHandler {
                     .add(R.id.container, dashboardFragment)
                     .commit();
 
-
             syncDb();
 
+
+        }else{
+
+            orderId = savedInstanceState.getInt("selectedOrder");
 
         }
 
@@ -159,12 +162,13 @@ public class MainActivity extends Activity implements MainHandler {
         OrderFragment orderFragment = new OrderFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        DatabaseHandler db = new DatabaseHandler(this);
-        selectedOrder =  db.getOrderById(orderId);
-        if(!newOrder) {
-            transaction.addToBackStack(null);
+        this.orderId =  orderId;
+        if(newOrder) {
+            getFragmentManager().popBackStack();
         }
-        transaction.replace(R.id.container, orderFragment);
+            transaction.addToBackStack(null);
+            transaction.replace(R.id.container, orderFragment);
+
         transaction.commit();
     }
 
@@ -178,7 +182,7 @@ public class MainActivity extends Activity implements MainHandler {
 
                     DatabaseHandler db = new DatabaseHandler(this);
                     Item item =  db.getItemById(result);
-                    db.addItemToOrder(this, selectedOrder, item);
+                    db.addItemToOrder(this, this.getSelectedOrder(), item);
                 }
             }
             if (resultCode == RESULT_CANCELED) {
@@ -192,9 +196,9 @@ public class MainActivity extends Activity implements MainHandler {
         TablesFragment tablesFragment = new TablesFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-        transaction.addToBackStack(null);
-        transaction.replace(R.id.container, tablesFragment);
-        transaction.commit();
+        transaction.addToBackStack(null)
+                .replace(R.id.container, tablesFragment)
+                .commit();
     }
 
     public void onTableOccupied() {
@@ -235,7 +239,10 @@ public class MainActivity extends Activity implements MainHandler {
 
     @Override
     public Order getSelectedOrder() {
-        return  selectedOrder;
+
+        DatabaseHandler db = new DatabaseHandler(this);
+        return db.getOrderById(orderId);
+
     }
 
     @Override
@@ -252,12 +259,12 @@ public class MainActivity extends Activity implements MainHandler {
     public void onCloseOrder() {
        final DatabaseHandler db = new DatabaseHandler(this);
        apiInterface = ApiClient.getRestAppApiClient();
-       apiInterface.closeOrder(selectedOrder.getId(),new Callback<OrderRow>() {
+       apiInterface.closeOrder(orderId,new Callback<OrderRow>() {
            @Override
            public void success(OrderRow orderRow, Response response) {
                db.removeOrder(orderRow);
                getFragmentManager().beginTransaction()
-                       .add(R.id.container, new DashboardFragment())
+                       .replace(R.id.container, new DashboardFragment())
                        .commit();
                db.close();
            }
@@ -268,6 +275,12 @@ public class MainActivity extends Activity implements MainHandler {
            }
        });
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt("selectedOrder", orderId);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
