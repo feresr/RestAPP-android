@@ -1,17 +1,16 @@
 package com.tesis.restapp.restapp.api;
 
-
 import com.tesis.restapp.restapp.database.CategoryRow;
 import com.tesis.restapp.restapp.database.ItemRow;
 import com.tesis.restapp.restapp.database.OrderRow;
 import com.tesis.restapp.restapp.database.Order_itemRow;
 import com.tesis.restapp.restapp.database.TableRow;
 import com.tesis.restapp.restapp.models.User;
+import com.tesis.restapp.restapp.database.Response;
 
 import java.util.List;
 
 import retrofit.Callback;
-import retrofit.http.Body;
 import retrofit.http.DELETE;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -21,9 +20,6 @@ import retrofit.http.Path;
 
 import static com.tesis.restapp.restapp.Constants.*;
 
-/**
- * Created by feresr on 5/24/14.
- */
 public interface RestAppApiInterface {
 
     @FormUrlEncoded
@@ -32,7 +28,7 @@ public interface RestAppApiInterface {
 
     @FormUrlEncoded
     @POST(URL_ORDER_ITEMS)
-    public void addItemToOrder(@Field("order_id") int order, @Field("item_id") int item, @Field("quantity") int quantity, Callback<Order_itemRow> callback);
+    public void addItemToOrder(@Field("order_id") int order, @Field("item_id") int item, @Field("quantity") int quantity, Callback<Response> callback);
 
 
     @DELETE(URL_ORDER_ITEMS + "/{id}")

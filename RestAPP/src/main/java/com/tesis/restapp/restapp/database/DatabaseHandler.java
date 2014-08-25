@@ -17,6 +17,7 @@ import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_UPDATED_AT = "updated_at";
     private static final String KEY_TAKEN = "taken";
     private static final String KEY_QUANTITY = "quantity";
+    private static final String KEY_TOTAL = "total";
 
     public DatabaseHandler(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -85,7 +87,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
 
         String CREATE_CATEGORIES_TABLE = "CREATE TABLE " + TABLE_CATEGORIES + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
@@ -125,6 +126,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String CREATE_ORDERS_TABLE = "CREATE TABLE " + TABLE_ORDERS + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TABLE_ID + " INTEGER,"
+                + KEY_TOTAL + " REAL,"
                 + KEY_CREATED_AT + " TEXT,"
                 + KEY_UPDATED_AT + " TEXT,"
                 + " FOREIGN KEY(" + KEY_TABLE_ID + ") REFERENCES " + TABLE_TABLES + "(" + KEY_ID + ")"
@@ -172,11 +174,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-
-        for(int i=0;i<cursor.getColumnCount();i++){
-            Log.e("s", cursor.getColumnName(i));
-        }
-
 
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
@@ -507,24 +504,28 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-
     public void addItemToOrder(Context context, final Order order, final Item item){
         final SQLiteDatabase db = this.getWritableDatabase();
         final Toast errorToast = Toast.makeText(context, "Problema en el servidor", Toast.LENGTH_SHORT);
-        ApiClient.getRestAppApiClient().addItemToOrder(order.getId(), item.getId(), 1, new Callback<Order_itemRow>() {
+        ApiClient.getRestAppApiClient().addItemToOrder(order.getId(), item.getId(), 1, new Callback<com.tesis.restapp.restapp.database.Response>() {
             @Override
-            public void success(Order_itemRow order_itemRow, Response response) {
+            public void success(com.tesis.restapp.restapp.database.Response data, retrofit.client.Response response) {
 
-                ContentValues values = new ContentValues();
-                values.put(KEY_ID, order_itemRow.getId());
-                values.put(KEY_ORDER_ID, order.getId());
-                values.put(KEY_ITEM_ID, item.getId());
-                values.put(KEY_QUANTITY, 1);
-                values.put(KEY_PRICE, item.getPrice());
-                // Inserting Row
-                db.insert(TABLE_ORDER_ITEM, null, values);
+                if(data.wasSuccessful()) {
+                    ContentValues values = new ContentValues();
 
-                itemsInOrderAdapter.notifyDataSetChanged();
+                    values.put(KEY_ID, data.getId());
+                    values.put(KEY_ORDER_ID, order.getId());
+                    values.put(KEY_ITEM_ID, item.getId());
+                    values.put(KEY_QUANTITY, 1);
+                    values.put(KEY_PRICE, item.getPrice());
+                    // Inserting Row
+                    db.insert(TABLE_ORDER_ITEM, null, values);
+
+                    itemsInOrderAdapter.notifyDataSetChanged();
+                }else{
+                    Log.e("DATABASE HANDLER",data.getErrors());
+                }
                 db.close(); // Closing database connection
             }
 
@@ -535,7 +536,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             }
         });
     }
-
 
     public void removeItemFromOrder(Context context, final Order order, final Item item){
         final SQLiteDatabase db = this.getWritableDatabase();
@@ -571,6 +571,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
     }
+
     public void removeOrder(OrderRow order){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDERS, "id = ?", new String[] { String.valueOf(order.getId())});
@@ -598,7 +599,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void updateOrder(Order order) {
         SQLiteDatabase db = this.getWritableDatabase();
-
         List<Item> items = order.getItems();
 
         db.delete(TABLE_ORDER_ITEM, KEY_ORDER_ID + " = ?",

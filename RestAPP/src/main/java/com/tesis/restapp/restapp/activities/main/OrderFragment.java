@@ -35,7 +35,6 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     private TextView emptyListViewText;
     private TextView tableNumber;
     private ItemsInOrderAdapter adapter;
-    private Order order;
 
 
     private String TAG = OrderFragment.class.getSimpleName();
@@ -54,17 +53,10 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
-    public OrderFragment() {
-
-
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -76,7 +68,6 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
                 false);
 
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
-
 
         adapter = new ItemsInOrderAdapter(
                 getActivity(),
@@ -98,8 +89,15 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
         closeOrder.setOnClickListener(this);
 
+        //Set the total amount for the order
+        orderTotal = (TextView) rootView.findViewById(R.id.order_total);
+        updateOrderTotal();
 
         return rootView;
+    }
+
+    private void updateOrderTotal(){
+        orderTotal.setText(String.valueOf(activity.getSelectedOrder().getTotal()));
     }
 
     @Override

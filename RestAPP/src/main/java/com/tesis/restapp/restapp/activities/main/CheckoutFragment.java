@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
 
@@ -16,6 +17,7 @@ import com.tesis.restapp.restapp.R;
 public class CheckoutFragment extends Fragment implements View.OnClickListener {
 
     private Button closeOrder;
+    private TextView orderTotalTxt;
     private MainHandler activity;
 
     @Override
@@ -38,6 +40,10 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener {
         assert rootView != null;
         closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
         closeOrder.setOnClickListener(this);
+
+        orderTotalTxt = (TextView) rootView.findViewById(R.id.order_total);
+        orderTotalTxt.setText(String.valueOf(activity.getSelectedOrder().getTotal()));
+
 
         return rootView;
     }

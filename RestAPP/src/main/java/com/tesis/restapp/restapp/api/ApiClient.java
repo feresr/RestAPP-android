@@ -9,7 +9,6 @@ import retrofit.client.OkClient;
 public class ApiClient{
 
     private static final String API_URL = "http://192.168.0.15:8000";
-
     private static RestAppApiInterface sRestAppService;
 
     public static RestAppApiInterface getRestAppApiClient() {
@@ -23,6 +22,7 @@ public class ApiClient{
                         public void intercept(RequestFacade requestFacade) {
                             if (User.getUser()!= null) {
                                 requestFacade.addHeader("Cookie", User.getUser().getToken().getValue());
+                                requestFacade.addHeader("Accept", "application/json");
                             }
                         }
                     })

@@ -30,6 +30,14 @@ public class Order {
     }
 
 
+    public double getTotal(){
+        double total = 0;
+        for(Item item : items){
+            total += item.getPrice();
+        }
+        return total;
+    }
+
     public Table getTable() {
         return table;
     }

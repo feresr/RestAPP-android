@@ -24,6 +24,7 @@
             android:src="@drawable/ic_money" />
 
         <TextView
+            android:id="@+id/order_total"
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="2"

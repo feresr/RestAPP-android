@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -63,17 +64,21 @@ public class MainActivity extends Activity implements MainHandler {
 
     private void syncDb() {
 
+        Log.d("RETRIEVED", "SHOWING");
+
         pDialog.setMessage("Actualizando BD....");
         pDialog.show();
 
         apiInterface = ApiClient.getRestAppApiClient();
 
         final DatabaseHandler db = new DatabaseHandler(this);
+
         apiInterface.retrieveCategories(new Callback<List<CategoryRow>>() {
             @Override
             public void success(List<CategoryRow> categoryRows, Response response) {
                 if (categoryRows != null) {
                     db.addCategories(categoryRows);
+                    Log.e("RETRIEVED", "categories");
                 }
             }
             @Override
@@ -87,7 +92,9 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<ItemRow> itemRows, Response response) {
                 if (itemRows != null) {
                     db.addItems(itemRows);
+                    Log.e("RETRIEVED", "items");
                 }
+                pDialog.dismiss();
             }
             @Override
             public void failure(RetrofitError error) {
@@ -100,6 +107,7 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<TableRow> tableRows, Response response) {
                 if (tableRows != null) {
                     db.addTables(tableRows);
+                    Log.e("RETRIEVED", "tables");
                 }
             }
 
@@ -109,15 +117,14 @@ public class MainActivity extends Activity implements MainHandler {
             }
         });
 
-
         apiInterface.retrieveOrders(new Callback<List<OrderRow>>() {
             @Override
             public void success(List<OrderRow> orderRows, Response response) {
                 if (orderRows != null) {
                     db.addOrders(orderRows);
-
+                    Log.e("RETRIEVED", "orders");
                 }
-                pDialog.dismiss();
+
             }
 
             @Override
@@ -130,7 +137,9 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<Order_itemRow> order_itemRows, Response response) {
                 if (order_itemRows != null) {
                     db.addOrderItems(order_itemRows);
+                    Log.e("RETRIEVED", "orders-items");
                 }
+
             }
 
             @Override

@@ -53,6 +53,7 @@ public class OrdersAdapter extends ArrayAdapter<Order>{
 
         TextView description;
         TextView tableNumber;
+        TextView totalPrice;
         View v = convertView;
 
         if (convertView == null) {
@@ -64,11 +65,12 @@ public class OrdersAdapter extends ArrayAdapter<Order>{
 
         description = (TextView) v.findViewById(R.id.description_txt);
         tableNumber = (TextView) v.findViewById(R.id.table_number_txt);
+        totalPrice = (TextView) v.findViewById(R.id.order_total);
 
         Order order = getItem(position);
         description.setText(order.getTable().getDescription());
         tableNumber.setText(Integer.toString(order.getTable().getNumber()));
-
+        totalPrice.setText(String.valueOf(order.getTotal()));
         return v;
     }
 
