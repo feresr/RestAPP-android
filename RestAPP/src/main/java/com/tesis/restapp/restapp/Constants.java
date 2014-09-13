@@ -9,7 +9,7 @@ public class Constants {
     public static final int LOG_IN_INVALID_CREDENTIALS = 2;
     public static final int LOG_IN_SERVER_NOT_FOUND = 3;
 
-    public static final String URL_LOGIN = "/api/v1/sessions";
+    public static final String URL_LOGIN = "/sessions";
     public static final String URL_ORDERS = "/api/v1/orders";
     public static final String URL_AVAILABLE_TABLES = "/api/v1/tables";
     public static final String URL_ITEMS = "/api/v1/items";

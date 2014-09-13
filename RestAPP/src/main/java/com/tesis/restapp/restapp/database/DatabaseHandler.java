@@ -308,8 +308,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             item.setCategory(category);
         }
         db.close();
-        // return contact list
-        Log.e("e",item.toString());
         return item;
     }
 
@@ -507,6 +505,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addItemToOrder(Context context, final Order order, final Item item){
         final SQLiteDatabase db = this.getWritableDatabase();
         final Toast errorToast = Toast.makeText(context, "Problema en el servidor", Toast.LENGTH_SHORT);
+        final Context mContext = context;
         ApiClient.getRestAppApiClient().addItemToOrder(order.getId(), item.getId(), 1, new Callback<com.tesis.restapp.restapp.database.Response>() {
             @Override
             public void success(com.tesis.restapp.restapp.database.Response data, retrofit.client.Response response) {
@@ -524,7 +523,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                     itemsInOrderAdapter.notifyDataSetChanged();
                 }else{
-                    Log.e("DATABASE HANDLER",data.getErrors());
+                    final Toast errorToast = Toast.makeText(mContext, data.getMessage(), Toast.LENGTH_SHORT);
                 }
                 db.close(); // Closing database connection
             }
@@ -532,6 +531,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             @Override
             public void failure(RetrofitError error) {
                 errorToast.show();
+                Log.e(this.getClass().getSimpleName(), error.getMessage());
                 db.close();
             }
         });
@@ -539,7 +539,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void removeItemFromOrder(Context context, final Order order, final Item item){
         final SQLiteDatabase db = this.getWritableDatabase();
+        Log.e("DATA", order.getId() +" "+ item.getId());
         final Toast errorToast = Toast.makeText(context, "Problema en el servidor", Toast.LENGTH_SHORT);
+        final Context mContext = context;
         String selectQuery = "SELECT * FROM " + TABLE_ORDER_ITEM
                 + " WHERE " + TABLE_ORDER_ITEM + "." + KEY_ITEM_ID + "=" + item.getId() + " AND " + TABLE_ORDER_ITEM + "." + KEY_ORDER_ID + " =" + order.getId();
 
@@ -548,13 +550,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
 
-            ApiClient.getRestAppApiClient().removeItemFromOrder(cursor.getInt(0), new Callback<Order_itemRow>() {
+            ApiClient.getRestAppApiClient().removeItemFromOrder(cursor.getInt(cursor.getColumnIndex("id")), new Callback<com.tesis.restapp.restapp.database.Response>() {
                 @Override
-                public void success(Order_itemRow order_itemRow, Response response) {
+                public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
+                    if(apiResponse.wasSuccessful()) {
+                        db.delete(TABLE_ORDER_ITEM, "id = ?", new String[]{String.valueOf(apiResponse.getId())});
 
-                    db.delete(TABLE_ORDER_ITEM, "id = ?", new String[] { String.valueOf(order_itemRow.getId())});
-
-                    itemsInOrderAdapter.notifyDataSetChanged();
+                        itemsInOrderAdapter.notifyDataSetChanged();
+                    }else{
+                        Toast.makeText(mContext, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                     db.close(); // Closing database connection
                 }
 
@@ -579,13 +584,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void addOrder(OrderRow order) {
+    public void addOrder(Order order) {
         SQLiteDatabase db = this.getWritableDatabase();
 
 
             ContentValues values = new ContentValues();
             values.put(KEY_ID, order.getId()); // Contact Name
-            values.put(KEY_TABLE_ID, order.getTable_id()); // Contact Phone Number
+            values.put(KEY_TABLE_ID, order.getTable().getId()); // Contact Phone Number
             values.put(KEY_CREATED_AT, order.getCreated_at());
             values.put(KEY_UPDATED_AT, order.getUpdated_at());
 

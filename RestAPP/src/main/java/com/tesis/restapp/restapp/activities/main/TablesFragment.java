@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.main.adapters.TablesAdapter;
+import com.tesis.restapp.restapp.models.Table;
 
 /**
  * Created by feresr on 5/28/14.
@@ -44,6 +45,7 @@ public class TablesFragment extends Fragment implements AdapterView.OnItemClickL
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        activity.onTableSelected((int)id);
+
+        activity.onTableSelected((Table)parent.getAdapter().getItem(position));
     }
 }

@@ -22,6 +22,7 @@ import com.tesis.restapp.restapp.database.Order_itemRow;
 import com.tesis.restapp.restapp.database.TableRow;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
+import com.tesis.restapp.restapp.models.Table;
 
 import java.util.List;
 
@@ -64,8 +65,6 @@ public class MainActivity extends Activity implements MainHandler {
 
     private void syncDb() {
 
-        Log.d("RETRIEVED", "SHOWING");
-
         pDialog.setMessage("Actualizando BD....");
         pDialog.show();
 
@@ -78,7 +77,7 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<CategoryRow> categoryRows, Response response) {
                 if (categoryRows != null) {
                     db.addCategories(categoryRows);
-                    Log.e("RETRIEVED", "categories");
+
                 }
             }
             @Override
@@ -92,7 +91,6 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<ItemRow> itemRows, Response response) {
                 if (itemRows != null) {
                     db.addItems(itemRows);
-                    Log.e("RETRIEVED", "items");
                 }
                 pDialog.dismiss();
             }
@@ -107,7 +105,6 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<TableRow> tableRows, Response response) {
                 if (tableRows != null) {
                     db.addTables(tableRows);
-                    Log.e("RETRIEVED", "tables");
                 }
             }
 
@@ -122,7 +119,6 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<OrderRow> orderRows, Response response) {
                 if (orderRows != null) {
                     db.addOrders(orderRows);
-                    Log.e("RETRIEVED", "orders");
                 }
 
             }
@@ -137,7 +133,6 @@ public class MainActivity extends Activity implements MainHandler {
             public void success(List<Order_itemRow> order_itemRows, Response response) {
                 if (order_itemRows != null) {
                     db.addOrderItems(order_itemRows);
-                    Log.e("RETRIEVED", "orders-items");
                 }
 
             }
@@ -191,6 +186,7 @@ public class MainActivity extends Activity implements MainHandler {
 
                     DatabaseHandler db = new DatabaseHandler(this);
                     Item item =  db.getItemById(result);
+
                     db.addItemToOrder(this, this.getSelectedOrder(), item);
                 }
             }
@@ -215,25 +211,34 @@ public class MainActivity extends Activity implements MainHandler {
     }
 
     @Override
-    public void onTableSelected(int tableId) {
+    public void onTableSelected(final Table table) {
 
         pDialog.setMessage("Creando orden...");
         pDialog.show();
         final DatabaseHandler db = new DatabaseHandler(this);
+
         apiInterface = ApiClient.getRestAppApiClient();
-        apiInterface.newOrder(tableId, new Callback<OrderRow>() {
+        apiInterface.newOrder(table.getId(), new Callback<com.tesis.restapp.restapp.database.Response>() {
             @Override
-            public void success(OrderRow order, Response response) {
+            public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
+                if(apiResponse.wasSuccessful()) {
+                    Order order = new Order();
+                    order.setTable(table);
+                    order.setId(apiResponse.getId());
+                    db.addOrder(order);
+                    onOrderSelected(order.getId(), true);
+                }else{
+                    onTableOccupied();
+                }
                 pDialog.dismiss();
-                db.addOrder(order);
-                onOrderSelected(order.getId(),true);
                 db.close();
             }
 
             @Override
             public void failure(RetrofitError error) {
                 pDialog.dismiss();
-                onTableOccupied();
+                //SERVER ERROR
+
                 db.close();
             }
         });

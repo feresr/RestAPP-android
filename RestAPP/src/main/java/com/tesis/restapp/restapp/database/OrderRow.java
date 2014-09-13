@@ -9,7 +9,7 @@ public class OrderRow {
     private int table_id;
     private String created_at;
     private String updated_at;
-
+    private Boolean success = true;
 
     public int getId() {
         return id;
@@ -45,5 +45,11 @@ public class OrderRow {
     }
 
 
+    public Boolean getSuccess() {
+        return success;
+    }
 
+    public void setSuccess(Boolean success) {
+        this.success = success;
+    }
 }

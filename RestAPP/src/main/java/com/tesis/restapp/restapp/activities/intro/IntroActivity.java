@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
@@ -96,7 +97,9 @@ public class IntroActivity extends Activity implements IntroHandler {
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
+                    Log.e("sda",retrofitError.toString());
                     onServerNotFound();
+
                 }
             });
 

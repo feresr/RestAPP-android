@@ -32,7 +32,7 @@ public interface RestAppApiInterface {
 
 
     @DELETE(URL_ORDER_ITEMS + "/{id}")
-    public void removeItemFromOrder(@Path("id") int id, Callback<Order_itemRow> callback);
+    public void removeItemFromOrder(@Path("id") int id, Callback<Response> callback);
 
     @GET(URL_ORDERS)
     public void retrieveOrders(Callback<List<OrderRow>> callback);
@@ -54,7 +54,7 @@ public interface RestAppApiInterface {
 
     @FormUrlEncoded
     @POST(URL_ORDERS)
-    public void newOrder(@Field("table_id") int tableId, Callback<OrderRow> callback);
+    public void newOrder(@Field("table_id") int tableId, Callback<Response> callback);
 
     @DELETE(URL_ORDERS + "/{id}")
     public void closeOrder(@Path("id") int id, Callback<OrderRow> callback);
