@@ -2,25 +2,25 @@
 <pre-dex-items>
 
     <item
-        dex="D:\Workspace\android-restapp\RestAPP\build\intermediates\pre-dexed\debug\retrofit-1.5.1-b5a2b7379decbe317a89fba546e9f9ecfcebd7f4.jar"
+        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\classes-aac11871c27b5305fc33d0d09a696c7604bbb266.jar"
+        jar="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.1.0\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
+    <item
+        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\retrofit-1.5.1-b5a2b7379decbe317a89fba546e9f9ecfcebd7f4.jar"
         jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.5.1\266695d62b6df0e1176af2be3634bcd0837d4fbd\retrofit-1.5.1.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="266695d62b6df0e1176af2be3634bcd0837d4fbd"/>
     <item
-        dex="D:\Workspace\android-restapp\RestAPP\build\intermediates\pre-dexed\debug\gson-2.2.4-b90fa54c41e7f3972e5508e11504905efa299d16.jar"
+        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\gson-2.2.4-b90fa54c41e7f3972e5508e11504905efa299d16.jar"
         jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
     <item
-        dex="D:\Workspace\android-restapp\RestAPP\build\intermediates\pre-dexed\debug\classes-93adc87f7081dac9e080652fda35034ecae00fad.jar"
-        jar="D:\Workspace\android-restapp\RestAPP\build\intermediates\exploded-aar\com.android.support\appcompat-v7\19.1.0\classes.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
-    <item
-        dex="D:\Workspace\android-restapp\RestAPP\build\intermediates\pre-dexed\debug\support-v4-19.1.0-43678f29016dcbbcf3ce4642ce50ba744ff5b268.jar"
+        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\support-v4-19.1.0-43678f29016dcbbcf3ce4642ce50ba744ff5b268.jar"
         jar="C:\Users\Fer\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"

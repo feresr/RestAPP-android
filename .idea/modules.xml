@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/RestAPP.iml" filepath="$PROJECT_DIR$/RestAPP.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android-restapp.iml" filepath="$PROJECT_DIR$/android-restapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/RestAPP-android.iml" filepath="$PROJECT_DIR$/RestAPP-android.iml" />
     </modules>
   </component>
 </project>
