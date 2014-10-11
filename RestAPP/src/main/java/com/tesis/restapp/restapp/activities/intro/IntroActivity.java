@@ -55,8 +55,6 @@ public class IntroActivity extends Activity implements IntroHandler {
     protected void onPause() {
         if (pDialog != null)
             pDialog.dismiss();
-
-
         super.onPause();
     }
 
