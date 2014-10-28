@@ -22,7 +22,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit.client.Header;
 
-
 public class IntroActivity extends Activity implements IntroHandler {
 
     ProgressDialog pDialog;
@@ -71,7 +70,6 @@ public class IntroActivity extends Activity implements IntroHandler {
     @Override
     public void onLogInButtonClicked(String username, String password) {
         if (isOnline()) {
-
             RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient();
             pDialog.setMessage("Loggin in...");
             pDialog.show();
@@ -87,7 +85,11 @@ public class IntroActivity extends Activity implements IntroHandler {
                                 User.getUser().setToken(header);
                             }
                         }
-                        onLoginSuccessful();
+                        if (User.getUser().getToken() != null) {
+                            onLoginSuccessful();
+                        } else {
+                            onTokenNotFound();
+                        }
                     } else {
                         onInvalidCredentials();
                     }
@@ -100,11 +102,16 @@ public class IntroActivity extends Activity implements IntroHandler {
 
                 }
             });
-
-
         } else {
             Toast.makeText(this, "Your network connection is off. Turn it on and try again.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void onTokenNotFound() {
+
+        pDialog.dismiss();
+        Toast.makeText(this, R.string.missing_token, Toast.LENGTH_SHORT).show();
+
     }
 
     private void onLoginSuccessful() {
@@ -114,7 +121,6 @@ public class IntroActivity extends Activity implements IntroHandler {
 
         startActivity(i);
         finish();
-
     }
 
     private void onServerNotFound() {
@@ -130,6 +136,4 @@ public class IntroActivity extends Activity implements IntroHandler {
         Toast.makeText(this, R.string.invalid_credentials, Toast.LENGTH_SHORT).show();
 
     }
-
-
 }

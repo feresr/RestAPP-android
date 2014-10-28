@@ -38,7 +38,7 @@ public class TablesAdapter extends ArrayAdapter<Table> {
         db = new DatabaseHandler(getContext());
         DatabaseHandler.registerAdapter(this);
         tables =  db.getTables();
-
+        Log.e("TABLES", tables.toString());
     }
 
 

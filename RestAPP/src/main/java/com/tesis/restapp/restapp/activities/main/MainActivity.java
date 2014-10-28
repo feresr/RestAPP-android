@@ -3,7 +3,9 @@ package com.tesis.restapp.restapp.activities.main;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,7 +19,6 @@ import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.CategoryRow;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.database.ItemRow;
-import com.tesis.restapp.restapp.database.OrderRow;
 import com.tesis.restapp.restapp.database.Order_itemRow;
 import com.tesis.restapp.restapp.database.TableRow;
 import com.tesis.restapp.restapp.models.Item;
@@ -44,7 +45,6 @@ public class MainActivity extends Activity implements MainHandler {
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
 
-
         if (savedInstanceState == null) {
             DashboardFragment dashboardFragment = new DashboardFragment();
 
@@ -52,96 +52,13 @@ public class MainActivity extends Activity implements MainHandler {
                     .add(R.id.container, dashboardFragment)
                     .commit();
 
-            syncDb();
-
+            new SyncDB().execute(this);
 
         }else{
 
             orderId = savedInstanceState.getInt("selectedOrder");
 
         }
-
-    }
-
-    private void syncDb() {
-
-        pDialog.setMessage("Actualizando BD....");
-        pDialog.show();
-
-        apiInterface = ApiClient.getRestAppApiClient();
-
-        final DatabaseHandler db = new DatabaseHandler(this);
-
-        apiInterface.retrieveCategories(new Callback<List<CategoryRow>>() {
-            @Override
-            public void success(List<CategoryRow> categoryRows, Response response) {
-                if (categoryRows != null) {
-                    db.addCategories(categoryRows);
-
-                }
-            }
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-        apiInterface.retrieveItems(new Callback<List<ItemRow>>() {
-            @Override
-            public void success(List<ItemRow> itemRows, Response response) {
-                if (itemRows != null) {
-                    db.addItems(itemRows);
-                }
-                pDialog.dismiss();
-            }
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-        apiInterface.retrieveTables(new Callback<List<TableRow>>() {
-            @Override
-            public void success(List<TableRow> tableRows, Response response) {
-                if (tableRows != null) {
-                    db.addTables(tableRows);
-                }
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
-
-        apiInterface.retrieveOrders(new Callback<List<OrderRow>>() {
-            @Override
-            public void success(List<OrderRow> orderRows, Response response) {
-                if (orderRows != null) {
-                    db.addOrders(orderRows);
-                }
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-            }
-        });
-
-        apiInterface.retrieveOrderItems(new Callback<List<Order_itemRow>>() {
-            @Override
-            public void success(List<Order_itemRow> order_itemRows, Response response) {
-                if (order_itemRows != null) {
-                    db.addOrderItems(order_itemRows);
-                }
-
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-
-            }
-        });
 
     }
 
@@ -273,10 +190,10 @@ public class MainActivity extends Activity implements MainHandler {
     public void onCloseOrder() {
        final DatabaseHandler db = new DatabaseHandler(this);
        apiInterface = ApiClient.getRestAppApiClient();
-       apiInterface.closeOrder(orderId,new Callback<OrderRow>() {
+       apiInterface.closeOrder(orderId,new Callback<Order>() {
            @Override
-           public void success(OrderRow orderRow, Response response) {
-               db.removeOrder(orderRow);
+           public void success(Order order, Response response) {
+               db.removeOrder(order);
                getFragmentManager().beginTransaction()
                        .replace(R.id.container, new DashboardFragment())
                        .commit();
@@ -305,4 +222,105 @@ public class MainActivity extends Activity implements MainHandler {
 
         super.onPause();
     }
+
+    private class SyncDB extends AsyncTask<Context, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            pDialog.setMessage("Actualizando BD....");
+            pDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Context... params) {
+
+
+                apiInterface = ApiClient.getRestAppApiClient();
+
+                final DatabaseHandler db = new DatabaseHandler(params[0]);
+
+                apiInterface.retrieveCategories(new Callback<List<CategoryRow>>() {
+                    @Override
+                    public void success(List<CategoryRow> categoryRows, Response response) {
+                        if (categoryRows != null) {
+                            db.addCategories(categoryRows);
+
+                        }
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
+                apiInterface.retrieveItems(new Callback<List<ItemRow>>() {
+                    @Override
+                    public void success(List<ItemRow> itemRows, Response response) {
+                        if (itemRows != null) {
+                            db.addItems(itemRows);
+                        }
+                    }
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
+                apiInterface.retrieveTables(new Callback<List<TableRow>>() {
+                    @Override
+                    public void success(List<TableRow> tableRows, Response response) {
+                        if (tableRows != null) {
+                            db.addTables(tableRows);
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("retrofit_error",error.getMessage());
+                    }
+                });
+
+                apiInterface.retrieveOrders(new Callback<List<Order>>() {
+                    @Override
+                    public void success(List<Order> orders, Response response) {
+                        Log.e("mainactivity", orders.toString());
+                        if (orders != null) {
+                            db.addOrders(orders);
+                            orders = null;
+                        }
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        Log.e("retrofit_error",error.getMessage());
+                    }
+                });
+
+                apiInterface.retrieveOrderItems(new Callback<List<Order_itemRow>>() {
+                    @Override
+                    public void success(List<Order_itemRow> order_itemRows, Response response) {
+                        if (order_itemRows != null) {
+                            db.addOrderItems(order_itemRows);
+                        }
+
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+
+                    }
+                });
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            pDialog.dismiss();
+            super.onPostExecute(aVoid);
+        }
+    }
 }
+
+

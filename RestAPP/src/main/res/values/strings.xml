@@ -15,4 +15,5 @@
     <string name="new_order">NEW ORDER</string>
     <string name="add_hint">Agregar ítem</string>
     <string name="title_activity_search">Buscar item</string>
+    <string name="missing_token">El servidor fué encontrado, pero no pudo autentificar las credenciales. Intente nuevamente</string>
 </resources>

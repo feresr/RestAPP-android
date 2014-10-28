@@ -73,7 +73,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_TABLE_ID = "table_id";
     private static final String KEY_ORDER_ID = "order_id";
     private static final String KEY_ITEM_ID = "item_id";
-
+    private static final String KEY_READY = "ready";
+    private static final String KEY_ACTIVE = "active";
 
     private static final String KEY_CREATED_AT = "created_at";
     private static final String KEY_UPDATED_AT = "updated_at";
@@ -127,6 +128,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_TABLE_ID + " INTEGER,"
                 + KEY_TOTAL + " REAL,"
+                + KEY_ACTIVE + " INTEGER,"
+                + KEY_READY + " INTEGER,"
                 + KEY_CREATED_AT + " TEXT,"
                 + KEY_UPDATED_AT + " TEXT,"
                 + " FOREIGN KEY(" + KEY_TABLE_ID + ") REFERENCES " + TABLE_TABLES + "(" + KEY_ID + ")"
@@ -169,7 +172,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public List<Order> getAllOrders() {
         List<Order> orderList = new ArrayList<Order>();
         // Select All Query
-        String selectQuery = "SELECT * FROM " + TABLE_ORDERS
+        String selectQuery = "SELECT " + TABLE_ORDERS + ".id AS order_id, " + TABLE_TABLES + ".id AS table_id, * FROM " + TABLE_ORDERS
                 + " JOIN " + TABLE_TABLES + " ON " + TABLE_ORDERS + "." + KEY_TABLE_ID + "=" + TABLE_TABLES + "." + KEY_ID;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -178,36 +181,37 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-
-
                 Order order = new Order();
-                order.setId(cursor.getInt(0));
+                order.setId(cursor.getInt(cursor.getColumnIndex("order_id")));
 
                 Table table = new Table();
-                table.setId(cursor.getInt(4));
+                table.setId(cursor.getInt(cursor.getColumnIndex("table_id")));
 
-                table.setNumber(cursor.getInt(5));
+                table.setNumber(cursor.getInt(cursor.getColumnIndex("number")));
 
-                table.setSeats(cursor.getInt(6));
-                table.setDescription(cursor.getString(7));
-                table.setTaken(cursor.getInt(8) == 1);
+                table.setSeats(cursor.getInt(cursor.getColumnIndex("seats")));
+                table.setDescription(cursor.getString(cursor.getColumnIndex("description")));
+                table.setTaken(cursor.getInt(cursor.getColumnIndex("taken")) == 1);
 
                 order.setTable(table);
 
-                String selectItemsQuery = "SELECT * FROM " + TABLE_ITEMS
+                String selectItemsQuery = "SELECT " + TABLE_ITEMS +".id AS table_id, " +
+                        TABLE_ORDER_ITEM + ".id AS order_item_id, " +
+                        " * FROM " + TABLE_ITEMS
                         + " JOIN " + TABLE_ORDER_ITEM + " ON " + TABLE_ITEMS + "." + KEY_ID + "=" + TABLE_ORDER_ITEM + "." + KEY_ITEM_ID
                         + " AND " + TABLE_ORDER_ITEM + "." + KEY_ORDER_ID + " = " + order.getId();
 
                 Cursor itemCursor = db.rawQuery(selectItemsQuery, null);
                 ArrayList<Item> items = new ArrayList<Item>();
+
                 if (itemCursor.moveToFirst()) {
                     do {
 
                         Item item = new Item();
-                        item.setId(itemCursor.getInt(0));
-                        item.setName(itemCursor.getString(1));
-                        item.setDescription(itemCursor.getString(2));
-                        item.setPrice(itemCursor.getDouble(3));
+                        item.setId(itemCursor.getInt(itemCursor.getColumnIndex("order_item_id")));
+                        item.setName(itemCursor.getString(itemCursor.getColumnIndex("name")));
+                        item.setDescription(itemCursor.getString(itemCursor.getColumnIndex("description")));
+                        item.setPrice(itemCursor.getDouble(itemCursor.getColumnIndex("price")));
                         Category category = new Category();
 
                         String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + itemCursor.getInt(4);
@@ -436,8 +440,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             // Inserting Row
             db.insert(TABLE_TABLES, null, values);
 
+            Log.e("databaseHandler", values.toString());
         }
-
         db.close(); // Closing database connection
     }
 
@@ -460,14 +464,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void addOrders(List<OrderRow> orders) {
+    public void addOrders(List<Order> orders) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDERS, null, null);
-        for (OrderRow order : orders) {
+        for (Order order : orders) {
 
             ContentValues values = new ContentValues();
-            values.put(KEY_ID, order.getId()); // Contact Name
-            values.put(KEY_TABLE_ID, order.getTable_id()); // Contact Phone Number
+            values.put(KEY_ID, order.getId());
+            values.put(KEY_TABLE_ID, order.getTable_id());
+            values.put(KEY_TOTAL, order.getTotal());
+            values.put(KEY_READY, order.isReady());
+            values.put(KEY_ACTIVE, order.isActive());
             values.put(KEY_CREATED_AT, order.getCreated_at());
             values.put(KEY_UPDATED_AT, order.getUpdated_at());
 
@@ -577,7 +584,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
-    public void removeOrder(OrderRow order){
+    public void removeOrder(Order order){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDERS, "id = ?", new String[] { String.valueOf(order.getId())});
         ordersAdapter.notifyDataSetChanged();

@@ -18,7 +18,6 @@ public class Table {
     private boolean taken;
 
 
-
     //GETTERS ANN SETTERS
 
 

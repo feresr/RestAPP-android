@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.tesis.restapp.restapp.R;
 
-public class SearchActivity extends Activity implements  SearchHandler {
+public class SearchActivity extends Activity implements SearchHandler {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

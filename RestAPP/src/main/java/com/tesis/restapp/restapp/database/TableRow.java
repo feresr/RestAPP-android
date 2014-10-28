@@ -9,7 +9,7 @@ public class TableRow {
     private int number;
     private int seats;
     private String description;
-    private boolean taken;
+    private int taken;
     private String created_at;
     private String updated_at;
 
@@ -45,11 +45,11 @@ public class TableRow {
         this.description = description;
     }
 
-    public boolean isTaken() {
+    public int isTaken() {
         return taken;
     }
 
-    public void setTaken(boolean taken) {
+    public void setTaken(int taken) {
         this.taken = taken;
     }
 
