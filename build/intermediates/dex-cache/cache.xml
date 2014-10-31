@@ -20,8 +20,8 @@
         revision="19.1.0"
         sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
     <item
-        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\support-v4-19.1.0-43678f29016dcbbcf3ce4642ce50ba744ff5b268.jar"
-        jar="C:\Users\Fer\AppData\Local\Android\android-studio\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
+        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\support-v4-19.1.0-cff78635c9648d10897d8d2c8f2d160694ca7e06.jar"
+        jar="C:\Users\Fer\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>

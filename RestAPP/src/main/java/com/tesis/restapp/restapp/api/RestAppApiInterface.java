@@ -1,10 +1,10 @@
 package com.tesis.restapp.restapp.api;
 
-import com.tesis.restapp.restapp.database.CategoryRow;
-import com.tesis.restapp.restapp.database.ItemRow;
 import com.tesis.restapp.restapp.database.Order_itemRow;
-import com.tesis.restapp.restapp.database.TableRow;
+import com.tesis.restapp.restapp.models.Category;
+import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
+import com.tesis.restapp.restapp.models.Table;
 import com.tesis.restapp.restapp.models.User;
 import com.tesis.restapp.restapp.database.Response;
 
@@ -38,13 +38,13 @@ public interface RestAppApiInterface {
     public void retrieveOrders(Callback<List<Order>> callback);
 
     @GET(URL_AVAILABLE_TABLES)
-    public void retrieveTables(Callback<List<TableRow>> callback);
+    public void retrieveTables(Callback<List<Table>> callback);
 
     @GET(URL_ITEMS)
-    public void retrieveItems(Callback<List<ItemRow>> callback);
+    public void retrieveItems(Callback<List<Item>> callback);
 
     @GET(URL_CATEGORIES)
-    public void retrieveCategories(Callback<List<CategoryRow>> callback);
+    public void retrieveCategories(Callback<List<Category>> callback);
 
     @GET(URL_ORDER_ITEMS)
     public void retrieveOrderItems(Callback<List<Order_itemRow>> callback);

@@ -12,11 +12,12 @@ import java.util.List;
 public class Table {
 
     private int id;
-    private String description;
     private int seats;
+    private String description;
     private int number;
-    private boolean taken;
-
+    private int taken;
+    private String created_at;
+    private String updated_at;
 
     //GETTERS ANN SETTERS
 
@@ -56,10 +57,26 @@ public class Table {
     }
 
     public boolean isTaken() {
-        return taken;
+        return taken == 1;
     }
 
     public void setTaken(boolean taken) {
-        this.taken = taken;
+        this.taken = taken? 1 : 0;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public void setUpdated_at(String updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
     }
 }

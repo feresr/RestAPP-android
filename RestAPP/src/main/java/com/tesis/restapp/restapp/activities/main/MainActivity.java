@@ -16,11 +16,9 @@ import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.search.SearchActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
-import com.tesis.restapp.restapp.database.CategoryRow;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
-import com.tesis.restapp.restapp.database.ItemRow;
 import com.tesis.restapp.restapp.database.Order_itemRow;
-import com.tesis.restapp.restapp.database.TableRow;
+import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
@@ -240,11 +238,11 @@ public class MainActivity extends Activity implements MainHandler {
 
                 final DatabaseHandler db = new DatabaseHandler(params[0]);
 
-                apiInterface.retrieveCategories(new Callback<List<CategoryRow>>() {
+                apiInterface.retrieveCategories(new Callback<List<Category>>() {
                     @Override
-                    public void success(List<CategoryRow> categoryRows, Response response) {
-                        if (categoryRows != null) {
-                            db.addCategories(categoryRows);
+                    public void success(List<Category> categories, Response response) {
+                        if (categories != null) {
+                            db.addCategories(categories);
 
                         }
                     }
@@ -254,11 +252,11 @@ public class MainActivity extends Activity implements MainHandler {
                     }
                 });
 
-                apiInterface.retrieveItems(new Callback<List<ItemRow>>() {
+                apiInterface.retrieveItems(new Callback<List<Item>>() {
                     @Override
-                    public void success(List<ItemRow> itemRows, Response response) {
-                        if (itemRows != null) {
-                            db.addItems(itemRows);
+                    public void success(List<Item> items, Response response) {
+                        if (items != null) {
+                            db.addItems(items);
                         }
                     }
                     @Override
@@ -267,11 +265,11 @@ public class MainActivity extends Activity implements MainHandler {
                     }
                 });
 
-                apiInterface.retrieveTables(new Callback<List<TableRow>>() {
+                apiInterface.retrieveTables(new Callback<List<Table>>() {
                     @Override
-                    public void success(List<TableRow> tableRows, Response response) {
-                        if (tableRows != null) {
-                            db.addTables(tableRows);
+                    public void success(List<Table> tables, Response response) {
+                        if (tables != null) {
+                            db.addTables(tables);
                         }
                     }
 
