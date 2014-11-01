@@ -56,14 +56,12 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
             @Override
             public void success(List<Order> orders, Response response) {
                 Log.e("mainactivity", orders.toString());
-                if (orders != null) {
-                    db.addOrders(orders);
-                    orders = null;
-                }
+                db.addOrders(orders);
             }
 
             @Override
             public void failure(RetrofitError error) {
+                //TODO: User logged out (or server not found). take out to the login screen
                 Log.e("retrofit_error",error.getMessage());
             }
         });
@@ -73,7 +71,6 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
         TextView usernameTxtView = (TextView) rootView.findViewById(R.id.firstLastNameTxt);
         TextView username = (TextView) rootView.findViewById(R.id.usernameTxt);
 
-        Log.d("DBF", User.getUser(getActivity()).toString());
         usernameTxtView.setText(User.getUser(getActivity()).getFirstname() + " " + User.getUser(getActivity()).getLastname());
         username.setText("#" + User.getUser(getActivity()).getUsername());
 

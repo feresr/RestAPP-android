@@ -202,16 +202,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 Order order = new Order();
-                order.setId(cursor.getInt(cursor.getColumnIndex("order_id")));
+                order.setId(cursor.getInt(cursor.getColumnIndex(KEY_ORDER_ID)));
 
                 Table table = new Table();
-                table.setId(cursor.getInt(cursor.getColumnIndex("table_id")));
+                table.setId(cursor.getInt(cursor.getColumnIndex(KEY_TABLE_ID)));
 
-                table.setNumber(cursor.getInt(cursor.getColumnIndex("number")));
+                table.setNumber(cursor.getInt(cursor.getColumnIndex(KEY_NUMBER)));
 
-                table.setSeats(cursor.getInt(cursor.getColumnIndex("seats")));
-                table.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                table.setTaken(cursor.getInt(cursor.getColumnIndex("taken")) == 1);
+                table.setSeats(cursor.getInt(cursor.getColumnIndex(KEY_SEATS)));
+                table.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                table.setTaken(cursor.getInt(cursor.getColumnIndex(KEY_TAKEN)) == 1);
 
                 order.setTable(table);
 
@@ -229,16 +229,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                         Item item = new Item();
                         item.setId(itemCursor.getInt(itemCursor.getColumnIndex("order_item_id")));
-                        item.setName(itemCursor.getString(itemCursor.getColumnIndex("name")));
-                        item.setDescription(itemCursor.getString(itemCursor.getColumnIndex("description")));
-                        item.setPrice(itemCursor.getDouble(itemCursor.getColumnIndex("price")));
+                        item.setName(itemCursor.getString(itemCursor.getColumnIndex(KEY_NAME)));
+                        item.setDescription(itemCursor.getString(itemCursor.getColumnIndex(KEY_DESCRIPTION)));
+                        item.setPrice(itemCursor.getDouble(itemCursor.getColumnIndex(KEY_PRICE)));
                         Category category = new Category();
 
                         String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + itemCursor.getInt(4);
                         Cursor categoryCursor = db.rawQuery(selectCategory, null);
                         if (categoryCursor.moveToFirst()) {
-                            category.setId(categoryCursor.getInt(categoryCursor.getColumnIndex("id")));
-                            category.setName(categoryCursor.getString(categoryCursor.getColumnIndex("name")));
+                            category.setId(categoryCursor.getInt(categoryCursor.getColumnIndex(KEY_ID)));
+                            category.setName(categoryCursor.getString(categoryCursor.getColumnIndex(KEY_NAME)));
                         }
                         item.setCategory(category);
 
@@ -268,13 +268,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             do {
 
                 Table table = new Table();
-                table.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                table.setNumber(cursor.getInt(cursor.getColumnIndex("number")));
-                table.setSeats(cursor.getInt(cursor.getColumnIndex("description")));
-                table.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                table.setTaken(cursor.getInt(cursor.getColumnIndex("taken")) == 1);
-                table.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
-                table.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+                table.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                table.setNumber(cursor.getInt(cursor.getColumnIndex(KEY_NUMBER)));
+                table.setSeats(cursor.getInt(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                table.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                table.setTaken(cursor.getInt(cursor.getColumnIndex(KEY_TAKEN)) == 1);
+                table.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
+                table.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
 
                 tableList.add(table);
 
@@ -298,8 +298,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             do {
 
                 Category category = new Category();
-                category.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                category.setName(cursor.getString(cursor.getColumnIndex("name")));
+                category.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                category.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
 
                 categoryList.add(category);
 
@@ -323,20 +323,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
 
 
-            item.setId(cursor.getInt(cursor.getColumnIndex("id")));
-            item.setName(cursor.getString(cursor.getColumnIndex("name")));
-            item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-            item.setPrice(cursor.getDouble(cursor.getColumnIndex("price")));
-            item.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
-            item.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+            item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+            item.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+            item.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+            item.setPrice(cursor.getDouble(cursor.getColumnIndex(KEY_PRICE)));
+            item.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
+            item.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
 
             Category category = new Category();
 
             String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + cursor.getInt(4);
             Cursor categoryCursor = db.rawQuery(selectCategory, null);
             if (categoryCursor.moveToFirst()) {
-                category.setId(categoryCursor.getInt(categoryCursor.getColumnIndex("id")));
-                category.setName(categoryCursor.getString(categoryCursor.getColumnIndex("name")));
+                category.setId(categoryCursor.getInt(categoryCursor.getColumnIndex(KEY_ID)));
+                category.setName(categoryCursor.getString(categoryCursor.getColumnIndex(KEY_NAME)));
             }
             item.setCategory(category);
         }
@@ -359,12 +359,12 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 Item item = new Item();
 
-                item.setId(cursor.getInt(cursor.getColumnIndex("id")));
-                item.setName(cursor.getString(cursor.getColumnIndex("name")));
-                item.setDescription(cursor.getString(cursor.getColumnIndex("description")));
-                item.setPrice(cursor.getDouble(cursor.getColumnIndex("price")));
-                item.setCreated_at(cursor.getString(cursor.getColumnIndex("created_at")));
-                item.setUpdated_at(cursor.getString(cursor.getColumnIndex("updated_at")));
+                item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                item.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+                item.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                item.setPrice(cursor.getDouble(cursor.getColumnIndex(KEY_PRICE)));
+                item.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
+                item.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
 
                 Category category = new Category();
 
@@ -399,6 +399,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
 
             order.setId(cursor.getInt(0));
+            order.setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));
 
             Table table = new Table();
             table.setId(cursor.getInt(4));
@@ -531,7 +532,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
 
-            user.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            user.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             user.setFirstname(cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME)));
             user.setLastname(cursor.getString(cursor.getColumnIndex(KEY_LASTNAME)));
             user.setUsername(cursor.getString(cursor.getColumnIndex(KEY_USERNAME)));
@@ -637,7 +638,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
 
-            ApiClient.getRestAppApiClient(context).removeItemFromOrder(cursor.getInt(cursor.getColumnIndex("id")), new Callback<com.tesis.restapp.restapp.database.Response>() {
+            ApiClient.getRestAppApiClient(context).removeItemFromOrder(cursor.getInt(cursor.getColumnIndex(KEY_ID)), new Callback<com.tesis.restapp.restapp.database.Response>() {
                 @Override
                 public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
                     if(apiResponse.wasSuccessful()) {

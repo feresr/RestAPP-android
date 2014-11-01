@@ -85,4 +85,8 @@ public class Order {
     public int getTable_id() {
         return table_id;
     }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 }
