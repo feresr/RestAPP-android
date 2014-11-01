@@ -17,7 +17,7 @@ import com.tesis.restapp.restapp.activities.search.SearchActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
-import com.tesis.restapp.restapp.database.Order_itemRow;
+import com.tesis.restapp.restapp.models.Order_Item;
 import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
@@ -295,9 +295,9 @@ public class MainActivity extends Activity implements MainHandler {
                     }
                 });
 
-                apiInterface.retrieveOrderItems(new Callback<List<Order_itemRow>>() {
+                apiInterface.retrieveOrderItems(new Callback<List<Order_Item>>() {
                     @Override
-                    public void success(List<Order_itemRow> order_itemRows, Response response) {
+                    public void success(List<Order_Item> order_itemRows, Response response) {
                         if (order_itemRows != null) {
                             db.addOrderItems(order_itemRows);
                         }

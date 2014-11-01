@@ -1,6 +1,6 @@
 package com.tesis.restapp.restapp.api;
 
-import com.tesis.restapp.restapp.database.Order_itemRow;
+import com.tesis.restapp.restapp.models.Order_Item;
 import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
@@ -47,7 +47,7 @@ public interface RestAppApiInterface {
     public void retrieveCategories(Callback<List<Category>> callback);
 
     @GET(URL_ORDER_ITEMS)
-    public void retrieveOrderItems(Callback<List<Order_itemRow>> callback);
+    public void retrieveOrderItems(Callback<List<Order_Item>> callback);
 
     @FormUrlEncoded
     @POST(URL_ORDERS)

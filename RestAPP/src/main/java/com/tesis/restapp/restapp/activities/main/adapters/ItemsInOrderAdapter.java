@@ -10,13 +10,8 @@ import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
-import com.tesis.restapp.restapp.database.Order_itemRow;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
 /**

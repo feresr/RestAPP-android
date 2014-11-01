@@ -15,6 +15,7 @@ import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
+import com.tesis.restapp.restapp.models.Order_Item;
 import com.tesis.restapp.restapp.models.Table;
 
 
@@ -504,10 +505,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
-    public void addOrderItems(List<Order_itemRow> orderItems) {
+    public void addOrderItems(List<Order_Item> orderItems) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDER_ITEM, null, null);
-        for (Order_itemRow orderItem : orderItems) {
+        for (Order_Item orderItem : orderItems) {
 
             ContentValues values = new ContentValues();
             values.put(KEY_ID, orderItem.getId()); // Contact Name
