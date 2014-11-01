@@ -1,4 +1,6 @@
 package com.tesis.restapp.restapp.api;
+import android.content.Context;
+
 import com.tesis.restapp.restapp.models.User;
 
 import retrofit.RequestInterceptor;
@@ -8,10 +10,10 @@ import retrofit.client.OkClient;
 
 public class ApiClient{
 
-    private static final String API_URL = "http://192.168.0.13/RestAPP-REST/public/";
+    private static final String API_URL = "http://192.168.0.13/RestAPP-REST/public";
     private static RestAppApiInterface sRestAppService;
 
-    public static RestAppApiInterface getRestAppApiClient() {
+    public static RestAppApiInterface getRestAppApiClient(final Context context) {
         if (sRestAppService == null) {
 
             RestAdapter restAdapter = new RestAdapter.Builder()
@@ -20,8 +22,8 @@ public class ApiClient{
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade requestFacade) {
-                            if (User.getUser()!= null) {
-                                requestFacade.addHeader("Cookie", User.getUser().getToken().getValue());
+                            if (User.getUser(context)!= null) {
+                                requestFacade.addHeader("Cookie", User.getUser(context).getToken());
                                 requestFacade.addHeader("Accept", "application/json");
                             }
                         }

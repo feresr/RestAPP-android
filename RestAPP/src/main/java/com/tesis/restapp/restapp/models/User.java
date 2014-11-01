@@ -1,5 +1,9 @@
 package com.tesis.restapp.restapp.models;
 
+import android.content.Context;
+
+import com.tesis.restapp.restapp.database.DatabaseHandler;
+
 import retrofit.client.Header;
 
 /**
@@ -7,33 +11,32 @@ import retrofit.client.Header;
  */
 public class User {
 
-    //+++Static methods+++
-    private static User mUser;
 
-    private User() {
+
+    public User() {
 
     }
 
-    public static User getUser() {
-        return mUser;
+    public static User getUser(Context context) {
+
+        DatabaseHandler db = new DatabaseHandler(context);
+
+        return db.getUser();
     }
 
 
-    public static void setUser(User user) {
-        mUser = user;
-    }
 
-    private Header token;
+    private String token;
     private int id;
     private String firstname;
     private String lastname;
     private String username;
 
 
-    public void setToken(Header e) {
+    public void setToken(String e) {
         token = e;
     }
-    public Header getToken() {
+    public String getToken() {
         return token;
     }
 

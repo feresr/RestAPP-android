@@ -15,6 +15,7 @@ import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.main.MainActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
+import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.User;
 
 import retrofit.Callback;
@@ -70,22 +71,23 @@ public class IntroActivity extends Activity implements IntroHandler {
     @Override
     public void onLogInButtonClicked(String username, String password) {
         if (isOnline()) {
-            RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient();
+            RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient(this);
             pDialog.setMessage("Loggin in...");
             pDialog.show();
             apiInterface.logIn(username, password, new Callback<User>() {
                 @Override
                 public void success(User user, Response response) {
                     if (user != null) {
-
-                        User.setUser(user);
+                        final DatabaseHandler db = new DatabaseHandler(getApplicationContext());
 
                         for (Header header : response.getHeaders()) {
                             if (header.getValue().contains("laravel_session")) {
-                                User.getUser().setToken(header);
+                                user.setToken(header.getValue());
                             }
+
                         }
-                        if (User.getUser().getToken() != null) {
+                        db.addUser(user);
+                        if (User.getUser(getApplicationContext()).getToken() != null) {
                             onLoginSuccessful();
                         } else {
                             onTokenNotFound();

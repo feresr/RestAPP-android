@@ -3,6 +3,7 @@ package com.tesis.restapp.restapp.activities.main;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +14,17 @@ import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.main.adapters.OrdersAdapter;
+import com.tesis.restapp.restapp.api.ApiClient;
+import com.tesis.restapp.restapp.api.RestAppApiInterface;
+import com.tesis.restapp.restapp.database.DatabaseHandler;
+import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.User;
+
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 
 public class DashboardFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener{
@@ -30,6 +41,7 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");
         }
+
     }
 
     @Override
@@ -37,11 +49,33 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
+
+        final DatabaseHandler db = new DatabaseHandler(this.getActivity());
+        RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient(getActivity());
+        apiInterface.retrieveOrders(new Callback<List<Order>>() {
+            @Override
+            public void success(List<Order> orders, Response response) {
+                Log.e("mainactivity", orders.toString());
+                if (orders != null) {
+                    db.addOrders(orders);
+                    orders = null;
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Log.e("retrofit_error",error.getMessage());
+            }
+        });
+
+
+
         TextView usernameTxtView = (TextView) rootView.findViewById(R.id.firstLastNameTxt);
         TextView username = (TextView) rootView.findViewById(R.id.usernameTxt);
 
-        usernameTxtView.setText(User.getUser().getFirstname() + " " + User.getUser().getLastname());
-        username.setText("#" + User.getUser().getUsername());
+        Log.d("DBF", User.getUser(getActivity()).toString());
+        usernameTxtView.setText(User.getUser(getActivity()).getFirstname() + " " + User.getUser(getActivity()).getLastname());
+        username.setText("#" + User.getUser(getActivity()).getUsername());
 
         OrdersAdapter adapter = new OrdersAdapter(getActivity(), R.id.orders_listview);
         ListView listView = (ListView)rootView.findViewById(R.id.orders_listview);

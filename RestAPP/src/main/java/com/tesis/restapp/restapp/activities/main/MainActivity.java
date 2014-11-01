@@ -132,7 +132,7 @@ public class MainActivity extends Activity implements MainHandler {
         pDialog.show();
         final DatabaseHandler db = new DatabaseHandler(this);
 
-        apiInterface = ApiClient.getRestAppApiClient();
+        apiInterface = ApiClient.getRestAppApiClient(this);
         apiInterface.newOrder(table.getId(), new Callback<com.tesis.restapp.restapp.database.Response>() {
             @Override
             public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
@@ -187,7 +187,7 @@ public class MainActivity extends Activity implements MainHandler {
     @Override
     public void onCloseOrder() {
        final DatabaseHandler db = new DatabaseHandler(this);
-       apiInterface = ApiClient.getRestAppApiClient();
+       apiInterface = ApiClient.getRestAppApiClient(this);
        apiInterface.closeOrder(orderId,new Callback<Order>() {
            @Override
            public void success(Order order, Response response) {
@@ -200,6 +200,7 @@ public class MainActivity extends Activity implements MainHandler {
 
            @Override
            public void failure(RetrofitError error) {
+               Log.d(this.getClass().getSimpleName(), error.toString());
                db.close();
            }
        });
@@ -217,7 +218,8 @@ public class MainActivity extends Activity implements MainHandler {
         if (pDialog != null)
             pDialog.dismiss();
 
-
+        final DatabaseHandler db = new DatabaseHandler(this);
+        db.close();
         super.onPause();
     }
 
@@ -234,7 +236,7 @@ public class MainActivity extends Activity implements MainHandler {
         protected Void doInBackground(Context... params) {
 
 
-                apiInterface = ApiClient.getRestAppApiClient();
+                apiInterface = ApiClient.getRestAppApiClient(getApplicationContext());
 
                 final DatabaseHandler db = new DatabaseHandler(params[0]);
 
@@ -270,22 +272,6 @@ public class MainActivity extends Activity implements MainHandler {
                     public void success(List<Table> tables, Response response) {
                         if (tables != null) {
                             db.addTables(tables);
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("retrofit_error",error.getMessage());
-                    }
-                });
-
-                apiInterface.retrieveOrders(new Callback<List<Order>>() {
-                    @Override
-                    public void success(List<Order> orders, Response response) {
-                        Log.e("mainactivity", orders.toString());
-                        if (orders != null) {
-                            db.addOrders(orders);
-                            orders = null;
                         }
                     }
 

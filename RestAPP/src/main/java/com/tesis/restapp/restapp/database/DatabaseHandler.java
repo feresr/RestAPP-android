@@ -17,6 +17,7 @@ import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Order_Item;
 import com.tesis.restapp.restapp.models.Table;
+import com.tesis.restapp.restapp.models.User;
 
 
 import java.util.ArrayList;
@@ -27,6 +28,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
+
+
 
     private static OrdersAdapter ordersAdapter;
     private static ItemsInOrderAdapter itemsInOrderAdapter;
@@ -62,6 +65,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_TABLES = "tables";
     private static final String TABLE_CATEGORIES = "categories";
     private static final String TABLE_ORDER_ITEM = "order_item";
+    private static final String TABLE_USER ="user";
 
     // Columns names
     private static final String KEY_ID = "id";
@@ -76,6 +80,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ITEM_ID = "item_id";
     private static final String KEY_READY = "ready";
     private static final String KEY_ACTIVE = "active";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_FIRSTNAME = "firstname";
+    private static final String KEY_LASTNAME= "lastname";
+    private static final String KEY_TOKEN = "token";
 
     private static final String KEY_CREATED_AT = "created_at";
     private static final String KEY_UPDATED_AT = "updated_at";
@@ -89,6 +97,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + " ("
+                + KEY_ID + " INTEGER PRIMARY KEY,"
+                + KEY_FIRSTNAME + " TEXT,"
+                + KEY_LASTNAME + " TEXT,"
+                + KEY_USERNAME + " TEXT,"
+                + KEY_TOKEN + " TEXT"
+                + ")";
+
+        db.execSQL(CREATE_USER_TABLE);
 
         String CREATE_CATEGORIES_TABLE = "CREATE TABLE " + TABLE_CATEGORIES + " ("
                 + KEY_ID + " INTEGER PRIMARY KEY,"
@@ -159,6 +177,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
         // Drop older table if existed
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USER);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ITEMS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDERS);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_TABLES);
@@ -483,6 +502,48 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close(); // Closing database connection
     }
 
+    public void addUser(User user) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_USER, null, null);
+
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ID, user.getId()); // Contact Name
+        values.put(KEY_FIRSTNAME, user.getFirstname()); // Contact Phone Number
+        values.put(KEY_LASTNAME, user.getLastname());
+        values.put(KEY_USERNAME, user.getUsername());
+        values.put(KEY_TOKEN, user.getToken());
+
+        db.insert(TABLE_USER, null, values);
+
+        db.close(); // Closing database connection
+    }
+
+    public User getUser() {
+        // Select All Query
+        User user = new User();
+
+        String selectQuery = "SELECT * FROM " + TABLE_USER;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+
+            user.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            user.setFirstname(cursor.getString(cursor.getColumnIndex(KEY_FIRSTNAME)));
+            user.setLastname(cursor.getString(cursor.getColumnIndex(KEY_LASTNAME)));
+            user.setUsername(cursor.getString(cursor.getColumnIndex(KEY_USERNAME)));
+            user.setToken(cursor.getString(cursor.getColumnIndex(KEY_TOKEN)));
+
+        }
+        db.close();
+        // return contact list
+        return user;
+    }
+
+
     public void addOrders(List<Order> orders) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDERS, null, null);
@@ -532,7 +593,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         final SQLiteDatabase db = this.getWritableDatabase();
         final Toast errorToast = Toast.makeText(context, "Problema en el servidor", Toast.LENGTH_SHORT);
         final Context mContext = context;
-        ApiClient.getRestAppApiClient().addItemToOrder(order.getId(), item.getId(), 1, new Callback<com.tesis.restapp.restapp.database.Response>() {
+        ApiClient.getRestAppApiClient(context).addItemToOrder(order.getId(), item.getId(), 1, new Callback<com.tesis.restapp.restapp.database.Response>() {
             @Override
             public void success(com.tesis.restapp.restapp.database.Response data, retrofit.client.Response response) {
 
@@ -576,7 +637,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
 
-            ApiClient.getRestAppApiClient().removeItemFromOrder(cursor.getInt(cursor.getColumnIndex("id")), new Callback<com.tesis.restapp.restapp.database.Response>() {
+            ApiClient.getRestAppApiClient(context).removeItemFromOrder(cursor.getInt(cursor.getColumnIndex("id")), new Callback<com.tesis.restapp.restapp.database.Response>() {
                 @Override
                 public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
                     if(apiResponse.wasSuccessful()) {
