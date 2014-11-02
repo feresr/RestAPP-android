@@ -1,11 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-tools:context="com.tesis.restapp.restapp.activities.main.MainActivity" >
+xmlns:app="http://schemas.android.com/apk/res-auto" >
     <item
         android:id="@+id/action_add_item"
         android:icon="@android:drawable/ic_menu_add"
         app:showAsAction="always"
-
+        android:orderInCategory="100"
         android:title="@string/add_hint" />
 </menu>

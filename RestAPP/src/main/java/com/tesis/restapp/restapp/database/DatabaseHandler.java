@@ -19,7 +19,6 @@ import com.tesis.restapp.restapp.models.Order_Item;
 import com.tesis.restapp.restapp.models.Table;
 import com.tesis.restapp.restapp.models.User;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,27 +28,19 @@ import retrofit.client.Response;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-
-
     private static OrdersAdapter ordersAdapter;
     private static ItemsInOrderAdapter itemsInOrderAdapter;
     public static TablesAdapter tablesAdapter;
 
     public static void registerAdapter(OrdersAdapter adapter) {
-
         ordersAdapter = adapter;
-
     }
     public static void registerAdapter(ItemsInOrderAdapter adapter){
-
         itemsInOrderAdapter = adapter;
-
     }
 
     public static void registerAdapter(TablesAdapter adapter){
-
         tablesAdapter = adapter;
-
     }
 
     // All Static variables
@@ -169,8 +160,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + ")";
 
         db.execSQL(CREATE_ORDER_ITEM_TABLE);
-
-
     }
 
     @Override
@@ -322,7 +311,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
 
-
             item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             item.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
             item.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
@@ -356,7 +344,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-
                 Item item = new Item();
 
                 item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
@@ -382,7 +369,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.close();
         // return contact list
         return items;
-
     }
 
     public Order getOrderById(int id) {
@@ -432,7 +418,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 } while (itemCursor.moveToNext());
             }
             order.setItems(items);
-
 
         }
         db.close();
@@ -506,7 +491,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_USER, null, null);
-
 
         ContentValues values = new ContentValues();
         values.put(KEY_ID, user.getId()); // Contact Name
@@ -660,9 +644,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
          }
-
-
-
     }
 
     public void removeOrder(Order order){
@@ -675,7 +656,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void addOrder(Order order) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-
             ContentValues values = new ContentValues();
             values.put(KEY_ID, order.getId()); // Contact Name
             values.put(KEY_TABLE_ID, order.getTable().getId()); // Contact Phone Number
@@ -684,7 +664,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
             // Inserting Row
             db.insert(TABLE_ORDERS, null, values);
-
 
         ordersAdapter.notifyDataSetChanged();
         db.close(); // Closing database connection

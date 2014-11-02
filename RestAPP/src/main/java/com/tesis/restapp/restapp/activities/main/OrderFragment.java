@@ -55,8 +55,8 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -105,7 +105,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
         inflater.inflate(R.menu.order, menu);
         getActivity().getActionBar().setTitle("Order");
-        super.onCreateOptionsMenu(menu, inflater);
+        //super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
