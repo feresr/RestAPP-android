@@ -84,12 +84,8 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
                 DatabaseHandler db = new DatabaseHandler(context);
 
                 db.removeItemFromOrder(context, order, getItem(position));
-
             }
         });
-
-
-
 
 
         return v;

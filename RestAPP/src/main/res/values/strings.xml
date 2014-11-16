@@ -16,4 +16,7 @@
     <string name="add_hint">Agregar ítem</string>
     <string name="title_activity_search">Buscar item</string>
     <string name="missing_token">El servidor fué encontrado, pero no pudo autentificar las credenciales. Intente nuevamente</string>
+    <string name="search_title">Buscar item</string>
+    <string name="search_hint">Pizza, Cerveza, Jugo...</string>
+    <string name="http_error">Hubo problema en el servidor, por favor, intente nuevamente.</string>
 </resources>

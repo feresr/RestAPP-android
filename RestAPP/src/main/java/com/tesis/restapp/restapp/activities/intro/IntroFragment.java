@@ -22,7 +22,7 @@ public class IntroFragment extends Fragment {
         super.onAttach(activity);
         try {
             this.activity = (IntroHandler) activity;
-        }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement IntroHandler");
         }
@@ -37,16 +37,10 @@ public class IntroFragment extends Fragment {
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.onLogInButtonClicked();
+                activity.onShowLoginButtonClicked();
             }
         });
 
         return rootView;
     }
-
 }
-
-
-
-
-

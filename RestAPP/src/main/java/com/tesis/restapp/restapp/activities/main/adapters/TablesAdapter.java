@@ -67,7 +67,6 @@ public class TablesAdapter extends ArrayAdapter<Table> {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.listview_table, null);
-
         }
 
         tableNumber = (TextView) v.findViewById(R.id.table_number_txt);

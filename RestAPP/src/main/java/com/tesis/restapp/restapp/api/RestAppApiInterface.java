@@ -1,11 +1,11 @@
 package com.tesis.restapp.restapp.api;
 
+import com.tesis.restapp.restapp.api.response.ApiResponse;
 import com.tesis.restapp.restapp.models.Order_Item;
 import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
-import com.tesis.restapp.restapp.models.User;
 import com.tesis.restapp.restapp.database.Response;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface RestAppApiInterface {
 
     @FormUrlEncoded
     @POST(URL_LOGIN)
-    public void logIn(@Field("username") String username, @Field("password") String password, Callback<User> callback);
+    public void logIn(@Field("username") String username, @Field("password") String password, Callback<ApiResponse> callback);
 
     @FormUrlEncoded
     @POST(URL_ORDER_ITEMS)

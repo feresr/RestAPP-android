@@ -611,7 +611,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     public void removeItemFromOrder(Context context, final Order order, final Item item){
         final SQLiteDatabase db = this.getWritableDatabase();
-        Log.e("DATA", order.getId() +" "+ item.getId());
+
         final Toast errorToast = Toast.makeText(context, "Problema en el servidor", Toast.LENGTH_SHORT);
         final Context mContext = context;
         String selectQuery = "SELECT * FROM " + TABLE_ORDER_ITEM
@@ -627,7 +627,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
                     if(apiResponse.wasSuccessful()) {
                         db.delete(TABLE_ORDER_ITEM, "id = ?", new String[]{String.valueOf(apiResponse.getId())});
-
+                        order.removeItem(item);
                         itemsInOrderAdapter.notifyDataSetChanged();
                     }else{
                         Toast.makeText(mContext, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();

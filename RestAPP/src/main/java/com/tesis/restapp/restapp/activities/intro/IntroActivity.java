@@ -25,8 +25,6 @@ import retrofit.client.Header;
 
 public class IntroActivity extends Activity implements IntroHandler {
 
-    ProgressDialog pDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,106 +34,23 @@ public class IntroActivity extends Activity implements IntroHandler {
                     .add(R.id.container, new IntroFragment())
                     .commit();
         }
-        pDialog = new ProgressDialog(this);
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(false);
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        }
-        return false;
     }
 
     @Override
-    protected void onPause() {
-        if (pDialog != null)
-            pDialog.dismiss();
-        super.onPause();
-    }
-
-    @Override
-    public void onLogInButtonClicked() {
+    public void onShowLoginButtonClicked() {
         LogInFragment newFragment = new LogInFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.container, newFragment);
         transaction.addToBackStack(null);
-
         transaction.commit();
     }
 
     @Override
-    public void onLogInButtonClicked(String username, String password) {
-        if (isOnline()) {
-            RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient(this);
-            pDialog.setMessage("Loggin in...");
-            pDialog.show();
-            apiInterface.logIn(username, password, new Callback<User>() {
-                @Override
-                public void success(User user, Response response) {
-                    if (user != null) {
-                        final DatabaseHandler db = new DatabaseHandler(getApplicationContext());
-
-                        for (Header header : response.getHeaders()) {
-                            if (header.getValue().contains("laravel_session")) {
-                                user.setToken(header.getValue());
-                            }
-
-                        }
-                        db.addUser(user);
-                        if (User.getUser(getApplicationContext()).getToken() != null) {
-                            onLoginSuccessful();
-                        } else {
-                            onTokenNotFound();
-                        }
-                    } else {
-                        onInvalidCredentials();
-                    }
-                }
-
-                @Override
-                public void failure(RetrofitError retrofitError) {
-                    Log.e("sda",retrofitError.toString());
-                    onServerNotFound();
-
-                }
-            });
-        } else {
-            Toast.makeText(this, "Your network connection is off. Turn it on and try again.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void onTokenNotFound() {
-
-        pDialog.dismiss();
-        Toast.makeText(this, R.string.missing_token, Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void onLoginSuccessful() {
-
-        pDialog.dismiss();
+    public void onSuccessfulLogin() {
         Intent i = new Intent(this, MainActivity.class);
-
         startActivity(i);
         finish();
     }
 
-    private void onServerNotFound() {
 
-        pDialog.dismiss();
-        Toast.makeText(this, R.string.server_not_found, Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void onInvalidCredentials() {
-
-        pDialog.dismiss();
-        Toast.makeText(this, R.string.invalid_credentials, Toast.LENGTH_SHORT).show();
-
-    }
 }

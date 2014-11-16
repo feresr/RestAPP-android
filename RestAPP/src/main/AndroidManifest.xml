@@ -29,7 +29,16 @@
         <activity
             android:name="com.tesis.restapp.restapp.activities.search.SearchActivity"
             android:label="@string/title_activity_search" >
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
         </activity>
+        <activity android:name=".activities.search.ItemsActivity"
+            android:label="Search item">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            </activity>
     </application>
 
 </manifest>

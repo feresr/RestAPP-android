@@ -35,7 +35,6 @@ public class ItemsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_search,container,false);

@@ -30,16 +30,10 @@ import com.tesis.restapp.restapp.models.Order;
 public class OrderFragment extends Fragment implements View.OnClickListener {
 
     private Button closeOrder;
-    private TextView orderTotal;
     private ListView itemsListView;
     private TextView emptyListViewText;
     private TextView tableNumber;
     private ItemsInOrderAdapter adapter;
-
-
-    private String TAG = OrderFragment.class.getSimpleName();
-
-
     private MainHandler activity;
 
     @Override
@@ -78,8 +72,6 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         emptyListViewText = (TextView) rootView.findViewById(R.id.empty);
         itemsListView.setEmptyView(emptyListViewText);
 
-        orderTotal = (TextView) rootView.findViewById(R.id.order_total);
-
         tableNumber = (TextView) rootView.findViewById(R.id.table_number_txt);
         tableNumber.setText(String.valueOf(activity.getSelectedOrder().getTable().getNumber()));
 
@@ -89,16 +81,11 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
         closeOrder.setOnClickListener(this);
 
-        //Set the total amount for the order
-        orderTotal = (TextView) rootView.findViewById(R.id.order_total);
-        updateOrderTotal();
+
 
         return rootView;
     }
 
-    private void updateOrderTotal(){
-        orderTotal.setText(String.valueOf(activity.getSelectedOrder().getTotal()));
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -120,7 +107,6 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void onClick(View v) {

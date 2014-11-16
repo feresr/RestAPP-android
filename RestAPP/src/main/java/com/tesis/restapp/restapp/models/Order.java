@@ -38,6 +38,10 @@ public class Order {
         return total;
     }
 
+    public void removeItem(Item item){
+        items.remove(item); 
+    }
+
     public Table getTable() {
         return table;
     }

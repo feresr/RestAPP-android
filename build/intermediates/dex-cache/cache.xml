@@ -8,17 +8,17 @@
         revision="19.1.0"
         sha1="3499ceba05ca1f6037c6a2fad73df8f636224a28"/>
     <item
-        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\retrofit-1.5.1-b5a2b7379decbe317a89fba546e9f9ecfcebd7f4.jar"
-        jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.5.1\266695d62b6df0e1176af2be3634bcd0837d4fbd\retrofit-1.5.1.jar"
+        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\retrofit-1.7.1-2419c4fe0b4d0bd32aac5acf36da9d84cfcb510c.jar"
+        jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.7.1\168a878946d665200edc733ac715b1264a6cd7b6\retrofit-1.7.1.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="266695d62b6df0e1176af2be3634bcd0837d4fbd"/>
+        sha1="168a878946d665200edc733ac715b1264a6cd7b6"/>
     <item
-        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\gson-2.2.4-b90fa54c41e7f3972e5508e11504905efa299d16.jar"
-        jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.2.4\a60a5e993c98c864010053cb901b7eab25306568\gson-2.2.4.jar"
+        dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\gson-2.3-e4c73ff586c07ea692b429490d84a1bd5142561a.jar"
+        jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
         jumboMode="false"
         revision="19.1.0"
-        sha1="a60a5e993c98c864010053cb901b7eab25306568"/>
+        sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce"/>
     <item
         dex="D:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\support-v4-19.1.0-cff78635c9648d10897d8d2c8f2d160694ca7e06.jar"
         jar="C:\Users\Fer\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-v4\19.1.0\support-v4-19.1.0.jar"
