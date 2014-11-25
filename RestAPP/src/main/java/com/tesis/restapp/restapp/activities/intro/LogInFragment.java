@@ -4,11 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.tesis.restapp.restapp.R;
-import com.tesis.restapp.restapp.activities.main.MainActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
+import com.tesis.restapp.restapp.api.BusProvider;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
+import com.tesis.restapp.restapp.api.LoginEvent;
 import com.tesis.restapp.restapp.api.response.ApiResponse;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.User;
@@ -53,8 +54,6 @@ public class LogInFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setRetainInstance(true);
         pDialog = new ProgressDialog(getActivity());
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
@@ -62,7 +61,6 @@ public class LogInFragment extends Fragment {
             dialogShowing =  savedInstanceState.getBoolean("DIALOG");
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -83,7 +81,7 @@ public class LogInFragment extends Fragment {
                 String username = usernameTxt.getText().toString();
                 String password = passwordTxt.getText().toString();
                 if (!username.equals("") && !password.equals("")) {
-                    onLogInButtonClicked(username, password);
+                    logIn(username, password);
                 }
             }
         });
@@ -91,15 +89,15 @@ public class LogInFragment extends Fragment {
         return rootView;
     }
 
-    public void onLogInButtonClicked(String username, String password) {
+    public void logIn(String username, String password) {
         if (isOnline()) {
             RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient(getActivity());
             pDialog.setMessage("Logging in...");
             pDialog.show();
+            final Bus bus = BusProvider.getInstance();
             apiInterface.logIn(username, password, new Callback<ApiResponse>() {
                 @Override
                 public void success(ApiResponse login, Response response) {
-                    pDialog.dismiss();
                     if (login.wasSuccessful()) {
                         final DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
                         User user = login.getUser();
@@ -108,25 +106,28 @@ public class LogInFragment extends Fragment {
                                 user.setToken(header.getValue());
                             }
                         }
-                        db.addUser(user);
-                        if (User.getUser(getActivity().getApplicationContext()).getToken() != null) {
-                            activity.onSuccessfulLogin();
+                        if (user.getToken() != null) {
+                            db.addUser(user);
+
+                            bus.post(new LoginEvent(LoginEvent.SUCCESS));
                         } else {
-                            Toast.makeText(getActivity(), R.string.missing_token, Toast.LENGTH_SHORT).show();
+                            bus.post(new LoginEvent(LoginEvent.MISSING_TOKEN));
                         }
                     } else {
-                        Toast.makeText(getActivity(), R.string.invalid_credentials, Toast.LENGTH_SHORT).show();
+                        bus.post(new LoginEvent(LoginEvent.INVALID_CREDENTIALS));
+
                     }
                 }
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
-                    Log.e("sda", retrofitError.toString());
                     if (retrofitError.getKind() == RetrofitError.Kind.HTTP) {
-                        Toast.makeText(getActivity(), R.string.http_error, Toast.LENGTH_SHORT).show();
+                        bus.post(new LoginEvent(LoginEvent.HTTP_ERRORS));
+
                     }
                     if (retrofitError.getKind() == RetrofitError.Kind.NETWORK) {
-                        Toast.makeText(getActivity(), R.string.server_not_found, Toast.LENGTH_SHORT).show();
+                        bus.post(new LoginEvent(LoginEvent.SERVER_NOT_FOUND));
+
                     }
                 }
             });
@@ -149,5 +150,39 @@ public class LogInFragment extends Fragment {
             pDialog.dismiss();
         }
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
+    }
+
+    @Subscribe
+    public void handleLogIn(LoginEvent event) {
+        pDialog.dismiss();
+        switch (event.getResult()) {
+            case LoginEvent.SUCCESS:
+                activity.onSuccessfulLogin();
+                break;
+            case LoginEvent.MISSING_TOKEN:
+                Toast.makeText(getActivity(), R.string.missing_token, Toast.LENGTH_SHORT).show();
+                break;
+            case LoginEvent.INVALID_CREDENTIALS:
+                Toast.makeText(getActivity(), R.string.invalid_credentials, Toast.LENGTH_SHORT).show();
+                break;
+            case LoginEvent.HTTP_ERRORS:
+                Toast.makeText(getActivity(), R.string.http_error, Toast.LENGTH_SHORT).show();
+                break;
+            case LoginEvent.SERVER_NOT_FOUND:
+                Toast.makeText(getActivity(), R.string.server_not_found, Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }

@@ -37,7 +37,7 @@ public class IntroFragment extends Fragment {
         logInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activity.onShowLoginButtonClicked();
+                activity.onShowLoginScreenClicked();
             }
         });
 

@@ -37,7 +37,7 @@ public class IntroActivity extends Activity implements IntroHandler {
     }
 
     @Override
-    public void onShowLoginButtonClicked() {
+    public void onShowLoginScreenClicked() {
         LogInFragment newFragment = new LogInFragment();
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.container, newFragment);
