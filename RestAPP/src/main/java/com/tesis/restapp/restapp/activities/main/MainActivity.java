@@ -1,38 +1,37 @@
 package com.tesis.restapp.restapp.activities.main;
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuItem;
+import android.view.MenuInflater;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
-import com.tesis.restapp.restapp.activities.search.SearchActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
-import com.tesis.restapp.restapp.models.Order_Item;
-import com.tesis.restapp.restapp.models.Category;
-import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
 
-import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends Activity implements MainHandler {
+public class MainActivity extends ActionBarActivity implements MainHandler {
+    private static final String KEY_SELECTED_ORDER = "SELECTED_ORDER";
+    private static final String KEY_DIALOG_SHOWING = "DIALOG_SHOWING";
     private ProgressDialog pDialog;
+
     private RestAppApiInterface apiInterface;
-    private int orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,65 +49,21 @@ public class MainActivity extends Activity implements MainHandler {
                     .add(R.id.container, dashboardFragment)
                     .commit();
 
-            new SyncDB().execute(this);
+            new SyncDB(this).execute();
 
-        }else{
-
-            orderId = savedInstanceState.getInt("selectedOrder");
-
-        }
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onOrderSelected(int orderId, boolean newOrder) {
-        OrderFragment orderFragment = new OrderFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        this.orderId =  orderId;
-        if(newOrder) {
-            getFragmentManager().popBackStack();
-        }
-            transaction.addToBackStack(null);
-            transaction.replace(R.id.container, orderFragment);
-
-        transaction.commit();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-            if(resultCode == RESULT_OK){
-                int result = data.getIntExtra("itemId", -1);
-                if(result>=0){
-
-                    DatabaseHandler db = new DatabaseHandler(this);
-                    Item item =  db.getItemById(result);
-
-                    db.addItemToOrder(this, this.getSelectedOrder(), item);
-                }
-            }
-            if (resultCode == RESULT_CANCELED) {
-                //Write your code if there's no result
+        } else {
+            if (savedInstanceState.getBoolean(KEY_DIALOG_SHOWING)) {
+                pDialog.setMessage("Actualizando BD....");
+                pDialog.show();
             }
         }
+    }
+
+    @Override
+    public void onOrderSelected(Order order) {
+        Intent i = new Intent(this, OrderActivity.class);
+        i.putExtra("ORDER_ID", order.getId());
+        startActivity(i);
     }
 
     @Override
@@ -136,13 +91,13 @@ public class MainActivity extends Activity implements MainHandler {
         apiInterface.newOrder(table.getId(), new Callback<com.tesis.restapp.restapp.database.Response>() {
             @Override
             public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
-                if(apiResponse.wasSuccessful()) {
+                if (apiResponse.wasSuccessful()) {
                     Order order = new Order();
                     order.setTable(table);
                     order.setId(apiResponse.getId());
                     db.addOrder(order);
-                    onOrderSelected(order.getId(), true);
-                }else{
+                    onOrderSelected(order);
+                } else {
                     onTableOccupied();
                 }
                 pDialog.dismiss();
@@ -160,150 +115,84 @@ public class MainActivity extends Activity implements MainHandler {
 
     }
 
-    @Override
-    public void onAddItemOptionSelected() {
-        Intent i = new Intent(this, SearchActivity.class);
-        startActivityForResult(i, 1);
-    }
 
-    @Override
-    public Order getSelectedOrder() {
-
-        DatabaseHandler db = new DatabaseHandler(this);
-        return db.getOrderById(orderId);
-
-    }
-
-    @Override
-    public void onCloseOrderSelected() {
-        CheckoutFragment checkoutFragment = new CheckoutFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        transaction.addToBackStack(null);
-        transaction.replace(R.id.container, checkoutFragment);
-        transaction.commit();
-    }
-
-    @Override
-    public void onCloseOrder() {
-       final DatabaseHandler db = new DatabaseHandler(this);
-       apiInterface = ApiClient.getRestAppApiClient(this);
-       apiInterface.closeOrder(orderId,new Callback<Order>() {
-           @Override
-           public void success(Order order, Response response) {
-               db.removeOrder(order);
-               getFragmentManager().beginTransaction()
-                       .replace(R.id.container, new DashboardFragment())
-                       .commit();
-               db.close();
-           }
-
-           @Override
-           public void failure(RetrofitError error) {
-               Log.d(this.getClass().getSimpleName(), error.toString());
-               db.close();
-           }
-       });
-
-    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putInt("selectedOrder", orderId);
+        outState.putBoolean(KEY_DIALOG_SHOWING, pDialog.isShowing());
+        if (pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
         super.onSaveInstanceState(outState);
     }
 
     @Override
     protected void onPause() {
-        if (pDialog != null)
-            pDialog.dismiss();
 
         final DatabaseHandler db = new DatabaseHandler(this);
         db.close();
         super.onPause();
     }
 
-    private class SyncDB extends AsyncTask<Context, Void, Void> {
+    private class SyncDB extends AsyncTask<Void, Void, RetrofitError> {
+
+        Context context;
+
+        public SyncDB(Context context){
+            this.context = context;
+        }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
             pDialog.setMessage("Actualizando BD....");
             pDialog.show();
+
         }
 
         @Override
-        protected Void doInBackground(Context... params) {
+        protected RetrofitError doInBackground(Void... params) {
 
 
-                apiInterface = ApiClient.getRestAppApiClient(getApplicationContext());
-
-                final DatabaseHandler db = new DatabaseHandler(params[0]);
-
-                apiInterface.retrieveCategories(new Callback<List<Category>>() {
-                    @Override
-                    public void success(List<Category> categories, Response response) {
-                        if (categories != null) {
-                            db.addCategories(categories);
-
-                        }
-                    }
-                    @Override
-                    public void failure(RetrofitError error) {
-
-                    }
-                });
-
-                apiInterface.retrieveItems(new Callback<List<Item>>() {
-                    @Override
-                    public void success(List<Item> items, Response response) {
-                        if (items != null) {
-                            db.addItems(items);
-                        }
-                    }
-                    @Override
-                    public void failure(RetrofitError error) {
-
-                    }
-                });
-
-                apiInterface.retrieveTables(new Callback<List<Table>>() {
-                    @Override
-                    public void success(List<Table> tables, Response response) {
-                        if (tables != null) {
-                            db.addTables(tables);
-                        }
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-                        Log.e("retrofit_error",error.getMessage());
-                    }
-                });
-
-                apiInterface.retrieveOrderItems(new Callback<List<Order_Item>>() {
-                    @Override
-                    public void success(List<Order_Item> order_itemRows, Response response) {
-                        if (order_itemRows != null) {
-                            db.addOrderItems(order_itemRows);
-                        }
-
-                    }
-
-                    @Override
-                    public void failure(RetrofitError error) {
-
-                    }
-                });
-
+            apiInterface = ApiClient.getRestAppApiClient(getApplicationContext());
+            final DatabaseHandler db = new DatabaseHandler(context);
+            try {
+                db.addCategories(apiInterface.retrieveCategories());
+                db.addItems(apiInterface.retrieveItems());
+                db.addTables(apiInterface.retrieveTables());
+                db.addOrderItems(apiInterface.retrieveOrderItems());
+            } catch (RetrofitError e) {
+                return e;
+            }
             return null;
         }
 
+
         @Override
-        protected void onPostExecute(Void aVoid) {
+        protected void onPostExecute(RetrofitError error) {
             pDialog.dismiss();
-            super.onPostExecute(aVoid);
+            if (error != null) {
+                Log.d("SAD", error.toString());
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle("Error");
+                builder.setMessage("There was a server error");
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder.create().show();
+            }
+            super.onPostExecute(error);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
     }
 }
 

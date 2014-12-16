@@ -1,93 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-
-    tools:context="com.tesis.restapp.restapp.activities.main.dashboardActivity$PlaceholderFragment">
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/userInfolayout"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:background="@drawable/userinfo_background"
-        android:layout_weight="5"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:background="@drawable/wp_money"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="10sp">
 
         <ImageView
-            android:layout_width="0dp"
-            android:layout_height="60sp"
-            android:padding="5dp"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="2"
-            android:src="@drawable/waiter_icon" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="15sp"
+            android:background="@drawable/waiter_icon" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:layout_weight="5"
-            android:orientation="vertical"
-            android:paddingLeft="10dp">
+        <TextView
+            android:id="@+id/firstLastNameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/waiter_name_sample"
+            android:textColor="@color/white"
+            android:textSize="21sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/firstLastNameTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/waiter_name_sample"
-                android:shadowColor="#000"
-                android:shadowDx="2"
-                android:shadowDy="2"
+        <TextView
+            android:id="@+id/usernameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/waiter_username_sample"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
-                android:shadowRadius="3"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
-
-            <TextView
-                android:id="@+id/usernameTxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:shadowColor="#000"
-                android:shadowDx="2"
-                android:shadowDy="2"
-                android:textStyle="bold"
-                android:shadowRadius="3"
-                android:text="@string/waiter_username_sample"
-                android:textColor="@color/white"
-                android:textSize="16sp" />
-
-        </LinearLayout>
-
-        <ImageButton
-            android:id="@+id/logoutbtn"
-            android:layout_width="0dp"
-
-            android:layout_height="fill_parent"
-            android:layout_weight="2"
-            android:background="#0000"
-            android:src="@drawable/logout_icon" />
     </LinearLayout>
 
-    <ListView
-        android:layout_below="@id/userInfolayout"
-        android:id="@+id/orders_listview"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="20"
-        />
-
-
-    <Button
-        android:layout_alignParentBottom="true"
-        android:id="@+id/neworder_btn"
+        android:layout_height="0dp"
+        android:layout_weight="7">
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:layout_gravity="bottom"
-        android:background="@drawable/normal_button"
-        android:text="@string/new_order"
-        android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:layout_height="30sp"
+        android:src="@drawable/bw_shadow_top"/>
+        <ListView
+            android:id="@+id/orders_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+        <Button
+            android:id="@+id/neworder_btn"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_gravity="right|bottom"
+            android:layout_margin="20sp"
+            android:background="@drawable/round_button_style"
+            android:text="+"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </FrameLayout>
 
 </LinearLayout>
+

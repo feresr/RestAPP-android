@@ -1,11 +1,23 @@
 package com.tesis.restapp.restapp.models;
 
-import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
+public class Item implements Parcelable {
 
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<Item> CREATOR = new Parcelable.Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
 
-public class Item{
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
+    public Item() {  };
 
     private int id;
     private String name;
@@ -14,10 +26,21 @@ public class Item{
     private Category category;
     private int category_id;
     private String created_at;
-    private String updated_at;
 
 
     //GETTERS AND SETTERS
+    private String updated_at;
+
+    protected Item(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        description = in.readString();
+        price = in.readDouble();
+        category = (Category) in.readValue(Category.class.getClassLoader());
+        category_id = in.readInt();
+        created_at = in.readString();
+        updated_at = in.readString();
+    }
 
     public String getDescription() {
         return description;
@@ -51,7 +74,6 @@ public class Item{
         this.category = category;
     }
 
-
     public int getId() {
         return id;
     }
@@ -82,5 +104,22 @@ public class Item{
 
     public void setUpdated_at(String updated_at) {
         this.updated_at = updated_at;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(description);
+        dest.writeDouble(price);
+        dest.writeValue(category);
+        dest.writeInt(category_id);
+        dest.writeString(created_at);
+        dest.writeString(updated_at);
     }
 }

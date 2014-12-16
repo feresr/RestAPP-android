@@ -32,10 +32,13 @@ import retrofit.client.Response;
 
 public class LogInFragment extends Fragment {
 
+    private static final String KEY_DIALOG_SHOWING = "DIALOG_SHOWING";
     private IntroHandler activity;
     private EditText usernameTxt;
     private EditText passwordTxt;
-    ProgressDialog pDialog;
+    private ProgressDialog pDialog;
+    private DatabaseHandler dbHandler;
+
     private Boolean dialogShowing = false;
     public LogInFragment() {
     }
@@ -57,8 +60,9 @@ public class LogInFragment extends Fragment {
         pDialog = new ProgressDialog(getActivity());
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
+        dbHandler = new DatabaseHandler(getActivity().getApplicationContext());
         if (savedInstanceState != null){
-            dialogShowing =  savedInstanceState.getBoolean("DIALOG");
+            dialogShowing =  savedInstanceState.getBoolean(KEY_DIALOG_SHOWING);
         }
     }
 
@@ -99,7 +103,6 @@ public class LogInFragment extends Fragment {
                 @Override
                 public void success(ApiResponse login, Response response) {
                     if (login.wasSuccessful()) {
-                        final DatabaseHandler db = new DatabaseHandler(getActivity().getApplicationContext());
                         User user = login.getUser();
                         for (Header header : response.getHeaders()) {
                             if (header.getValue().contains("laravel_session")) {
@@ -107,9 +110,7 @@ public class LogInFragment extends Fragment {
                             }
                         }
                         if (user.getToken() != null) {
-                            db.addUser(user);
-
-                            bus.post(new LoginEvent(LoginEvent.SUCCESS));
+                            bus.post(new LoginEvent(LoginEvent.SUCCESS, user));
                         } else {
                             bus.post(new LoginEvent(LoginEvent.MISSING_TOKEN));
                         }
@@ -145,7 +146,7 @@ public class LogInFragment extends Fragment {
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean("DIALOG", pDialog.isShowing());
+        outState.putBoolean(KEY_DIALOG_SHOWING, pDialog.isShowing());
         if(pDialog.isShowing()) {
             pDialog.dismiss();
         }
@@ -166,11 +167,12 @@ public class LogInFragment extends Fragment {
 
     @Subscribe
     public void handleLogIn(LoginEvent event) {
-        pDialog.dismiss();
+
         switch (event.getResult()) {
             case LoginEvent.SUCCESS:
+                dbHandler.addUser(event.getUser());
                 activity.onSuccessfulLogin();
-                break;
+                return;
             case LoginEvent.MISSING_TOKEN:
                 Toast.makeText(getActivity(), R.string.missing_token, Toast.LENGTH_SHORT).show();
                 break;
@@ -184,5 +186,6 @@ public class LogInFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.server_not_found, Toast.LENGTH_SHORT).show();
                 break;
         }
+        pDialog.dismiss();
     }
 }

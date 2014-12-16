@@ -9,7 +9,6 @@
         android:layout_height="0dp"
         android:paddingLeft="10dp"
         android:layout_weight="6"
-        android:background="@drawable/userinfo_background"
         android:gravity="center_vertical"
 
         android:orientation="horizontal">

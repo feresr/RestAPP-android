@@ -4,15 +4,13 @@
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:layout_height="wrap_content"
-
     >
     <TextView
         android:id="@+id/table_number_txt"
-        android:layout_width="0dp"
-        android:layout_weight="3"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:background="@color/dark_black"
+        android:layout_width="70dp"
+        android:layout_weight="0"
+        android:layout_height="70dp"
+        android:background="#c000"
         android:gravity="center"
         android:text="2"
 
@@ -24,7 +22,7 @@
         android:layout_weight="12"
         android:layout_width="0dp"
 
-        android:layout_height="@dimen/listview_height"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingLeft="10dp">
@@ -52,14 +50,13 @@
     <TextView
         android:id="@+id/order_total"
         android:layout_width="0dp"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
 
         android:layout_weight="5"
-        android:background="@color/white_background"
         android:gravity="center"
         android:text="$ 24.50"
-        android:textColor="@color/black"
         android:textSize="14sp"
         android:typeface="sans" />
+
 
 </LinearLayout>

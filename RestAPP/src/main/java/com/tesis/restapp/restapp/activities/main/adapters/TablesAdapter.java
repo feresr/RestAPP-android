@@ -9,17 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
-import com.tesis.restapp.restapp.api.ApiClient;
-import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
-import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
 
 import java.util.List;
-
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 /**
  * Created by feresr on 5/28/14.
@@ -63,6 +56,7 @@ public class TablesAdapter extends ArrayAdapter<Table> {
 
         View v = convertView;
 
+        //TODO: peraps I can delete this.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);

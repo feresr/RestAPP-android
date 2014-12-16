@@ -1,7 +1,6 @@
 package com.tesis.restapp.restapp.activities.main.adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Order;
+
 import java.util.List;
 
 

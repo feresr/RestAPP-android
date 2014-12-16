@@ -38,16 +38,16 @@ public interface RestAppApiInterface {
     public void retrieveOrders(Callback<List<Order>> callback);
 
     @GET(URL_AVAILABLE_TABLES)
-    public void retrieveTables(Callback<List<Table>> callback);
+    public List<Table> retrieveTables();
 
     @GET(URL_ITEMS)
-    public void retrieveItems(Callback<List<Item>> callback);
+    public List<Item> retrieveItems();
 
     @GET(URL_CATEGORIES)
-    public void retrieveCategories(Callback<List<Category>> callback);
+    public List<Category> retrieveCategories();
 
     @GET(URL_ORDER_ITEMS)
-    public void retrieveOrderItems(Callback<List<Order_Item>> callback);
+    public List<Order_Item> retrieveOrderItems();
 
     @FormUrlEncoded
     @POST(URL_ORDERS)

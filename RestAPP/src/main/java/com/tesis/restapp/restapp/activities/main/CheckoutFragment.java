@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
+import com.tesis.restapp.restapp.models.Order;
 
 /**
  * Created by feresr on 6/16/14.
@@ -18,16 +19,25 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener {
 
     private Button closeOrder;
     private TextView orderTotalTxt;
-    private MainHandler activity;
+    private OrderFragment.OrderFragmentCallbacks activity;
+    private Order order;
+
+    public static CheckoutFragment newInstance(Order order) {
+        CheckoutFragment checkoutFragment = new CheckoutFragment();
+        Bundle b = new Bundle();
+        b.putParcelable("ORDER", order);
+        checkoutFragment.setArguments(b);
+        return checkoutFragment;
+    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            this.activity = (MainHandler) activity;
+            this.activity = (OrderFragment.OrderFragmentCallbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement MainHandler");
+                    + " must implement CheckoutFragmentCallbacks");
         }
     }
 
@@ -40,9 +50,12 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener {
         assert rootView != null;
         closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
         closeOrder.setOnClickListener(this);
+        if (getArguments() != null) {
+            order = getArguments().getParcelable("ORDER");
+        }
 
         orderTotalTxt = (TextView) rootView.findViewById(R.id.order_total);
-        orderTotalTxt.setText(String.valueOf(activity.getSelectedOrder().getTotal()));
+        orderTotalTxt.setText(String.valueOf(order.getTotal()));
 
 
         return rootView;

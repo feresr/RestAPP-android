@@ -1,9 +1,9 @@
 package com.tesis.restapp.restapp.activities.main;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,16 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.main.adapters.ItemsInOrderAdapter;
-import com.tesis.restapp.restapp.database.DatabaseHandler;
-import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 
 
@@ -34,16 +30,30 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     private TextView emptyListViewText;
     private TextView tableNumber;
     private ItemsInOrderAdapter adapter;
-    private MainHandler activity;
+    private OrderFragmentCallbacks activity;
+    private Order order;
+
+    public interface OrderFragmentCallbacks {
+        public void onCloseOrder();
+        public void onAddItem();
+    }
+
+    public static OrderFragment newInstance(Order order) {
+        OrderFragment orderFragment = new OrderFragment();
+        Bundle b = new Bundle();
+        b.putParcelable("ORDER", order);
+        orderFragment.setArguments(b);
+        return orderFragment;
+    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            this.activity = (MainHandler) activity;
+            this.activity = (OrderFragmentCallbacks) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
-                    + " must implement MainHandler");
+                    + " must implement orderFragmentCallbacks");
         }
     }
 
@@ -57,26 +67,30 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
         View rootView = inflater.inflate(R.layout.fragment_order, container,
                 false);
 
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
 
+        if (getArguments() != null) {
+            order = getArguments().getParcelable("ORDER");
+        }
+
         adapter = new ItemsInOrderAdapter(
                 getActivity(),
                 R.layout.listview_order_item,
-                activity.getSelectedOrder().getId());
+                order.getId());
 
         itemsListView.setAdapter(adapter);
         emptyListViewText = (TextView) rootView.findViewById(R.id.empty);
         itemsListView.setEmptyView(emptyListViewText);
 
         tableNumber = (TextView) rootView.findViewById(R.id.table_number_txt);
-        tableNumber.setText(String.valueOf(activity.getSelectedOrder().getTable().getNumber()));
 
-        Toast.makeText(getActivity(), String.valueOf(activity.getSelectedOrder().getItems().size()),
+        tableNumber.setText(String.valueOf(order.getTable().getNumber()));
+        Toast.makeText(getActivity(), String.valueOf(order.getItems().size()),
                 Toast.LENGTH_SHORT).show();
+
 
         closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
         closeOrder.setOnClickListener(this);
@@ -85,7 +99,6 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
         return rootView;
     }
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -100,7 +113,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
         switch (item.getItemId()) {
             case R.id.action_add_item:
-                activity.onAddItemOptionSelected();
+                activity.onAddItem();
 
                 break;
         }
@@ -114,7 +127,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
             case R.id.close_order_btn:
 
-                activity.onCloseOrderSelected();
+                activity.onCloseOrder();
 
                 break;
 

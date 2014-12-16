@@ -45,7 +45,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     // All Static variables
     // Database Version
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     // Database Name
     private static final String DATABASE_NAME = "restApp";
@@ -493,8 +493,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.delete(TABLE_USER, null, null);
 
         ContentValues values = new ContentValues();
-        values.put(KEY_ID, user.getId()); // Contact Name
-        values.put(KEY_FIRSTNAME, user.getFirstname()); // Contact Phone Number
+        values.put(KEY_ID, user.getId());
+        values.put(KEY_FIRSTNAME, user.getFirstname());
         values.put(KEY_LASTNAME, user.getLastname());
         values.put(KEY_USERNAME, user.getUsername());
         values.put(KEY_TOKEN, user.getToken());

@@ -3,4 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.tesis.restapp.restapp.activities.main.MainActivity" >
 
+    <item android:id="@+id/action_logout" app:title="asd"
+        android:icon="@drawable/ic_action_remove"
+        android:orderInCategory="102" app:showAsAction="always" />
+
+    <item android:id="@+id/action_settings" android:icon="@drawable/ic_action_settings"
+        android:orderInCategory="101" app:showAsAction="always" />
+
+
 </menu>

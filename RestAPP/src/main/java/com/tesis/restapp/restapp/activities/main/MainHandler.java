@@ -8,18 +8,10 @@ import com.tesis.restapp.restapp.models.Table;
  */
 public interface MainHandler {
 
-    public void onOrderSelected(int orderId, boolean newOrder);
+    public void onOrderSelected(Order order);
 
     public void onNewOrderSelected();
 
     public void onTableSelected(Table table);
-
-    public void onAddItemOptionSelected();
-
-    public Order getSelectedOrder();
-
-    public void onCloseOrderSelected();
-
-    public void onCloseOrder();
 
 }

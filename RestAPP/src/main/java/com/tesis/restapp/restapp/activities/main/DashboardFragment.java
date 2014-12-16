@@ -29,7 +29,6 @@ import retrofit.client.Response;
 
 public class DashboardFragment extends Fragment implements AdapterView.OnItemClickListener, View.OnClickListener{
 
-
     private MainHandler activity;
 
     @Override
@@ -41,7 +40,6 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");
         }
-
     }
 
     @Override
@@ -49,19 +47,17 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-
         final DatabaseHandler db = new DatabaseHandler(this.getActivity());
         RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient(getActivity());
         apiInterface.retrieveOrders(new Callback<List<Order>>() {
             @Override
             public void success(List<Order> orders, Response response) {
-                Log.e("mainactivity", orders.toString());
                 db.addOrders(orders);
             }
 
             @Override
             public void failure(RetrofitError error) {
-                //TODO: User logged out (or server not found). take out to the login screen
+                //TODO: User logged out (or server not found). take out to the login screen. Do error handling
                 Log.e("retrofit_error",error.getMessage());
             }
         });
@@ -87,7 +83,7 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        activity.onOrderSelected((int)id, false);
+        activity.onOrderSelected((Order) parent.getAdapter().getItem(position));
     }
 
     @Override
