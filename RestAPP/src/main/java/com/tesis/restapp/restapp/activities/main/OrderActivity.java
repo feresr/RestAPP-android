@@ -1,17 +1,13 @@
 package com.tesis.restapp.restapp.activities.main;
 
-import android.app.FragmentTransaction;
+
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
+
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.search.SearchActivity;
@@ -19,7 +15,7 @@ import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
 
-public class OrderActivity extends ActionBarActivity implements OrderFragment.OrderFragmentCallbacks {
+public class OrderActivity extends FragmentActivity implements OrderFragment.OrderFragmentCallbacks {
 
     private int id;
     private Order order;
@@ -30,7 +26,7 @@ public class OrderActivity extends ActionBarActivity implements OrderFragment.Or
         setContentView(R.layout.activity_order);
 
         if (getIntent() != null) {
-            id = getIntent().getExtras().getInt("ORDER_ID");
+            id = getIntent().getExtras().getInt(Order.class.getName());
         }
 
         if (savedInstanceState == null) {
@@ -67,9 +63,9 @@ public class OrderActivity extends ActionBarActivity implements OrderFragment.Or
     }
 
     @Override
-    public void onCloseOrder() {
-        CheckoutFragment checkoutFragment = new CheckoutFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+    public void onCloseOrder(Order order) {
+        CheckoutFragment checkoutFragment = CheckoutFragment.newInstance(order);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
         transaction.addToBackStack(null);
         transaction.replace(R.id.container, checkoutFragment);
@@ -97,7 +93,7 @@ public class OrderActivity extends ActionBarActivity implements OrderFragment.Or
                 }
             }
             if (resultCode == RESULT_CANCELED) {
-                //Write your code if there's no result
+                //TODO:Write your code if there's no result
             }
         }
     }

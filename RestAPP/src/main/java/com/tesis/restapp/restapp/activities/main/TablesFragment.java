@@ -1,7 +1,7 @@
 package com.tesis.restapp.restapp.activities.main;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.tesis.restapp.restapp.activities.main.adapters.TablesAdapter;
 import com.tesis.restapp.restapp.models.Table;
 
 /**
- * Created by feresr on 5/28/14.
+ * Presents the user with a list of tables to choose from
  */
 public class TablesFragment extends Fragment implements AdapterView.OnItemClickListener {
 
@@ -31,6 +31,11 @@ public class TablesFragment extends Fragment implements AdapterView.OnItemClickL
                     + " must implement MainHandler");
         }
 
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override

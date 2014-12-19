@@ -35,7 +35,7 @@ public interface RestAppApiInterface {
     public void removeItemFromOrder(@Path("id") int id, Callback<Response> callback);
 
     @GET(URL_ORDERS)
-    public void retrieveOrders(Callback<List<Order>> callback);
+    public List<Order> retrieveOrders();
 
     @GET(URL_AVAILABLE_TABLES)
     public List<Table> retrieveTables();

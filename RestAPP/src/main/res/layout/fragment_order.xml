@@ -7,24 +7,26 @@
         android:id="@+id/tableInfo_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingLeft="10dp"
         android:layout_weight="6"
+        android:background="@drawable/dashboard_background"
         android:gravity="center_vertical"
+        android:orientation="horizontal"
 
-        android:orientation="horizontal">
+        android:paddingTop="10sp">
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_weight="2"
             android:src="@drawable/ic_table" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:gravity="center_vertical"
+            android:layout_gravity="bottom"
+            android:paddingBottom="25sp"
             android:orientation="vertical"
             android:paddingLeft="@dimen/activity_horizontal_margin">
 
@@ -49,9 +51,10 @@
         <TextView
             android:id="@+id/tableview_number_of_seats_txt"
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:paddingBottom="25sp"
             android:text="4"
             android:textColor="@color/white"
             android:textSize="24sp"
@@ -59,36 +62,44 @@
 
         <ImageView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="26dp"
+            android:layout_gravity="bottom"
+            android:paddingBottom="20sp"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="26dp"
             android:src="@drawable/ic_customers_white" />
 
     </LinearLayout>
 
-    <!-- My Tables -->
-
-
-
-    <ListView
-        android:id="@+id/items_listview"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="16"/>
+        android:layout_weight="16">
+        <!-- My Tables -->
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="30sp"
+            android:src="@drawable/bw_shadow_top" />
 
-    <TextView
-        android:id="@+id/empty"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="16"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:lines="2"
-        android:text="Add some items, people are starving."
-        android:textColor="#444"
-        android:textSize="18sp" />
+        <ListView
+            android:id="@+id/items_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:lines="2"
+            android:text="Add some items, people are starving."
+            android:textColor="#444"
+            android:textSize="18sp" />
+
+    </FrameLayout>
+
 
     <!-- New Order -->
 

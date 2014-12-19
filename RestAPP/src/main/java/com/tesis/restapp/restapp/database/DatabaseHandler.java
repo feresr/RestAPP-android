@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.activities.main.adapters.ItemsInOrderAdapter;
@@ -240,7 +242,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
         db.close();
-        // return contact list
+        // return order list
         return orderList;
     }
 
@@ -547,9 +549,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             db.insert(TABLE_ORDERS, null, values);
 
         }
-        ordersAdapter.notifyDataSetChanged();
+
         db.close(); // Closing database connection
     }
+
+
 
     public void addOrderItems(List<Order_Item> orderItems) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -595,7 +599,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                     itemsInOrderAdapter.notifyDataSetChanged();
                 }else{
-                    final Toast errorToast = Toast.makeText(mContext, data.getMessage(), Toast.LENGTH_SHORT);
+                    Toast.makeText(mContext, data.getMessage(), Toast.LENGTH_SHORT).show();
                 }
                 db.close(); // Closing database connection
             }
@@ -609,7 +613,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         });
     }
 
-    public void removeItemFromOrder(Context context, final Order order, final Item item){
+    public void removeItemFromOrder(Context context, final Order order, final Item item, final ImageButton btn){
         final SQLiteDatabase db = this.getWritableDatabase();
 
         final Toast errorToast = Toast.makeText(context, "Problema en el servidor", Toast.LENGTH_SHORT);
@@ -631,6 +635,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         itemsInOrderAdapter.notifyDataSetChanged();
                     }else{
                         Toast.makeText(mContext, apiResponse.getMessage(), Toast.LENGTH_SHORT).show();
+                        btn.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn.setVisibility(View.VISIBLE);
+
+                            }
+                        });
                     }
                     db.close(); // Closing database connection
                 }
@@ -639,6 +650,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 public void failure(RetrofitError error) {
                     errorToast.show();
                     db.close();
+                    btn.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            btn.setVisibility(View.VISIBLE);
+
+                        }
+                    });
                 }
             });
 

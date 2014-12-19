@@ -167,7 +167,7 @@ public class LogInFragment extends Fragment {
 
     @Subscribe
     public void handleLogIn(LoginEvent event) {
-
+        pDialog.dismiss();
         switch (event.getResult()) {
             case LoginEvent.SUCCESS:
                 dbHandler.addUser(event.getUser());
@@ -186,6 +186,6 @@ public class LogInFragment extends Fragment {
                 Toast.makeText(getActivity(), R.string.server_not_found, Toast.LENGTH_SHORT).show();
                 break;
         }
-        pDialog.dismiss();
+
     }
 }

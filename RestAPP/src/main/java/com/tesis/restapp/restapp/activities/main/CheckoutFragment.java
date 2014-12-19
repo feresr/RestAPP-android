@@ -1,7 +1,7 @@
 package com.tesis.restapp.restapp.activities.main;
 
 import android.app.Activity;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +13,7 @@ import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.models.Order;
 
 /**
- * Created by feresr on 6/16/14.
+ * Presents the user with the due amount and the option to confirm the order closure.
  */
 public class CheckoutFragment extends Fragment implements View.OnClickListener {
 
@@ -25,7 +25,7 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener {
     public static CheckoutFragment newInstance(Order order) {
         CheckoutFragment checkoutFragment = new CheckoutFragment();
         Bundle b = new Bundle();
-        b.putParcelable("ORDER", order);
+        b.putParcelable(Order.class.getName(), order);
         checkoutFragment.setArguments(b);
         return checkoutFragment;
     }
@@ -51,7 +51,7 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener {
         closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
         closeOrder.setOnClickListener(this);
         if (getArguments() != null) {
-            order = getArguments().getParcelable("ORDER");
+            order = getArguments().getParcelable(Order.class.getName());
         }
 
         orderTotalTxt = (TextView) rootView.findViewById(R.id.order_total);
@@ -65,7 +65,7 @@ public class CheckoutFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.close_order_btn:
-                activity.onCloseOrder();
+                activity.onCloseOrder(order);
                 break;
 
         }

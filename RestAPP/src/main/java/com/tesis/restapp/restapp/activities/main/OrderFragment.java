@@ -2,7 +2,6 @@ package com.tesis.restapp.restapp.activities.main;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,14 +33,14 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     private Order order;
 
     public interface OrderFragmentCallbacks {
-        public void onCloseOrder();
+        public void onCloseOrder(Order order);
         public void onAddItem();
     }
 
     public static OrderFragment newInstance(Order order) {
         OrderFragment orderFragment = new OrderFragment();
         Bundle b = new Bundle();
-        b.putParcelable("ORDER", order);
+        b.putParcelable(Order.class.getName(), order);
         orderFragment.setArguments(b);
         return orderFragment;
     }
@@ -73,7 +72,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
 
         if (getArguments() != null) {
-            order = getArguments().getParcelable("ORDER");
+            order = getArguments().getParcelable(Order.class.getName());
         }
 
         adapter = new ItemsInOrderAdapter(
@@ -127,7 +126,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
             case R.id.close_order_btn:
 
-                activity.onCloseOrder();
+                activity.onCloseOrder(order);
 
                 break;
 

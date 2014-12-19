@@ -15,7 +15,7 @@ import com.tesis.restapp.restapp.models.Order;
 
 
 /**
- * Created by feresr on 5/28/14.
+ * Adapter for the items inside a particular order
  */
 public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
 
@@ -56,7 +56,7 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
         TextView description;
         TextView price;
         View v = convertView;
-        ImageButton removeItemBtn;
+        final ImageButton removeItemBtn;
 
 
         if (convertView == null) {
@@ -76,14 +76,15 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
             price.setText(String.valueOf(item.getPrice()));
         }
 
-
         removeItemBtn = (ImageButton) v.findViewById(R.id.item_remove_btn);
+        removeItemBtn.setVisibility(View.VISIBLE);
         removeItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseHandler db = new DatabaseHandler(context);
+                db.removeItemFromOrder(context, order, getItem(position), removeItemBtn);
 
-                db.removeItemFromOrder(context, order, getItem(position));
+                removeItemBtn.setVisibility(View.GONE);
             }
         });
 

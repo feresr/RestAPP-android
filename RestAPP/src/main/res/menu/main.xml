@@ -1,14 +1,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.tesis.restapp.restapp.activities.main.MainActivity" >
 
-    <item android:id="@+id/action_logout" app:title="asd"
+    <item android:id="@+id/action_logout"
         android:icon="@drawable/ic_action_remove"
-        android:orderInCategory="102" app:showAsAction="always" />
+        android:orderInCategory="102"
+        android:showAsAction="always"
+        android:title="@string/log_out" />
 
     <item android:id="@+id/action_settings" android:icon="@drawable/ic_action_settings"
-        android:orderInCategory="101" app:showAsAction="always" />
-
-
+        android:orderInCategory="101"
+        android:showAsAction="always"
+        android:title="@string/Settings" />
 </menu>

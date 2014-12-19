@@ -20,5 +20,7 @@
     <string name="search_hint">Pizza, Cerveza, Jugo...</string>
     <string name="http_error">Hubo problema en el servidor, por favor, intente nuevamente.</string>
     <string name="title_activity_order">Order</string>
+    <string name="log_out">Log out</string>
+    <string name="Settings">Settings</string>
 
 </resources>

@@ -1,14 +1,15 @@
 package com.tesis.restapp.restapp.activities.main;
 
+
 import android.app.AlertDialog;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,13 +27,14 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends ActionBarActivity implements MainHandler {
-    private static final String KEY_SELECTED_ORDER = "SELECTED_ORDER";
+public class MainActivity extends FragmentActivity implements MainHandler {
+
     private static final String KEY_DIALOG_SHOWING = "DIALOG_SHOWING";
+
     private ProgressDialog pDialog;
-
+    private TablesFragment tablesFragment;
     private RestAppApiInterface apiInterface;
-
+    private DashboardFragment dashboardFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,16 +44,21 @@ public class MainActivity extends ActionBarActivity implements MainHandler {
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
 
-        if (savedInstanceState == null) {
-            DashboardFragment dashboardFragment = new DashboardFragment();
+        tablesFragment = (TablesFragment) getSupportFragmentManager().findFragmentByTag(TablesFragment.class.getName());
+        if (tablesFragment == null) {
+            tablesFragment = new TablesFragment();
+        }
 
-            getFragmentManager().beginTransaction()
+        if (savedInstanceState == null) {
+            dashboardFragment = new DashboardFragment();
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, dashboardFragment)
                     .commit();
-
             new SyncDB(this).execute();
 
         } else {
+            //If the progress dialog was showing before configuration changes. it should keep
+            //showing now, right?.
             if (savedInstanceState.getBoolean(KEY_DIALOG_SHOWING)) {
                 pDialog.setMessage("Actualizando BD....");
                 pDialog.show();
@@ -62,18 +69,16 @@ public class MainActivity extends ActionBarActivity implements MainHandler {
     @Override
     public void onOrderSelected(Order order) {
         Intent i = new Intent(this, OrderActivity.class);
-        i.putExtra("ORDER_ID", order.getId());
+        i.putExtra(Order.class.getName(), order.getId());
         startActivity(i);
     }
 
     @Override
     public void onNewOrderSelected() {
-        TablesFragment tablesFragment = new TablesFragment();
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-        transaction.addToBackStack(null)
-                .replace(R.id.container, tablesFragment)
-                .commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, tablesFragment, TablesFragment.class.getName());
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     public void onTableOccupied() {
@@ -161,6 +166,7 @@ public class MainActivity extends ActionBarActivity implements MainHandler {
                 db.addItems(apiInterface.retrieveItems());
                 db.addTables(apiInterface.retrieveTables());
                 db.addOrderItems(apiInterface.retrieveOrderItems());
+                db.addOrders(apiInterface.retrieveOrders());
             } catch (RetrofitError e) {
                 return e;
             }
@@ -171,6 +177,7 @@ public class MainActivity extends ActionBarActivity implements MainHandler {
         @Override
         protected void onPostExecute(RetrofitError error) {
             pDialog.dismiss();
+            dashboardFragment.updateAdapter();
             if (error != null) {
                 Log.d("SAD", error.toString());
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
