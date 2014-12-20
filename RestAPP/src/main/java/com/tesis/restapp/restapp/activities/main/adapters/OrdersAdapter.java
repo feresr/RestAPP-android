@@ -14,7 +14,7 @@ import com.tesis.restapp.restapp.models.Order;
 import java.util.List;
 
 
-public class OrdersAdapter extends ArrayAdapter<Order>{
+public class OrdersAdapter extends ArrayAdapter<Order> {
 
     private Context context;
     private List<Order> orders;
@@ -25,7 +25,7 @@ public class OrdersAdapter extends ArrayAdapter<Order>{
         this.context = context;
         db = new DatabaseHandler(getContext());
         DatabaseHandler.registerAdapter(this);
-        orders =  db.getAllOrders();
+        orders = db.getAllOrders();
     }
 
     @Override
@@ -35,7 +35,7 @@ public class OrdersAdapter extends ArrayAdapter<Order>{
 
     @Override
     public void notifyDataSetChanged() {
-        orders =  db.getAllOrders();
+        orders = db.getAllOrders();
         super.notifyDataSetChanged();
     }
 

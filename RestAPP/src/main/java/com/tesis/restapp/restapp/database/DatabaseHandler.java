@@ -266,13 +266,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 table.setTaken(cursor.getInt(cursor.getColumnIndex(KEY_TAKEN)) == 1);
                 table.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
                 table.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
-
-                tableList.add(table);
+                if (!table.isTaken()) {
+                    tableList.add(table);
+                }
 
             } while (cursor.moveToNext());
         }
         db.close();
-        // return contact list
+        // return tables list
         return tableList;
     }
 
@@ -469,6 +470,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             Log.e("databaseHandler", values.toString());
         }
         db.close(); // Closing database connection
+
     }
 
     public void addCategories(List<Category> categories) {

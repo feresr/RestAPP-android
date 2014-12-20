@@ -40,8 +40,8 @@ public class SearchActivity extends Activity implements SearchHandler {
     @Override
     public void onItemSelected(int itemId) {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("itemId",itemId);
-        setResult(RESULT_OK,returnIntent);
+        returnIntent.putExtra("itemId", itemId);
+        setResult(RESULT_OK, returnIntent);
         finish();
     }
 

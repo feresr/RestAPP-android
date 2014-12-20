@@ -23,6 +23,7 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
     private Order order;
     private int orderId;
     DatabaseHandler db;
+
     public ItemsInOrderAdapter(Context context, int resource, int orderId) {
         super(context, resource);
         this.context = context;
@@ -71,7 +72,7 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
         price = (TextView) v.findViewById(R.id.item_price_txt);
 
         final Item item = getItem(position);
-        if(item != null) {
+        if (item != null) {
             description.setText(item.getName());
             price.setText(String.valueOf(item.getPrice()));
         }

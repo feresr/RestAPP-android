@@ -15,7 +15,7 @@ import com.tesis.restapp.restapp.models.Table;
 import java.util.List;
 
 /**
- * Created by feresr on 5/28/14.
+ * Adapter for available tables
  */
 public class TablesAdapter extends ArrayAdapter<Table> {
 
@@ -23,14 +23,13 @@ public class TablesAdapter extends ArrayAdapter<Table> {
     private DatabaseHandler db;
     private List<Table> tables;
 
-    private String TAG = this.getClass().getSimpleName();
-    public TablesAdapter(Context context, int resource){
+    public TablesAdapter(Context context, int resource) {
         super(context, resource);
         this.context = context;
 
         db = new DatabaseHandler(getContext());
         DatabaseHandler.registerAdapter(this);
-        tables =  db.getTables();
+        tables = db.getTables();
         Log.e("TABLES", tables.toString());
     }
 
@@ -38,6 +37,12 @@ public class TablesAdapter extends ArrayAdapter<Table> {
     @Override
     public int getCount() {
         return tables.size();
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        tables = db.getTables();
+        super.notifyDataSetChanged();
     }
 
     @Override

@@ -14,7 +14,7 @@ import com.tesis.restapp.restapp.models.Item;
 import java.util.List;
 
 /**
- * Created by feresr on 6/12/14.
+ * Adapter for items in a category.
  */
 public class ItemsAdapter extends ArrayAdapter<Item> {
 
@@ -61,7 +61,7 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         price = (TextView) v.findViewById(R.id.item_price_txt);
 
         Item item = getItem(position);
-        if(item != null) {
+        if (item != null) {
             description.setText(item.getName());
             price.setText(String.valueOf(item.getPrice()));
         }

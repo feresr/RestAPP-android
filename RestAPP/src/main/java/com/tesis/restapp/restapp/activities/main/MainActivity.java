@@ -2,7 +2,6 @@ package com.tesis.restapp.restapp.activities.main;
 
 
 import android.app.AlertDialog;
-import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,7 +21,6 @@ import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Order;
 import com.tesis.restapp.restapp.models.Table;
-
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -35,6 +34,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
     private TablesFragment tablesFragment;
     private RestAppApiInterface apiInterface;
     private DashboardFragment dashboardFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +121,6 @@ public class MainActivity extends FragmentActivity implements MainHandler {
     }
 
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(KEY_DIALOG_SHOWING, pDialog.isShowing());
@@ -143,7 +142,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
 
         Context context;
 
-        public SyncDB(Context context){
+        public SyncDB(Context context) {
             this.context = context;
         }
 

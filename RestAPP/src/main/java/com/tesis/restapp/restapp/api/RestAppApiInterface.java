@@ -1,12 +1,12 @@
 package com.tesis.restapp.restapp.api;
 
 import com.tesis.restapp.restapp.api.response.ApiResponse;
-import com.tesis.restapp.restapp.models.Order_Item;
+import com.tesis.restapp.restapp.database.Response;
 import com.tesis.restapp.restapp.models.Category;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
+import com.tesis.restapp.restapp.models.Order_Item;
 import com.tesis.restapp.restapp.models.Table;
-import com.tesis.restapp.restapp.database.Response;
 
 import java.util.List;
 
@@ -18,7 +18,12 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
 
-import static com.tesis.restapp.restapp.Constants.*;
+import static com.tesis.restapp.restapp.Constants.URL_AVAILABLE_TABLES;
+import static com.tesis.restapp.restapp.Constants.URL_CATEGORIES;
+import static com.tesis.restapp.restapp.Constants.URL_ITEMS;
+import static com.tesis.restapp.restapp.Constants.URL_LOGIN;
+import static com.tesis.restapp.restapp.Constants.URL_ORDERS;
+import static com.tesis.restapp.restapp.Constants.URL_ORDER_ITEMS;
 
 public interface RestAppApiInterface {
 
@@ -39,6 +44,9 @@ public interface RestAppApiInterface {
 
     @GET(URL_AVAILABLE_TABLES)
     public List<Table> retrieveTables();
+
+    @GET(URL_AVAILABLE_TABLES)
+    public void retrieveTablesAsync(Callback<List<Table>> callback);
 
     @GET(URL_ITEMS)
     public List<Item> retrieveItems();

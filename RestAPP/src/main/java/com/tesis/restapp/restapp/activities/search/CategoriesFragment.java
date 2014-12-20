@@ -12,7 +12,7 @@ import android.widget.ListView;
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.search.adapters.CategoriesAdapter;
 
-public class CategoriesFragment extends Fragment implements AdapterView.OnItemClickListener{
+public class CategoriesFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private ListView categoriesListView;
     private CategoriesAdapter categoriesAdapter;
@@ -23,7 +23,7 @@ public class CategoriesFragment extends Fragment implements AdapterView.OnItemCl
         super.onAttach(activity);
         try {
             this.activity = (SearchHandler) activity;
-        }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");
         }
@@ -51,6 +51,6 @@ public class CategoriesFragment extends Fragment implements AdapterView.OnItemCl
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        activity.onCategorySelected((int)id);
+        activity.onCategorySelected((int) id);
     }
 }

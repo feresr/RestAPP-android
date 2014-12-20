@@ -17,18 +17,18 @@ import java.util.List;
 /**
  * Created by feresr on 6/12/14.
  */
-public class CategoriesAdapter extends ArrayAdapter<Category>{
+public class CategoriesAdapter extends ArrayAdapter<Category> {
     private LayoutInflater inflater;
     private Context context;
     private DatabaseHandler db;
     private List<Category> categories;
     int[] images = new int[]{R.drawable.bw_cafeteria, R.drawable.bw_comida, R.drawable.bw_sandwich, R.drawable.bw_cerveza, R.drawable.bw_wine, R.drawable.bw_juice, R.drawable.bw_dessert};
 
-    public CategoriesAdapter(Context context, int resource){
+    public CategoriesAdapter(Context context, int resource) {
         super(context, resource);
         this.context = context;
         db = new DatabaseHandler(getContext());
-        categories =  db.getCategories();
+        categories = db.getCategories();
     }
 
     @Override

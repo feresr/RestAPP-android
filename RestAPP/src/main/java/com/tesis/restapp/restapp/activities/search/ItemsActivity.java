@@ -18,10 +18,9 @@ public class ItemsActivity extends Activity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this,query,Toast.LENGTH_SHORT);
+            Toast.makeText(this, query, Toast.LENGTH_SHORT);
         }
     }
-
 
 
 }

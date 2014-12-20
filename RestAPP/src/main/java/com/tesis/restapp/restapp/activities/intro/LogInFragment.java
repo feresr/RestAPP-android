@@ -19,8 +19,8 @@ import com.squareup.otto.Subscribe;
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.BusProvider;
-import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.api.LoginEvent;
+import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.api.response.ApiResponse;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.User;
@@ -40,6 +40,7 @@ public class LogInFragment extends Fragment {
     private DatabaseHandler dbHandler;
 
     private Boolean dialogShowing = false;
+
     public LogInFragment() {
     }
 
@@ -61,8 +62,8 @@ public class LogInFragment extends Fragment {
         pDialog.setIndeterminate(false);
         pDialog.setCancelable(false);
         dbHandler = new DatabaseHandler(getActivity().getApplicationContext());
-        if (savedInstanceState != null){
-            dialogShowing =  savedInstanceState.getBoolean(KEY_DIALOG_SHOWING);
+        if (savedInstanceState != null) {
+            dialogShowing = savedInstanceState.getBoolean(KEY_DIALOG_SHOWING);
         }
     }
 
@@ -147,7 +148,7 @@ public class LogInFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(KEY_DIALOG_SHOWING, pDialog.isShowing());
-        if(pDialog.isShowing()) {
+        if (pDialog.isShowing()) {
             pDialog.dismiss();
         }
         super.onSaveInstanceState(outState);

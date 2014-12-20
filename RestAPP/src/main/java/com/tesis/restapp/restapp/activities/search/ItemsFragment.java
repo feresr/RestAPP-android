@@ -24,11 +24,12 @@ public class ItemsFragment extends Fragment implements AdapterView.OnItemClickLi
         super.onAttach(activity);
         try {
             this.activity = (SearchHandler) activity;
-        }catch(ClassCastException e){
+        } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");
         }
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +38,11 @@ public class ItemsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_search,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_search, container, false);
         category_id = getArguments().getInt("category_id");
 
         itemsListView = (ListView) rootView.findViewById(R.id.search_listview);
-        itemsAdapter = new ItemsAdapter(getActivity(), R.layout.listview_item , category_id);
+        itemsAdapter = new ItemsAdapter(getActivity(), R.layout.listview_item, category_id);
         itemsListView.setAdapter(itemsAdapter);
         itemsListView.setOnItemClickListener(this);
 
