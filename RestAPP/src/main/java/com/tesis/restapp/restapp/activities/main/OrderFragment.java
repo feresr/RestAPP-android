@@ -33,8 +33,8 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     private Order order;
 
     public interface OrderFragmentCallbacks {
+        public void onOrderCheckout(Order order);
         public void onCloseOrder(Order order);
-
         public void onAddItem();
     }
 
@@ -126,7 +126,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
 
             case R.id.close_order_btn:
 
-                activity.onCloseOrder(order);
+                activity.onOrderCheckout(order);
 
                 break;
 

@@ -89,7 +89,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
 
     @Override
     public void onTableSelected(final Table table) {
-
+        getSupportFragmentManager().popBackStack();
         pDialog.setMessage("Creando orden...");
         pDialog.show();
         final DatabaseHandler db = new DatabaseHandler(this);
@@ -104,6 +104,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
                     order.setId(apiResponse.getId());
                     db.addOrder(order);
                     onOrderSelected(order);
+
                 } else {
                     onTableOccupied();
                 }

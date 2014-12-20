@@ -63,7 +63,7 @@ public interface RestAppApiInterface {
     public void newOrder(@Field("table_id") int tableId, Callback<Response> callback);
 
     @DELETE(URL_ORDERS + "/{id}")
-    public void closeOrder(@Path("id") int id, Callback<Order> callback);
+    public void closeOrder(@Path("id") int id, Callback<Response> callback);
 
     @GET(URL_LOGOUT)
     public void logout(Callback<Response> callback);

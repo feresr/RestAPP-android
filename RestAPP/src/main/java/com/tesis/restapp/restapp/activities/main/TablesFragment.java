@@ -2,6 +2,7 @@ package com.tesis.restapp.restapp.activities.main;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.view.ViewCompat;
@@ -56,6 +57,13 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
         // Create the list fragment's content view by calling the super method
         final View listFragmentView = super.onCreateView(inflater, container, savedInstanceState);
 
+        final TypedArray styledAttributes = getActivity().getTheme().obtainStyledAttributes(
+                new int[] { android.R.attr.actionBarSize });
+        int mActionBarSize = (int) styledAttributes.getDimension(0, 0);
+        styledAttributes.recycle();
+
+        listFragmentView.setPadding(0, mActionBarSize, 0 ,0);
+
         // Now create a SwipeRefreshLayout to wrap the fragment's content view
         mSwipeRefreshLayout = new ListFragmentSwipeRefreshLayout(container.getContext());
 
@@ -65,12 +73,13 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         // Make sure that the SwipeRefreshLayout will fill the fragment
-        mSwipeRefreshLayout.setLayoutParams(
-                new ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.MATCH_PARENT));
-        mSwipeRefreshLayout.setOnRefreshListener(this);
 
+        ViewGroup.MarginLayoutParams params = new ViewGroup.MarginLayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT);
+
+        mSwipeRefreshLayout.setLayoutParams(params);
+        mSwipeRefreshLayout.setOnRefreshListener(this);
 
         // Now return the SwipeRefreshLayout as this fragment's content view
         return mSwipeRefreshLayout;

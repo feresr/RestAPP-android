@@ -121,6 +121,10 @@ public class Order implements Parcelable {
         return active == 1;
     }
 
+    public void close() {
+        this.active = 0;
+    }
+
     public int getTable_id() {
         return table_id;
     }
