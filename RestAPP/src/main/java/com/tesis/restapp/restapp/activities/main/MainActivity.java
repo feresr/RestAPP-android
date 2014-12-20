@@ -13,9 +13,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
+import com.tesis.restapp.restapp.activities.intro.IntroActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
@@ -120,7 +122,6 @@ public class MainActivity extends FragmentActivity implements MainHandler {
 
     }
 
-
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(KEY_DIALOG_SHOWING, pDialog.isShowing());
@@ -199,6 +200,41 @@ public class MainActivity extends FragmentActivity implements MainHandler {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_logout:
+                pDialog.setMessage("Loggin out...");
+                pDialog.show();
+                apiInterface.logout(new Callback<com.tesis.restapp.restapp.database.Response>() {
+                    @Override
+                    public void success(com.tesis.restapp.restapp.database.Response response, Response response2) {
+                        Toast.makeText(getApplicationContext(), "Successfully logout", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(getApplicationContext(), IntroActivity.class);
+                        startActivity(intent);
+                        // This makes savedInstance null again, so the db sync happens again on
+                        // the subsequent logins.
+                        finish();
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        //TODO: handle log out errors
+                    }
+                });
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void onStop() {
+        if(pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        super.onStop();
     }
 }
 

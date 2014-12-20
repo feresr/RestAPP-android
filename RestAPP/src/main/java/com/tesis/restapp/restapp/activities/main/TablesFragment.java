@@ -49,7 +49,6 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");
         }
-
     }
 
     @Override
@@ -105,7 +104,14 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
 
             @Override
             public void failure(RetrofitError error) {
-
+                switch (error.getKind()){
+                    case NETWORK:
+                        break;
+                    case HTTP:
+                        break;
+                    case CONVERSION:
+                        //TODO: handle errors.
+                }
             }
         });
     }

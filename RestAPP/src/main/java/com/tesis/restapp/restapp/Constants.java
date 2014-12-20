@@ -15,5 +15,6 @@ public class Constants {
     public static final String URL_ITEMS = "/api/v1/items";
     public static final String URL_CATEGORIES = "/api/v1/categories";
     public static final String URL_ORDER_ITEMS = "/api/v1/orderItems";
+    public static final String URL_LOGOUT = "/logout";
 
 }

@@ -24,6 +24,7 @@ import static com.tesis.restapp.restapp.Constants.URL_ITEMS;
 import static com.tesis.restapp.restapp.Constants.URL_LOGIN;
 import static com.tesis.restapp.restapp.Constants.URL_ORDERS;
 import static com.tesis.restapp.restapp.Constants.URL_ORDER_ITEMS;
+import static com.tesis.restapp.restapp.Constants.URL_LOGOUT;
 
 public interface RestAppApiInterface {
 
@@ -64,4 +65,6 @@ public interface RestAppApiInterface {
     @DELETE(URL_ORDERS + "/{id}")
     public void closeOrder(@Path("id") int id, Callback<Order> callback);
 
+    @GET(URL_LOGOUT)
+    public void logout(Callback<Response> callback);
 }
