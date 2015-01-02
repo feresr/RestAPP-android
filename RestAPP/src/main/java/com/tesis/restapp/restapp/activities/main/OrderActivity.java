@@ -39,12 +39,10 @@ public class OrderActivity extends FragmentActivity implements OrderFragment.Ord
         if (getIntent() != null) {
             id = getIntent().getExtras().getInt(Order.class.getName());
         }
-
+        DatabaseHandler databaseHandler = new DatabaseHandler(this);
         if (savedInstanceState == null) {
 
-            DatabaseHandler databaseHandler = new DatabaseHandler(this);
             order = databaseHandler.getOrderById(id);
-
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, OrderFragment.newInstance(order))
                     .commit();
@@ -52,7 +50,11 @@ public class OrderActivity extends FragmentActivity implements OrderFragment.Ord
             if (savedInstanceState.getBoolean(pDialog.getClass().getName(), false)){
                 pDialog.show();
             }
+            id = savedInstanceState.getInt(Order.class.getSimpleName());
+            order = databaseHandler.getOrderById(id);
         }
+
+
     }
 
     @Override
@@ -150,6 +152,7 @@ public class OrderActivity extends FragmentActivity implements OrderFragment.Ord
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         outState.putBoolean(pDialog.getClass().getName(), pDialog.isShowing());
+        outState.putInt(Order.class.getSimpleName(), id);
         super.onSaveInstanceState(outState);
     }
 }

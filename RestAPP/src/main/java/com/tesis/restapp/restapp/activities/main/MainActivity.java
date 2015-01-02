@@ -77,51 +77,12 @@ public class MainActivity extends FragmentActivity implements MainHandler {
 
     @Override
     public void onNewOrderSelected() {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.container, tablesFragment, TablesFragment.class.getName());
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    public void onTableOccupied() {
-        Toast.makeText(this, "Alguien ya ocupó esta mesa", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onTableSelected(final Table table) {
-        getSupportFragmentManager().popBackStack();
-        pDialog.setMessage("Creando orden...");
-        pDialog.show();
-        final DatabaseHandler db = new DatabaseHandler(this);
-
-        apiInterface = ApiClient.getRestAppApiClient(this);
-        apiInterface.newOrder(table.getId(), new Callback<com.tesis.restapp.restapp.database.Response>() {
-            @Override
-            public void success(com.tesis.restapp.restapp.database.Response apiResponse, Response response) {
-                if (apiResponse.wasSuccessful()) {
-                    Order order = new Order();
-                    order.setTable(table);
-                    order.setId(apiResponse.getId());
-                    db.addOrder(order);
-                    onOrderSelected(order);
-
-                } else {
-                    onTableOccupied();
-                }
-                pDialog.dismiss();
-                db.close();
-            }
-
-            @Override
-            public void failure(RetrofitError error) {
-                pDialog.dismiss();
-                //SERVER ERROR
-
-                db.close();
-            }
-        });
+        Intent i = new Intent(this, TablesActivity.class);
+        startActivity(i);
 
     }
+
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

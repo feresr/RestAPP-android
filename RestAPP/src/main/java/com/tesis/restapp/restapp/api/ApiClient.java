@@ -10,7 +10,7 @@ import retrofit.client.OkClient;
 
 public class ApiClient{
 
-    private static final String API_URL = "http://192.168.0.14/RestAPP-REST/public";
+    private static final String API_URL = "http://192.168.1.39/RestAPP-api/public/";
     private static RestAppApiInterface sRestAppService;
 
     public static RestAppApiInterface getRestAppApiClient(final Context context) {

@@ -18,13 +18,13 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.Path;
 
-import static com.tesis.restapp.restapp.Constants.URL_AVAILABLE_TABLES;
-import static com.tesis.restapp.restapp.Constants.URL_CATEGORIES;
-import static com.tesis.restapp.restapp.Constants.URL_ITEMS;
-import static com.tesis.restapp.restapp.Constants.URL_LOGIN;
-import static com.tesis.restapp.restapp.Constants.URL_ORDERS;
-import static com.tesis.restapp.restapp.Constants.URL_ORDER_ITEMS;
-import static com.tesis.restapp.restapp.Constants.URL_LOGOUT;
+import static com.tesis.restapp.restapp.models.Constants.URL_AVAILABLE_TABLES;
+import static com.tesis.restapp.restapp.models.Constants.URL_CATEGORIES;
+import static com.tesis.restapp.restapp.models.Constants.URL_ITEMS;
+import static com.tesis.restapp.restapp.models.Constants.URL_LOGIN;
+import static com.tesis.restapp.restapp.models.Constants.URL_ORDERS;
+import static com.tesis.restapp.restapp.models.Constants.URL_ORDER_ITEMS;
+import static com.tesis.restapp.restapp.models.Constants.URL_LOGOUT;
 
 public interface RestAppApiInterface {
 

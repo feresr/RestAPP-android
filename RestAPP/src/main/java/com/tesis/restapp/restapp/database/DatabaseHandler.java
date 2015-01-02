@@ -600,6 +600,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     db.insert(TABLE_ORDER_ITEM, null, values);
 
                     itemsInOrderAdapter.notifyDataSetChanged();
+                    ordersAdapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(mContext, data.getMessage(), Toast.LENGTH_SHORT).show();
                 }

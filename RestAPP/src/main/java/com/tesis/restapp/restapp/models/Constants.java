@@ -1,4 +1,4 @@
-package com.tesis.restapp.restapp;
+package com.tesis.restapp.restapp.models;
 
 /**
  * Created by feresr on 5/24/14.

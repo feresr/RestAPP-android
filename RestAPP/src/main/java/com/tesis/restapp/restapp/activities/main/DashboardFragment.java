@@ -2,6 +2,7 @@ package com.tesis.restapp.restapp.activities.main;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,7 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
         ListView listView = (ListView) rootView.findViewById(R.id.orders_listview);
         listView.setOnItemClickListener(this);
         listView.setAdapter(adapter);
-
+        listView.setEmptyView(rootView.findViewById(android.R.id.empty));
         Button newOrderBtn = (Button) rootView.findViewById(R.id.neworder_btn);
         newOrderBtn.setOnClickListener(this);
         return rootView;

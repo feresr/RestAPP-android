@@ -12,6 +12,4 @@ public interface MainHandler {
 
     public void onNewOrderSelected();
 
-    public void onTableSelected(Table table);
-
 }

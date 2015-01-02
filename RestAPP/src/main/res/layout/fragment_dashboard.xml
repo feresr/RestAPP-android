@@ -46,16 +46,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7">
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="30sp"
-        android:src="@drawable/bw_shadow_top"/>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:src="@drawable/bw_shadow_top"/>
         <ListView
             android:id="@+id/orders_listview"
             android:layout_width="match_parent"
+
             android:layout_height="match_parent"
             />
-
+        <TextView android:id="@android:id/empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Sin ordenes"/>
         <Button
             android:id="@+id/neworder_btn"
             android:layout_width="60dip"

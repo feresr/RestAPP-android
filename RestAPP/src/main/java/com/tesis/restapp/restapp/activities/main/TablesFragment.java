@@ -35,7 +35,7 @@ import retrofit.client.Response;
  */
 public class TablesFragment extends ListFragment implements AdapterView.OnItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
-    private MainHandler activity;
+    private TablesCallback activity;
     private TablesAdapter adapter;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,7 +45,7 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
         super.onAttach(activity);
 
         try {
-            this.activity = (MainHandler) activity;
+            this.activity = (TablesCallback) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString()
                     + " must implement MainHandler");
@@ -57,15 +57,8 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
         // Create the list fragment's content view by calling the super method
         final View listFragmentView = super.onCreateView(inflater, container, savedInstanceState);
 
-        final TypedArray styledAttributes = getActivity().getTheme().obtainStyledAttributes(
-                new int[] { android.R.attr.actionBarSize });
-        int mActionBarSize = (int) styledAttributes.getDimension(0, 0);
-        styledAttributes.recycle();
-
-        listFragmentView.setPadding(0, mActionBarSize, 0 ,0);
-
         // Now create a SwipeRefreshLayout to wrap the fragment's content view
-        mSwipeRefreshLayout = new ListFragmentSwipeRefreshLayout(container.getContext());
+        mSwipeRefreshLayout = new ListFragmentSwipeRefreshLayout(getActivity());
 
         // Add the list fragment's content view to the SwipeRefreshLayout, making sure that it fills
         // the SwipeRefreshLayout
@@ -198,4 +191,7 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
         }
     }
 
+    public interface TablesCallback {
+        public void onTableSelected(Table table);
+    }
 }
