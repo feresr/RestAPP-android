@@ -97,6 +97,7 @@ public class TablesActivity extends FragmentActivity implements TablesFragment.T
     public void onOrderSelected(Order order) {
         Intent i = new Intent(this, OrderActivity.class);
         i.putExtra(Order.class.getName(), order.getId());
+        this.finish();
         startActivity(i);
     }
 }

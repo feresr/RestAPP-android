@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,7 +21,6 @@ import com.tesis.restapp.restapp.api.ApiClient;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Order;
-import com.tesis.restapp.restapp.models.Table;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -79,10 +77,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
     public void onNewOrderSelected() {
         Intent i = new Intent(this, TablesActivity.class);
         startActivity(i);
-
     }
-
-
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -173,7 +168,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
                 apiInterface.logout(new Callback<com.tesis.restapp.restapp.database.Response>() {
                     @Override
                     public void success(com.tesis.restapp.restapp.database.Response response, Response response2) {
-                        Toast.makeText(getApplicationContext(), "Successfully logout", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Estás afuera :)", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), IntroActivity.class);
                         startActivity(intent);
                         // This makes savedInstance null again, so the db sync happens again on

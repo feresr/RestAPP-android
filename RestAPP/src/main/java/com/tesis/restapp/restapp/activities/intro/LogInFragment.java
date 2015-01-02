@@ -1,9 +1,12 @@
 package com.tesis.restapp.restapp.activities.intro;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.squareup.otto.Bus;
@@ -33,12 +37,14 @@ import retrofit.client.Response;
 public class LogInFragment extends Fragment {
 
     private static final String KEY_DIALOG_SHOWING = "DIALOG_SHOWING";
+    private static final String KEY_PREFERENCES = "RESTAPP";
     private IntroHandler activity;
     private EditText usernameTxt;
     private EditText passwordTxt;
+    private ImageButton config;
     private ProgressDialog pDialog;
     private DatabaseHandler dbHandler;
-
+    AlertDialog.Builder alert;
     private Boolean dialogShowing = false;
 
     public LogInFragment() {
@@ -65,6 +71,9 @@ public class LogInFragment extends Fragment {
         if (savedInstanceState != null) {
             dialogShowing = savedInstanceState.getBoolean(KEY_DIALOG_SHOWING);
         }
+
+        SharedPreferences settings = getActivity().getSharedPreferences(KEY_PREFERENCES, Context.MODE_PRIVATE);
+        ApiClient.setServerIP(settings.getString("SERVER_IP", "192.168.1.39"));
     }
 
     @Override
@@ -75,6 +84,16 @@ public class LogInFragment extends Fragment {
 
         usernameTxt = (EditText) rootView.findViewById(R.id.usernameTxt);
         passwordTxt = (EditText) rootView.findViewById(R.id.passwordTxt);
+        config = (ImageButton) rootView.findViewById(R.id.config);
+
+        config.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createIpDialog();
+                alert.show();
+            }
+        });
+
         if (dialogShowing) {
             pDialog.setMessage("Logging in...");
             pDialog.show();
@@ -92,6 +111,34 @@ public class LogInFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void createIpDialog() {
+        alert = new AlertDialog.Builder(getActivity());
+        // Set an EditText view to get user input
+        final EditText input = new EditText(getActivity());
+        input.setText(ApiClient.getServerIp());
+        alert.setView(input);
+
+        alert.setMessage("RestAPP IP");
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                ApiClient.setServerIP(input.getText().toString());
+                SharedPreferences settings = getActivity().getSharedPreferences(KEY_PREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putString("SERVER_IP", input.getText().toString());
+
+                // Commit the edits!
+                editor.apply();
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
     }
 
     public void logIn(String username, String password) {

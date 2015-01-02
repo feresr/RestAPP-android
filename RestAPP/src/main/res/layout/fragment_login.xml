@@ -44,7 +44,16 @@
         android:paddingLeft="8sp"
         android:textColor="#ddd"
         android:textSize="16sp" />
-
+    <ImageButton
+        android:id="@+id/config"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_action_settings"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:padding="20sp"
+        android:layout_margin="10sp"
+        />
     <Button
         android:id="@+id/login_btn"
         android:layout_alignParentBottom="true"

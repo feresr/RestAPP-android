@@ -5,12 +5,11 @@ import com.tesis.restapp.restapp.models.User;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
-import retrofit.client.OkClient;
 
 
 public class ApiClient{
 
-    private static final String API_URL = "http://192.168.1.39/RestAPP-api/public/";
+    private static String apiIP = "192.168.1.39";
     private static RestAppApiInterface sRestAppService;
 
     public static RestAppApiInterface getRestAppApiClient(final Context context) {
@@ -18,11 +17,11 @@ public class ApiClient{
 
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setLogLevel(RestAdapter.LogLevel.FULL)
-                    .setEndpoint(API_URL)
+                    .setEndpoint("http://" + apiIP + "/RestAPP-api/public/")
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade requestFacade) {
-                            if (User.getUser(context)!= null) {
+                            if (User.getUser(context) != null) {
                                 requestFacade.addHeader("Cookie", User.getUser(context).getToken());
                                 requestFacade.addHeader("Accept", "application/json");
                             }
@@ -35,5 +34,12 @@ public class ApiClient{
         return sRestAppService;
     }
 
+    public static void setServerIP(String ip) {
+        apiIP = ip;
+        sRestAppService = null;
+    }
+    public static String getServerIp(){
+        return apiIP;
+    }
 }
 
