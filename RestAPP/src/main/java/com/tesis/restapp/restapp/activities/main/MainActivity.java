@@ -15,9 +15,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.squareup.otto.Bus;
+import com.squareup.otto.Subscribe;
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.intro.IntroActivity;
 import com.tesis.restapp.restapp.api.ApiClient;
+import com.tesis.restapp.restapp.api.BusProvider;
+import com.tesis.restapp.restapp.api.DataBaseSyncCompleteEvent;
 import com.tesis.restapp.restapp.api.RestAppApiInterface;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Order;
@@ -93,6 +97,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
 
         final DatabaseHandler db = new DatabaseHandler(this);
         db.close();
+        BusProvider.getInstance().unregister(this);
         super.onPause();
     }
 
@@ -109,6 +114,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
             super.onPreExecute();
             pDialog.setMessage("Actualizando BD....");
             pDialog.show();
+
 
         }
 
@@ -133,22 +139,30 @@ public class MainActivity extends FragmentActivity implements MainHandler {
 
         @Override
         protected void onPostExecute(RetrofitError error) {
-            pDialog.dismiss();
+
             dashboardFragment.updateAdapter();
-            if (error != null) {
-                Log.d("SAD", error.toString());
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("Error");
-                builder.setMessage("There was a server error");
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
-                builder.create().show();
-            }
+            BusProvider.getInstance().post(new DataBaseSyncCompleteEvent(error));
+
             super.onPostExecute(error);
+        }
+    }
+
+    @Subscribe
+    public void onDBSyncComplete(DataBaseSyncCompleteEvent event) {
+        pDialog.dismiss();
+
+        if (event.getError() != null) {
+            Log.d("SAD", event.getError().toString());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+            builder.setTitle("Error");
+            builder.setMessage("There was a server error");
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    finish();
+                }
+            });
+            builder.create().show();
         }
     }
 
@@ -193,6 +207,13 @@ public class MainActivity extends FragmentActivity implements MainHandler {
         }
         super.onStop();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
 }
 
 
