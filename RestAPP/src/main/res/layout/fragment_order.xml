@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="6"
-        android:background="@drawable/dashboard_background"
+        android:background="#111"
         android:gravity="center_vertical"
         android:orientation="horizontal"
 
@@ -85,7 +85,13 @@
         <ListView
             android:id="@+id/items_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="#111"
+            android:divider="#222"
+            android:dividerHeight="1dp"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            />
 
         <TextView
             android:id="@+id/empty"

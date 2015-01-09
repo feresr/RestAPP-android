@@ -2,6 +2,13 @@
 <items version="2" >
 
     <item
+        jar="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\exploded-aar\com.shamanland\fab\0.0.7\classes.jar"
+        jumboMode="false"
+        revision="19.1.0"
+        sha1="2e65181fcfeb56b3fd340954294ea1b934ae1972">
+        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\classes-0ec2b36f8ad9d444451b9a9ec5a74b14eb471725.jar" />
+    </item>
+    <item
         jar="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
         jumboMode="false"
         revision="19.1.0"

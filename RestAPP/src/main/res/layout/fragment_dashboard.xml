@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
@@ -41,36 +40,52 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="35dp"
+    android:gravity="bottom"
+    android:paddingLeft="20sp"
+    android:paddingBottom="5sp"
+    android:textStyle="bold"
+    android:background="#111"
+    android:textColor="@color/dark_white"
+    android:text="MIS ÓRDENES"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="7">
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="50sp"
-            android:src="@drawable/bw_shadow_top"/>
+
         <ListView
             android:id="@+id/orders_listview"
             android:layout_width="match_parent"
-
             android:layout_height="match_parent"
-            />
-        <TextView android:id="@android:id/empty"
+            android:background="#111"
+            android:divider="#222"
+            android:dividerHeight="1dp"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp" />
+
+        <TextView
+            android:id="@android:id/empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#111"
             android:gravity="center"
-            android:text="Sin ordenes"/>
+            android:text="Sin ordenes"
+            android:textColor="@color/dark_white" />
+
         <Button
             android:id="@+id/neworder_btn"
             android:layout_width="60dip"
             android:layout_height="60dip"
             android:layout_gravity="right|bottom"
             android:layout_margin="20sp"
-            android:background="@drawable/round_button_style"
-            android:text="+"
+            android:background="@drawable/fab"
+
             android:textColor="@color/white"
             android:textSize="20sp" />
+
     </FrameLayout>
 
 </LinearLayout>
