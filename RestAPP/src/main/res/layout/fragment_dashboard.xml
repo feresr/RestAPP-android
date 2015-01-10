@@ -7,15 +7,15 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
-        android:background="@drawable/wp_money"
+        android:layout_weight="5"
+        android:background="@drawable/food_wallpaper_dashboard"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="10sp">
+        android:paddingTop="25sp">
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="70sp"
+            android:layout_height="70sp"
             android:layout_gravity="center"
             android:layout_margin="15sp"
             android:background="@drawable/waiter_icon" />
@@ -39,17 +39,18 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:paddingTop="15sp"
+            android:paddingLeft="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/dark_white"
+            android:text="MIS ÓRDENES"/>
+
     </LinearLayout>
-<TextView
-    android:layout_width="match_parent"
-    android:layout_height="35dp"
-    android:gravity="bottom"
-    android:paddingLeft="20sp"
-    android:paddingBottom="5sp"
-    android:textStyle="bold"
-    android:background="#111"
-    android:textColor="@color/dark_white"
-    android:text="MIS ÓRDENES"/>
+
 
     <FrameLayout
         android:layout_width="match_parent"
