@@ -48,6 +48,7 @@
             android:name=".activities.main.OrderActivity"
             android:label="@string/title_activity_order"
             android:launchMode="singleTop"
+            android:theme="@style/AppTheme"
             android:parentActivityName=".activities.main.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -41,9 +41,9 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
 
         TextView usernameTxtView = (TextView) rootView.findViewById(R.id.firstLastNameTxt);
         TextView username = (TextView) rootView.findViewById(R.id.usernameTxt);
-
-        usernameTxtView.setText(User.getUser(getActivity()).getFirstname() + " " + User.getUser(getActivity()).getLastname());
-        username.setText("#" + User.getUser(getActivity()).getUsername());
+        User user = User.getUser(getActivity());
+        usernameTxtView.setText(user.getFirstname() + " " + user.getLastname());
+        username.setText("#" + user.getUsername());
 
         adapter = new OrdersAdapter(getActivity(), R.id.orders_listview);
         ListView listView = (ListView) rootView.findViewById(R.id.orders_listview);
@@ -67,6 +67,6 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
     }
 
     public void updateAdapter() {
-        adapter.notifyDataSetChanged();
+        adapter.aNotifyDataSetChanged();
     }
 }

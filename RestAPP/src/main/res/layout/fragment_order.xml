@@ -4,83 +4,58 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/tableInfo_layout"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6"
-        android:background="#111"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
+        android:background="#222"
         android:orientation="horizontal"
-
-        android:paddingTop="10sp">
+        android:padding="15sp">
 
         <ImageView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_weight="2"
-            android:src="@drawable/ic_table" />
+            android:contentDescription="Dish image"
+            android:src="@drawable/dish" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:layout_gravity="bottom"
-            android:paddingBottom="25sp"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin">
+
+            android:paddingLeft="20sp">
 
             <TextView
                 android:id="@+id/table_number_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="TABLE #4"
+                android:text="MESA #5"
                 android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/table_description_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Left Sidewalk"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
+                android:text="Mesa grande, vereda"
 
+                android:textColor="@color/dark_white" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tableview_number_of_seats_txt"
-            android:layout_width="0dp"
+            android:id="@id/order_total"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"
-            android:paddingBottom="25sp"
-            android:text="4"
+            android:layout_gravity="center"
+            android:gravity="right"
+            android:text="$25.10"
             android:textColor="@color/white"
-            android:textSize="24sp"
-            android:typeface="sans" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_gravity="bottom"
-            android:paddingBottom="20sp"
-            android:paddingRight="@dimen/activity_horizontal_margin"
-            android:paddingTop="26dp"
-            android:src="@drawable/ic_customers_white" />
-
+            android:textSize="14sp" />
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="16">
-        <!-- My Tables -->
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="30sp"
-            android:src="@drawable/bw_shadow_top" />
 
         <ListView
             android:id="@+id/items_listview"
@@ -90,18 +65,19 @@
             android:divider="#222"
             android:dividerHeight="1dp"
             android:paddingLeft="10sp"
-            android:paddingRight="10sp"
-            />
+            android:paddingRight="10sp" />
 
         <TextView
-            android:id="@+id/empty"
+            android:id="@android:id/empty"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:background="#111"
+            android:divider="#222"
             android:gravity="center"
             android:lines="2"
-            android:text="Add some items, people are starving."
-            android:textColor="#444"
+            android:text="Orden vacía\n Selecciona + para añadir items"
+            android:textColor="@color/dark_white"
             android:textSize="18sp" />
 
     </FrameLayout>
@@ -115,9 +91,10 @@
         android:layout_height="@dimen/button_height"
         android:layout_gravity="bottom"
         android:background="@drawable/normal_button"
-        android:text="CLOSE ORDER"
+        android:text="CERRAR ORDEN"
         android:textColor="@color/white_background"
-        android:textSize="20sp" />
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 
 </LinearLayout>

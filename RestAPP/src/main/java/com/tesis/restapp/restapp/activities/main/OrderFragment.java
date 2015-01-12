@@ -2,6 +2,7 @@ package com.tesis.restapp.restapp.activities.main;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.main.adapters.ItemsInOrderAdapter;
+import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Order;
 
 
@@ -27,9 +29,11 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     private Button closeOrder;
     private ListView itemsListView;
     private TextView emptyListViewText;
-    private TextView tableNumber;
     private ItemsInOrderAdapter adapter;
     private OrderFragmentCallbacks activity;
+    private TextView tableNumberTextView;
+    private TextView tableDescriptionTextView;
+    private TextView orderTotalTextView;
     private Order order;
 
     public interface OrderFragmentCallbacks {
@@ -71,8 +75,8 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
                 false);
 
         itemsListView = (ListView) rootView.findViewById(R.id.items_listview);
-
         if (getArguments() != null) {
+
             order = getArguments().getParcelable(Order.class.getName());
         }
 
@@ -82,15 +86,19 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
                 order.getId());
 
         itemsListView.setAdapter(adapter);
-        emptyListViewText = (TextView) rootView.findViewById(R.id.empty);
+        emptyListViewText = (TextView) rootView.findViewById(android.R.id.empty);
         itemsListView.setEmptyView(emptyListViewText);
 
-        tableNumber = (TextView) rootView.findViewById(R.id.table_number_txt);
-
-        tableNumber.setText(String.valueOf(order.getTable().getNumber()));
-        Toast.makeText(getActivity(), String.valueOf(order.getItems().size()),
-                Toast.LENGTH_SHORT).show();
-
+        tableNumberTextView = (TextView) rootView.findViewById(R.id.table_number_txt);
+        tableNumberTextView.setText("MESA " + String.valueOf(order.getTable().getNumber()));
+        orderTotalTextView = (TextView) rootView.findViewById(R.id.order_total);
+        orderTotalTextView.setText("$" + String.valueOf(order.getTotal()));
+        tableDescriptionTextView = (TextView) rootView.findViewById(R.id.table_description_txt);
+        if (order.getTable().getDescription() != null) {
+            tableDescriptionTextView.setText(order.getTable().getDescription());
+        } else {
+            tableDescriptionTextView.setVisibility(View.GONE);
+        }
 
         closeOrder = (Button) rootView.findViewById(R.id.close_order_btn);
         closeOrder.setOnClickListener(this);
@@ -100,9 +108,17 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if ( getActivity().getActionBar() != null) {
+            getActivity().getActionBar().setTitle("Orden");
+        }
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.order, menu);
-        getActivity().getActionBar().setTitle("Order");
+
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -112,7 +128,6 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.action_add_item:
                 activity.onAddItem();
-
                 break;
         }
 

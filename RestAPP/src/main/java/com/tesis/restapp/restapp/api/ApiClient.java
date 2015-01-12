@@ -11,7 +11,7 @@ public class ApiClient{
 
     private static String apiIP = "192.168.1.39";
     private static RestAppApiInterface sRestAppService;
-
+    private static String token;
     public static RestAppApiInterface getRestAppApiClient(final Context context) {
         if (sRestAppService == null) {
 
@@ -21,8 +21,8 @@ public class ApiClient{
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade requestFacade) {
-                            if (User.getUser(context) != null) {
-                                requestFacade.addHeader("Cookie", User.getUser(context).getToken());
+                            if (token != null) {
+                                requestFacade.addHeader("Cookie", token);
                                 requestFacade.addHeader("Accept", "application/json");
                             }
                         }
@@ -40,6 +40,10 @@ public class ApiClient{
     }
     public static String getServerIp(){
         return apiIP;
+    }
+
+    public static void setToken(String userToken) {
+        token = userToken;
     }
 }
 

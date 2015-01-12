@@ -1,6 +1,7 @@
 package com.tesis.restapp.restapp.activities.main.adapters;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,14 @@ import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Order;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class OrdersAdapter extends ArrayAdapter<Order> {
 
     private Context context;
-    private List<Order> orders;
+    private List<Order> orders = new ArrayList<Order>();
     private DatabaseHandler db;
 
     public OrdersAdapter(Context context, int resource) {
@@ -25,7 +27,7 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
         this.context = context;
         db = new DatabaseHandler(getContext());
         DatabaseHandler.registerAdapter(this);
-        orders = db.getAllOrders();
+        aNotifyDataSetChanged();
     }
 
     @Override
@@ -33,10 +35,25 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
         return orders.size();
     }
 
-    @Override
-    public void notifyDataSetChanged() {
-        orders = db.getAllOrders();
-        super.notifyDataSetChanged();
+
+    //Asyncrounosly fetch orders from db
+    public void aNotifyDataSetChanged()
+    {
+        final OrdersAdapter adapter = this;
+        final Handler h = new Handler();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                orders = db.getAllOrders();
+                h.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+            }
+        }).start();
+
     }
 
     @Override
@@ -52,9 +69,10 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        TextView description;
-        TextView tableNumber;
-        TextView totalPrice;
+        TextView descriptionTextView;
+        TextView tableNumberTextView;
+        TextView totalPriceTextView;
+        TextView itemsTextView;
         View v = convertView;
 
         if (convertView == null) {
@@ -64,14 +82,24 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
 
         }
 
-        description = (TextView) v.findViewById(R.id.description_txt);
-        tableNumber = (TextView) v.findViewById(R.id.table_number_txt);
-        totalPrice = (TextView) v.findViewById(R.id.order_total);
+        descriptionTextView = (TextView) v.findViewById(R.id.description_txt);
+        tableNumberTextView = (TextView) v.findViewById(R.id.table_number_txt);
+        totalPriceTextView = (TextView) v.findViewById(R.id.order_total);
+        itemsTextView = (TextView) v.findViewById(R.id.items_txt);
 
         Order order = getItem(position);
-        description.setText(order.getTable().getDescription());
-        tableNumber.setText(Integer.toString(order.getTable().getNumber()));
-        totalPrice.setText(String.valueOf(order.getTotal()));
+        int numberOfItems = order.getNumberOfItems();
+        String items = (numberOfItems == 1)? "ITEM" : "ITEMS";
+
+        if (order.getTable().getDescription() != null) {
+            descriptionTextView.setVisibility(View.VISIBLE);
+            descriptionTextView.setText(order.getTable().getDescription());
+        } else {
+            descriptionTextView.setVisibility(View.GONE);
+        }
+        tableNumberTextView.setText(Integer.toString(order.getTable().getNumber()));
+        itemsTextView.setText(numberOfItems + " " + items);
+        totalPriceTextView.setText("$" + String.valueOf(order.getTotal()));
         return v;
     }
 

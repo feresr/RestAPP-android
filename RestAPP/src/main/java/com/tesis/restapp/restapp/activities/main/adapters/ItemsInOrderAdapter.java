@@ -74,7 +74,7 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
         final Item item = getItem(position);
         if (item != null) {
             description.setText(item.getName());
-            price.setText(String.valueOf(item.getPrice()));
+            price.setText("$" + String.valueOf(item.getPrice()));
         }
 
         removeItemBtn = (ImageButton) v.findViewById(R.id.item_remove_btn);

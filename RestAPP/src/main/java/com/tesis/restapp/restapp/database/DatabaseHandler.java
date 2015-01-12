@@ -308,10 +308,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        for (String s : cursor.getColumnNames()) {
-            Log.d("database", s);
-        }
-
         if (cursor.moveToFirst()) {
 
             item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
@@ -340,10 +336,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         String selectQuery = "SELECT * FROM " + TABLE_ITEMS + " WHERE " + TABLE_ITEMS + "." + KEY_CATEGORY_ID + "=" + categoryID;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-
-        for (String s : cursor.getColumnNames()) {
-            Log.d("ttte", s);
-        }
 
         if (cursor.moveToFirst()) {
             do {
@@ -378,7 +370,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         // Select All Query
         Order order = new Order();
 
-        String selectQuery = "SELECT * FROM " + TABLE_ORDERS
+        String selectQuery = "SELECT *, " + TABLE_ORDERS + ".ID as "+ KEY_TABLE_ID + " FROM " + TABLE_ORDERS
                 + " JOIN " + TABLE_TABLES + " ON " + TABLE_ORDERS + "." + KEY_TABLE_ID + "=" + TABLE_TABLES + "." + KEY_ID + " WHERE " + TABLE_ORDERS + "." + KEY_ID + "=" + id;
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -391,13 +383,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             order.setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));
 
             Table table = new Table();
-            table.setId(cursor.getInt(4));
+            table.setId(cursor.getInt(cursor.getColumnIndex(KEY_TABLE_ID)));
 
-            table.setNumber(cursor.getInt(5));
+            table.setNumber(cursor.getInt(cursor.getColumnIndex(KEY_NUMBER)));
 
-            table.setSeats(cursor.getInt(6));
-            table.setDescription(cursor.getString(7));
-            table.setTaken(cursor.getInt(8) == 1);
+            table.setSeats(cursor.getInt(cursor.getColumnIndex(KEY_SEATS)));
+            table.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+            table.setTaken(cursor.getInt(cursor.getColumnIndex(KEY_TAKEN)) == 1);
 
             order.setTable(table);
 
@@ -467,7 +459,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             // Inserting Row
             db.insert(TABLE_TABLES, null, values);
 
-            Log.e("databaseHandler", values.toString());
         }
         db.close(); // Closing database connection
 
@@ -527,6 +518,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             user.setToken(cursor.getString(cursor.getColumnIndex(KEY_TOKEN)));
 
         }
+        cursor.close();
         db.close();
         // return contact list
         return user;
@@ -600,7 +592,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     db.insert(TABLE_ORDER_ITEM, null, values);
 
                     itemsInOrderAdapter.notifyDataSetChanged();
-                    ordersAdapter.notifyDataSetChanged();
+                    ordersAdapter.aNotifyDataSetChanged();
                 }else{
                     Toast.makeText(mContext, data.getMessage(), Toast.LENGTH_SHORT).show();
                 }
@@ -670,7 +662,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     public void removeOrder(Order order){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ORDERS, "id = ?", new String[] { String.valueOf(order.getId())});
-        ordersAdapter.notifyDataSetChanged();
+        ordersAdapter.aNotifyDataSetChanged();
         db.close();
     }
 
@@ -686,7 +678,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             // Inserting Row
             db.insert(TABLE_ORDERS, null, values);
 
-        ordersAdapter.notifyDataSetChanged();
+        ordersAdapter.aNotifyDataSetChanged();
         db.close(); // Closing database connection
     }
 

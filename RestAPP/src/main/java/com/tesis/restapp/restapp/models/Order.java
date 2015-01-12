@@ -69,6 +69,10 @@ public class Order implements Parcelable {
         return total;
     }
 
+    public int getNumberOfItems(){
+        return items.size();
+    };
+
     public void setTotal(double total) {
         this.total = total;
     }

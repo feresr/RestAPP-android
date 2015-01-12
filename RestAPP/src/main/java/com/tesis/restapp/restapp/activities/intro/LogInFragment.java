@@ -72,8 +72,14 @@ public class LogInFragment extends Fragment {
             dialogShowing = savedInstanceState.getBoolean(KEY_DIALOG_SHOWING);
         }
 
-        SharedPreferences settings = getActivity().getSharedPreferences(KEY_PREFERENCES, Context.MODE_PRIVATE);
-        ApiClient.setServerIP(settings.getString("SERVER_IP", "192.168.1.39"));
+        final SharedPreferences settings = getActivity().getSharedPreferences(KEY_PREFERENCES, Context.MODE_PRIVATE);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ApiClient.setServerIP(settings.getString("SERVER_IP", "192.168.1.39"));
+            }
+        }).start();
+
     }
 
     @Override
@@ -143,7 +149,7 @@ public class LogInFragment extends Fragment {
 
     public void logIn(String username, String password) {
         if (isOnline()) {
-            RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient(getActivity());
+            final RestAppApiInterface apiInterface = ApiClient.getRestAppApiClient(getActivity());
             pDialog.setMessage("Logging in...");
             pDialog.show();
             final Bus bus = BusProvider.getInstance();
@@ -155,6 +161,7 @@ public class LogInFragment extends Fragment {
                         for (Header header : response.getHeaders()) {
                             if (header.getValue().contains("laravel_session")) {
                                 user.setToken(header.getValue());
+                                ApiClient.setToken(header.getValue());
                             }
                         }
                         if (user.getToken() != null) {
@@ -218,7 +225,7 @@ public class LogInFragment extends Fragment {
         pDialog.dismiss();
         switch (event.getResult()) {
             case LoginEvent.SUCCESS:
-                dbHandler.addUser(event.getUser());
+                //dbHandler.addUser(event.getUser());
                 activity.onSuccessfulLogin();
                 return;
             case LoginEvent.MISSING_TOKEN:

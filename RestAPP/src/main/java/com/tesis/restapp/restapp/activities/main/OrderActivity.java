@@ -46,6 +46,7 @@ public class OrderActivity extends FragmentActivity implements OrderFragment.Ord
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, OrderFragment.newInstance(order))
                     .commit();
+
         } else {
             if (savedInstanceState.getBoolean(pDialog.getClass().getName(), false)){
                 pDialog.show();
@@ -53,7 +54,7 @@ public class OrderActivity extends FragmentActivity implements OrderFragment.Ord
             id = savedInstanceState.getInt(Order.class.getSimpleName());
             order = databaseHandler.getOrderById(id);
         }
-
+        databaseHandler.close();
 
     }
 

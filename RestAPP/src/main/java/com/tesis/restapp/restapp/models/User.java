@@ -14,18 +14,15 @@ public class User {
 
 
     public User() {
-
+        user = this;
     }
 
     public static User getUser(Context context) {
-
-        DatabaseHandler db = new DatabaseHandler(context);
-
-        return db.getUser();
+        return user;
     }
 
 
-
+    private static User user;
     private String token;
     private int id;
     private String firstname;
