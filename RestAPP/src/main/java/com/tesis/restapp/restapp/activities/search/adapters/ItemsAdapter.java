@@ -5,12 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Item;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,12 +23,9 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
 
     private List<Item> items;
 
-    public ItemsAdapter(Context context, int resource, int categoryId) {
-
+    public ItemsAdapter(Context context, int resource) {
         super(context, resource);
-        DatabaseHandler db = new DatabaseHandler(getContext());
-        items = db.getItemsInCategory(categoryId);
-
+        items = new ArrayList<Item>();
     }
 
     @Override
@@ -66,5 +66,27 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
             price.setText(String.valueOf(item.getPrice()));
         }
         return v;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                DatabaseHandler db = new DatabaseHandler(getContext());
+                List<Item> filteredResults = db.getItemsByName(constraint);
+
+                FilterResults results = new FilterResults();
+                results.values = filteredResults;
+
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                items = (List<Item>) results.values;
+                ItemsAdapter.this.notifyDataSetChanged();
+            }
+        };
     }
 }

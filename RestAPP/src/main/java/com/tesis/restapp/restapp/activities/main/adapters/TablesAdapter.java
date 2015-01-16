@@ -58,6 +58,7 @@ public class TablesAdapter extends ArrayAdapter<Table> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView tableNumber;
+        TextView description;
 
         View v = convertView;
 
@@ -74,6 +75,15 @@ public class TablesAdapter extends ArrayAdapter<Table> {
 
         tableNumber.setText(Integer.toString(table.getNumber()));
 
+
+        description = (TextView) v.findViewById(R.id.description_txt);
+
+        if (table.getDescription() != null) {
+            description.setVisibility(View.VISIBLE);
+            description.setText(table.getDescription());
+        } else {
+            description.setVisibility(View.GONE);
+        }
         return v;
     }
 }

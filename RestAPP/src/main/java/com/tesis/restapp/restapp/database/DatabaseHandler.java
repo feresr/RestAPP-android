@@ -366,6 +366,41 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return items;
     }
 
+    public List<Item> getItemsByName(CharSequence keyword){
+        ArrayList<Item> items = new ArrayList<Item>();
+        String selectQuery = "SELECT * FROM " + TABLE_ITEMS + " WHERE " + TABLE_ITEMS + "." + KEY_NAME + " LIKE '%" + keyword + "%'";
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Item item = new Item();
+
+                item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+                item.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
+                item.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
+                item.setPrice(cursor.getDouble(cursor.getColumnIndex(KEY_PRICE)));
+                item.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
+                item.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
+
+                Category category = new Category();
+
+                String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + cursor.getString(cursor.getColumnIndex(KEY_CATEGORY_ID));
+                Cursor categoryCursor = db.rawQuery(selectCategory, null);
+                if (categoryCursor.moveToFirst()) {
+                    category.setId(categoryCursor.getInt(0));
+                    category.setName(categoryCursor.getString(1));
+                }
+                item.setCategory(category);
+
+                items.add(item);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        // return contact list
+        return items;
+    }
+
     public Order getOrderById(int id) {
         // Select All Query
         Order order = new Order();

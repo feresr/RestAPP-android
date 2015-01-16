@@ -26,30 +26,11 @@
             android:launchMode="singleTop" >
         </activity>
         <activity
-            android:name=".activities.search.SearchActivity"
-            android:label="@string/title_activity_search"
-            android:parentActivityName=".activities.main.OrderActivity"
-            android:theme="@style/AppTheme" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.tesis.restapp.restapp.activities.main.OrderActivity" />
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
-            android:name=".activities.search.ItemsActivity"
-            android:label="Search item" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".activities.main.OrderActivity"
             android:label="@string/title_activity_order"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".activities.main.MainActivity" >
+            android:parentActivityName=".activities.main.MainActivity"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tesis.restapp.restapp.activities.main.MainActivity" />
@@ -57,11 +38,21 @@
         <activity
             android:name=".activities.main.TablesActivity"
             android:label="@string/title_activity_tables"
-            android:theme="@style/AppTheme"
-            android:parentActivityName=".activities.main.MainActivity" >
+            android:parentActivityName=".activities.main.MainActivity"
+            android:theme="@style/AppTheme" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.tesis.restapp.restapp.activities.main.MainActivity" />
+        </activity>
+        <activity
+            android:name=".activities.search.SearchActivity"
+            android:label="@string/title_activity_search"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.main.OrderActivity"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tesis.restapp.restapp.activities.main.OrderActivity" />
         </activity>
     </application>
 

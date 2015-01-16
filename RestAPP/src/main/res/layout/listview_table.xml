@@ -6,18 +6,6 @@
     android:layout_height="wrap_content"
 
     >
-    <TextView
-        android:id="@+id/table_number_txt"
-        android:layout_width="0dp"
-        android:layout_weight="3"
-        android:layout_height="match_parent"
-        android:layout_margin="5dp"
-        android:background="@color/dark_black"
-        android:gravity="center"
-        android:text="2"
-
-        android:textColor="@color/white"
-        android:textSize="18sp"
 
         android:typeface="sans" />
     <LinearLayout
@@ -35,7 +23,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="Mesa"
-            android:textSize="16sp" />
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/description_txt"
@@ -48,6 +37,18 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/table_number_txt"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_height="70dp"
+        android:layout_margin="5dp"
+        android:background="@color/dark_black"
+        android:gravity="center"
+        android:text="2"
+
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
 
 
 </LinearLayout>

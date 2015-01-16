@@ -23,5 +23,6 @@
     <string name="log_out">Log out</string>
     <string name="Settings">Settings</string>
     <string name="title_activity_tables">Mesas disponibles</string>
+    <string name="title_activity_item">ItemActivity</string>
 
 </resources>
