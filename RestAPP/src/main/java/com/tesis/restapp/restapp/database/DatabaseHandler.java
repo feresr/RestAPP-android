@@ -222,7 +222,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         item.setId(itemCursor.getInt(itemCursor.getColumnIndex("order_item_id")));
                         item.setName(itemCursor.getString(itemCursor.getColumnIndex(KEY_NAME)));
                         item.setDescription(itemCursor.getString(itemCursor.getColumnIndex(KEY_DESCRIPTION)));
-                        item.setPrice(itemCursor.getDouble(itemCursor.getColumnIndex(KEY_PRICE)));
+                        item.setPrice(itemCursor.getFloat(itemCursor.getColumnIndex(KEY_PRICE)));
                         Category category = new Category();
 
                         String selectCategory = "SELECT * FROM " + TABLE_CATEGORIES + " WHERE " + TABLE_CATEGORIES + "." + KEY_ID + " = " + itemCursor.getInt(4);
@@ -313,7 +313,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
             item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
             item.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
             item.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
-            item.setPrice(cursor.getDouble(cursor.getColumnIndex(KEY_PRICE)));
+            item.setPrice(cursor.getFloat(cursor.getColumnIndex(KEY_PRICE)));
             item.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
             item.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
 
@@ -344,7 +344,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
                 item.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
                 item.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
-                item.setPrice(cursor.getDouble(cursor.getColumnIndex(KEY_PRICE)));
+                item.setPrice(cursor.getFloat(cursor.getColumnIndex(KEY_PRICE)));
                 item.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
                 item.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
 
@@ -379,7 +379,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 item.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
                 item.setName(cursor.getString(cursor.getColumnIndex(KEY_NAME)));
                 item.setDescription(cursor.getString(cursor.getColumnIndex(KEY_DESCRIPTION)));
-                item.setPrice(cursor.getDouble(cursor.getColumnIndex(KEY_PRICE)));
+                item.setPrice(cursor.getFloat(cursor.getColumnIndex(KEY_PRICE)));
                 item.setCreated_at(cursor.getString(cursor.getColumnIndex(KEY_CREATED_AT)));
                 item.setUpdated_at(cursor.getString(cursor.getColumnIndex(KEY_UPDATED_AT)));
 
@@ -415,7 +415,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
 
             order.setId(cursor.getInt(0));
-            order.setTotal(cursor.getDouble(cursor.getColumnIndex(KEY_TOTAL)));
+            order.setTotal(cursor.getFloat(cursor.getColumnIndex(KEY_TOTAL)));
 
             Table table = new Table();
             table.setId(cursor.getInt(cursor.getColumnIndex(KEY_TABLE_ID)));
@@ -441,7 +441,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                     item.setId(itemCursor.getInt(0));
                     item.setName(itemCursor.getString(1));
                     item.setDescription(itemCursor.getString(2));
-                    item.setPrice(itemCursor.getDouble(3));
+                    item.setPrice(itemCursor.getFloat(3));
                     item.setCategory(new Category());
 
                     items.add(item);

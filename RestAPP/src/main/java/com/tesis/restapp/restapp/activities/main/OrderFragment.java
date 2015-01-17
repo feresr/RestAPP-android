@@ -36,6 +36,11 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     private TextView orderTotalTextView;
     private Order order;
 
+    public void updatePrice(Order order) {
+        this.order = order;
+        orderTotalTextView.setText("$" + String.valueOf(order.getTotal()));
+    }
+
     public interface OrderFragmentCallbacks {
         public void onOrderCheckout(Order order);
         public void onCloseOrder(Order order);
@@ -83,7 +88,7 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
         adapter = new ItemsInOrderAdapter(
                 getActivity(),
                 R.layout.listview_order_item,
-                order.getId());
+                order.getId(), this);
 
         itemsListView.setAdapter(adapter);
         emptyListViewText = (TextView) rootView.findViewById(android.R.id.empty);
