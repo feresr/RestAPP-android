@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class Category implements Parcelable {
 
 
+    public static final String KEY = "CATEGORY";
     @SuppressWarnings("unused")
     public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
         @Override

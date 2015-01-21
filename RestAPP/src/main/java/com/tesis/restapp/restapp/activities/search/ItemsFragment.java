@@ -1,5 +1,6 @@
 package com.tesis.restapp.restapp.activities.search;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,15 +12,30 @@ import android.widget.ListView;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.search.adapters.ItemsAdapter;
+import com.tesis.restapp.restapp.models.Category;
 
 public class ItemsFragment extends Fragment implements AdapterView.OnItemClickListener {
 
     private ItemsAdapter itemsAdapter;
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if(getArguments() != null) {
+            if (getArguments().getString("TEXT") != null){
+                itemsAdapter = new ItemsAdapter(getActivity(), R.layout.listview_item);
+                filterByName(getArguments().getString("TEXT"));
+            } else if (getArguments().getInt(Category.KEY, -1) != -1) {
+                itemsAdapter = new ItemsAdapter(getActivity(), R.layout.listview_item, getArguments().getInt(Category.KEY));
+            }
+
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        itemsAdapter = new ItemsAdapter(getActivity(), R.layout.listview_item);
+
     }
 
     @Override
@@ -42,7 +58,7 @@ public class ItemsFragment extends Fragment implements AdapterView.OnItemClickLi
 
     public void filterByName(CharSequence name){
         if (itemsAdapter != null) {
-        itemsAdapter.getFilter().filter(name);
+            itemsAdapter.getFilter().filter(name);
         }
     }
 }

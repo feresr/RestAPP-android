@@ -11,6 +11,7 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
+import com.tesis.restapp.restapp.models.Category;
 
 public class SearchActivity extends Activity implements SearchHandler {
 
@@ -32,9 +33,13 @@ public class SearchActivity extends Activity implements SearchHandler {
 
     @Override
     public void onCategorySelected(int categoryId) {
+        Bundle b = new Bundle();
+        b.putInt(Category.KEY, categoryId);
+        itemsFragment.setArguments(b);
         getFragmentManager().beginTransaction().addToBackStack(null)
                 .replace(R.id.container, itemsFragment)
                 .commit();
+        itemsMode = true;
     }
 
     @Override
@@ -69,6 +74,9 @@ public class SearchActivity extends Activity implements SearchHandler {
                itemsMode = false;
             } else {
                 if (!itemsMode) {
+                    Bundle b = new Bundle();
+                    b.putString("TEXT", newText);
+                    itemsFragment.setArguments(b);
                     getFragmentManager().beginTransaction().addToBackStack(null)
                             .replace(R.id.container, itemsFragment)
                             .commit();
@@ -86,6 +94,9 @@ public class SearchActivity extends Activity implements SearchHandler {
         }
     };
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        itemsMode = false;
+    }
 }

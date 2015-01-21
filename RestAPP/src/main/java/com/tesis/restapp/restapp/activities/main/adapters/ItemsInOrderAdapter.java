@@ -9,6 +9,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.tesis.restapp.restapp.R;
+import com.tesis.restapp.restapp.activities.main.OrderFragment;
 import com.tesis.restapp.restapp.database.DatabaseHandler;
 import com.tesis.restapp.restapp.models.Item;
 import com.tesis.restapp.restapp.models.Order;
@@ -20,15 +21,16 @@ import com.tesis.restapp.restapp.models.Order;
 public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
 
     private Context context;
+    private OrderFragment orderFragment;
     private Order order;
     private int orderId;
     DatabaseHandler db;
 
-    public ItemsInOrderAdapter(Context context, int resource, int orderId) {
+    public ItemsInOrderAdapter(Context context, int resource, int orderId, OrderFragment fragment) {
         super(context, resource);
         this.context = context;
         this.orderId = orderId;
-
+        this.orderFragment = fragment;
         db = new DatabaseHandler(getContext());
 
         this.order = db.getOrderById(orderId);
@@ -97,6 +99,7 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
     @Override
     public void notifyDataSetChanged() {
         this.order = db.getOrderById(orderId);
+        orderFragment.updatePrice(order);
         super.notifyDataSetChanged();
     }
 

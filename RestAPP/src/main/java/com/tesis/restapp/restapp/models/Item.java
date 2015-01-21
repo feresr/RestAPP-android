@@ -22,7 +22,7 @@ public class Item implements Parcelable {
     private int id;
     private String name;
     private String description;
-    private double price;
+    private float price;
     private Category category;
     private int category_id;
     private String created_at;
@@ -35,7 +35,7 @@ public class Item implements Parcelable {
         id = in.readInt();
         name = in.readString();
         description = in.readString();
-        price = in.readDouble();
+        price = in.readFloat();
         category = (Category) in.readValue(Category.class.getClassLoader());
         category_id = in.readInt();
         created_at = in.readString();
@@ -58,11 +58,11 @@ public class Item implements Parcelable {
         this.name = name;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -116,7 +116,7 @@ public class Item implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeDouble(price);
+        dest.writeFloat(price);
         dest.writeValue(category);
         dest.writeInt(category_id);
         dest.writeString(created_at);

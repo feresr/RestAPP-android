@@ -27,7 +27,7 @@ public class Order implements Parcelable {
 
     private int id;
     private int table_id;
-    private double total;
+    private float total;
     private int ready;
     private int active;
     private String created_at;
@@ -38,7 +38,7 @@ public class Order implements Parcelable {
     public Order(Parcel in) {
         id = in.readInt();
         table_id = in.readInt();
-        total = in.readDouble();
+        total = in.readFloat();
         ready = in.readInt();
         active = in.readInt();
         created_at = in.readString();
@@ -61,11 +61,12 @@ public class Order implements Parcelable {
         this.items = items;
     }
 
-    public double getTotal() {
-        double total = 0;
+    public float getTotal() {
+        float total = 0;
         for (Item item : items) {
             total += item.getPrice();
         }
+
         return total;
     }
 
@@ -73,7 +74,7 @@ public class Order implements Parcelable {
         return items.size();
     };
 
-    public void setTotal(double total) {
+    public void setTotal(float total) {
         this.total = total;
     }
 
@@ -142,7 +143,7 @@ public class Order implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeInt(table_id);
-        dest.writeDouble(total);
+        dest.writeFloat(total);
         dest.writeInt(ready);
         dest.writeInt(active);
         dest.writeString(created_at);

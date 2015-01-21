@@ -28,6 +28,12 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
         items = new ArrayList<Item>();
     }
 
+    public ItemsAdapter(Context context, int resource, int categoryId) {
+        super(context, resource);
+        DatabaseHandler db = new DatabaseHandler(context);
+        items = db.getItemsInCategory(categoryId);
+    }
+
     @Override
     public int getCount() {
         return items.size();
