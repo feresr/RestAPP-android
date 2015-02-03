@@ -116,13 +116,19 @@ public class OrderActivity extends FragmentActivity implements OrderFragment.Ord
     }
 
     @Override
+    public void dismissDialog() {
+        pDialog.dismiss();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 int result = data.getIntExtra("itemId", -1);
                 if (result >= 0) {
-
+                    pDialog.setMessage("Adding item...");
+                    pDialog.show();
                     DatabaseHandler db = new DatabaseHandler(this);
                     Item item = db.getItemById(result);
 

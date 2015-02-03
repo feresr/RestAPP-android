@@ -39,12 +39,15 @@ public class OrderFragment extends Fragment implements View.OnClickListener {
     public void updatePrice(Order order) {
         this.order = order;
         orderTotalTextView.setText("$" + String.valueOf(order.getTotal()));
+        activity.dismissDialog();
     }
 
     public interface OrderFragmentCallbacks {
         public void onOrderCheckout(Order order);
         public void onCloseOrder(Order order);
         public void onAddItem();
+
+        public  void dismissDialog();
     }
 
     public static OrderFragment newInstance(Order order) {

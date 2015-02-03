@@ -55,6 +55,11 @@ public class DashboardFragment extends Fragment implements AdapterView.OnItemCli
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        adapter.aNotifyDataSetChanged();
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

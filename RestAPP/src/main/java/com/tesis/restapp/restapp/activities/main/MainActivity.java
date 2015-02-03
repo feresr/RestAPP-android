@@ -212,6 +212,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
     protected void onResume() {
         super.onResume();
         BusProvider.getInstance().register(this);
+
     }
 
 }

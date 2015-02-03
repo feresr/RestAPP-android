@@ -63,9 +63,7 @@
             android:layout_height="match_parent"
             android:background="#111"
             android:divider="#222"
-            android:dividerHeight="1dp"
-            android:paddingLeft="10sp"
-            android:paddingRight="10sp" />
+            android:dividerHeight="1dp"/>
 
         <TextView
             android:id="@android:id/empty"

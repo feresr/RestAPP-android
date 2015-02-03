@@ -2,117 +2,34 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <!-- $ Picture and price -->
-
     <LinearLayout
         android:id="@+id/userInfolayout"
         android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:background="@drawable/wp_money"
+        android:layout_height="match_parent"
+        android:background="@color/dark_black"
         android:gravity="center"
-        android:paddingTop="@dimen/activity_vertical_margin"
         android:orientation="vertical" >
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="0dip"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="6"
-            android:paddingBottom="24dp"
-            android:paddingLeft="6dp"
-            android:paddingTop="40dp"
-            android:src="@drawable/ic_money" />
+            android:src="@drawable/ic_money"
+            android:layout_marginBottom="40sp"/>
 
         <TextView
             android:id="@+id/order_total"
             android:layout_width="match_parent"
-            android:layout_height="0dip"
-            android:layout_weight="2"
-
+            android:layout_height="80sp"
             android:background="@drawable/bw_gradient"
             android:gravity="center"
             android:text="$ 224.41"
+            android:layout_marginBottom="30sp"
             android:textColor="#EEE"
-            android:textSize="26sp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tableview_number_of_seats_txt"
-        android:layout_width="0dp"
-        android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="4"
-        android:textColor="#222"
-        android:textSize="24sp"
-        android:typeface="sans" />
-
-    <!-- $ per Client -->
-
-    <LinearLayout
-
-        android:id="@+id/pricePerClientLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/userInfolayout"
-        android:background="@color/dark_black"
-        android:gravity="center_vertical"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="$ 74.8 Each"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:textColor="#eee"
-            android:textSize="16sp" />
+            android:textSize="22sp" />
 
     </LinearLayout>
 
-    <!-- Discount -->
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/pricePerClientLayout"
-        android:background="@color/black"
-        android:gravity="center_vertical"
-
-        android:orientation="horizontal"
-        android:paddingBottom="14dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:paddingTop="14dp" >
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="8"
-            android:gravity="center_vertical"
-            android:text="Discount:"
-            android:textColor="#eee"
-            android:textSize="18sp" />
-
-        <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:inputType="numberDecimal"
-            android:gravity="center_vertical" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical|right"
-            android:text="%"
-            
-            android:textColor="#eee"
-            android:textSize="18sp" />
-    </LinearLayout>
-    <!-- New Order -->
 
     <LinearLayout
         android:id="@+id/bottomLayout"

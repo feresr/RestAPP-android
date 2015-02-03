@@ -27,6 +27,7 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
         this.context = context;
         db = new DatabaseHandler(getContext());
         DatabaseHandler.registerAdapter(this);
+        db.close();
         aNotifyDataSetChanged();
     }
 
@@ -44,6 +45,7 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                db = new DatabaseHandler(getContext());
                 orders = db.getAllOrders();
                 h.post(new Runnable() {
                     @Override
