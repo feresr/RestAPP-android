@@ -31,7 +31,6 @@
             android:textColor="@color/dark_white"
             android:textSize="14sp"
             android:typeface="sans" />
-
     </LinearLayout>
     <ImageButton
         android:id="@+id/item_remove_btn"
@@ -39,10 +38,9 @@
         android:layout_height="70dp"
         android:paddingLeft="10sp"
         android:paddingRight="10sp"
-        android:src="@drawable/abc_ic_clear"
+        android:src="@android:drawable/ic_delete"
         android:background="#4222"
         android:focusable="false"
-
         />
 
 </LinearLayout>
