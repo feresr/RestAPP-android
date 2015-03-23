@@ -2,60 +2,53 @@
 <items version="2" >
 
     <item
-        jar="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\exploded-aar\com.shamanland\fab\0.0.7\classes.jar"
+        jar="/media/C/RestAPP-android/RestAPP/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="2e65181fcfeb56b3fd340954294ea1b934ae1972">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\classes-0ec2b36f8ad9d444451b9a9ec5a74b14eb471725.jar" />
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="/media/C/RestAPP-android/RestAPP/build/intermediates/pre-dexed/debug/classes-09c94e366b042b7e4fe0c6b82785c43d89bdf916.jar" />
     </item>
     <item
-        jar="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\libs\internal_impl-20.0.0.jar"
+        jar="/media/C/RestAPP-android/RestAPP/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="e40b3078e3fbd353c9f44da8df25a8fc0078209d">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\internal_impl-20.0.0-0df19f679981196b404658816f1a66e6826cb7b6.jar" />
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="/media/C/RestAPP-android/RestAPP/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-a432221aa45eb1445035bc7b0149140ae271968c.jar" />
     </item>
     <item
-        jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.squareup\otto\1.3.4\4d72fb811c7b3c0e7f412112020d4430f044e510\otto-1.3.4.jar"
+        jar="/home/feresr/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.3/5fc52c41ef0239d1093a1eb7c3697036183677ce/gson-2.3.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="4d72fb811c7b3c0e7f412112020d4430f044e510">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\otto-1.3.4-8a32029d96acfbc150c643f1f946e69d5baa0f4d.jar" />
-    </item>
-    <item
-        jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.squareup.retrofit\retrofit\1.7.1\168a878946d665200edc733ac715b1264a6cd7b6\retrofit-1.7.1.jar"
-        jumboMode="false"
-        revision="19.1.0"
-        sha1="168a878946d665200edc733ac715b1264a6cd7b6">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\retrofit-1.7.1-2419c4fe0b4d0bd32aac5acf36da9d84cfcb510c.jar" />
-    </item>
-    <item
-        jar="C:\Users\Fer\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.3\5fc52c41ef0239d1093a1eb7c3697036183677ce\gson-2.3.jar"
-        jumboMode="false"
-        revision="19.1.0"
+        revision="21.1.2"
         sha1="5fc52c41ef0239d1093a1eb7c3697036183677ce">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\gson-2.3-e4c73ff586c07ea692b429490d84a1bd5142561a.jar" />
+        <dex dex="/media/C/RestAPP-android/RestAPP/build/intermediates/pre-dexed/debug/gson-2.3-5626565b4cfa3f388d6dee04319ccfa3ac3c87c4.jar" />
     </item>
     <item
-        jar="C:\Users\Fer\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\20.0.0\support-annotations-20.0.0.jar"
+        jar="/media/C/Sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.3/support-annotations-21.0.3.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="9d9013e9ff35fc3756411e62873c363c70c638fa">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\support-annotations-20.0.0-2e1c2e2378be1b78484ecfc62ee02ce3d65ac66d.jar" />
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="/media/C/RestAPP-android/RestAPP/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-f345761fda90a925edcd3070eae156a067644ce6.jar" />
     </item>
     <item
-        jar="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\exploded-aar\com.android.support\appcompat-v7\20.0.0\classes.jar"
+        jar="/home/feresr/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit/retrofit/1.7.1/168a878946d665200edc733ac715b1264a6cd7b6/retrofit-1.7.1.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="f21927d22fe31889ecce94dd697a2e75b137e0ef">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\classes-6bf229b42d623d696e20bc1d85711910603af349.jar" />
+        revision="21.1.2"
+        sha1="168a878946d665200edc733ac715b1264a6cd7b6">
+        <dex dex="/media/C/RestAPP-android/RestAPP/build/intermediates/pre-dexed/debug/retrofit-1.7.1-a32e2b061b309b82ce04f570070a23d84fa1f85c.jar" />
     </item>
     <item
-        jar="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
+        jar="/media/C/RestAPP-android/RestAPP/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"
         jumboMode="false"
-        revision="19.1.0"
-        sha1="8694693636ab36910c8100ce527c258ff3ebece0">
-        <dex dex="E:\Workspace\RestAPP-android\RestAPP\build\intermediates\pre-dexed\debug\classes-fc8f2016ec7ec91024a8873336c9e7aeef873a5d.jar" />
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="/media/C/RestAPP-android/RestAPP/build/intermediates/pre-dexed/debug/classes-7dd36887852c789d1e44640e4ee6ae7eeb126ca4.jar" />
+    </item>
+    <item
+        jar="/home/feresr/.gradle/caches/modules-2/files-2.1/com.squareup/otto/1.3.4/4d72fb811c7b3c0e7f412112020d4430f044e510/otto-1.3.4.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4d72fb811c7b3c0e7f412112020d4430f044e510">
+        <dex dex="/media/C/RestAPP-android/RestAPP/build/intermediates/pre-dexed/debug/otto-1.3.4-8636dbbd83ee735ae5083fff1563724569af8dab.jar" />
     </item>
 
 </items>

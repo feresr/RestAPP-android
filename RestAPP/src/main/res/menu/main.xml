@@ -7,9 +7,4 @@
         android:orderInCategory="102"
         android:showAsAction="always"
         android:title="@string/log_out" />
-
-    <item android:id="@+id/action_settings" android:icon="@drawable/ic_action_settings"
-        android:orderInCategory="101"
-        android:showAsAction="always"
-        android:title="@string/Settings" />
 </menu>

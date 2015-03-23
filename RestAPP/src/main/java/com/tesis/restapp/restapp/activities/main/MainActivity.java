@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,7 +31,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends FragmentActivity implements MainHandler {
+public class MainActivity extends ActionBarActivity implements MainHandler {
 
     private static final String KEY_DIALOG_SHOWING = "DIALOG_SHOWING";
 
@@ -174,7 +175,7 @@ public class MainActivity extends FragmentActivity implements MainHandler {
     }
 
     @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_logout:
                 pDialog.setMessage("Loggin out...");

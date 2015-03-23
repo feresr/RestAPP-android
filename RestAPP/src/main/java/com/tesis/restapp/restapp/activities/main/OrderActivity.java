@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,7 +23,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class OrderActivity extends FragmentActivity implements OrderFragment.OrderFragmentCallbacks {
+public class OrderActivity extends ActionBarActivity implements OrderFragment.OrderFragmentCallbacks {
 
     private int id;
     private Order order;

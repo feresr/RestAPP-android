@@ -26,10 +26,14 @@ public class SearchActivity extends Activity implements SearchHandler {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new CategoriesFragment())
                     .commit();
-            itemsFragment = new ItemsFragment();
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        itemsFragment = new ItemsFragment();
+    }
 
     @Override
     public void onCategorySelected(int categoryId) {

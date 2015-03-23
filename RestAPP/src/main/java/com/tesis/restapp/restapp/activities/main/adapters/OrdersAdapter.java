@@ -71,39 +71,53 @@ public class OrdersAdapter extends ArrayAdapter<Order> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        TextView descriptionTextView;
-        TextView tableNumberTextView;
-        TextView totalPriceTextView;
-        TextView itemsTextView;
-        View v = convertView;
+        ViewHolder viewHolder;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.listview_order, null);
+            convertView = inflater.inflate(R.layout.listview_order, null);
 
+            TextView descriptionTextView = (TextView) convertView.findViewById(R.id.description_txt);
+            TextView tableNumberTextView = (TextView) convertView.findViewById(R.id.table_number_txt);
+            TextView totalPriceTextView = (TextView) convertView.findViewById(R.id.order_total);
+            TextView itemsTextView = (TextView) convertView.findViewById(R.id.items_txt);
+
+            viewHolder = new ViewHolder(descriptionTextView, tableNumberTextView,totalPriceTextView,itemsTextView);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        descriptionTextView = (TextView) v.findViewById(R.id.description_txt);
-        tableNumberTextView = (TextView) v.findViewById(R.id.table_number_txt);
-        totalPriceTextView = (TextView) v.findViewById(R.id.order_total);
-        itemsTextView = (TextView) v.findViewById(R.id.items_txt);
+
 
         Order order = getItem(position);
         int numberOfItems = order.getNumberOfItems();
         String items = (numberOfItems == 1)? "ITEM" : "ITEMS";
 
         if (order.getTable().getDescription() != null) {
-            descriptionTextView.setVisibility(View.VISIBLE);
-            descriptionTextView.setText(order.getTable().getDescription());
+            viewHolder.descriptionTextView.setVisibility(View.VISIBLE);
+            viewHolder.descriptionTextView.setText(order.getTable().getDescription());
         } else {
-            descriptionTextView.setVisibility(View.GONE);
+            viewHolder.descriptionTextView.setVisibility(View.GONE);
         }
-        tableNumberTextView.setText(Integer.toString(order.getTable().getNumber()));
-        itemsTextView.setText(numberOfItems + " " + items);
-        totalPriceTextView.setText("$" + String.valueOf(order.getTotal()));
-        return v;
+        viewHolder.tableNumberTextView.setText(Integer.toString(order.getTable().getNumber()));
+        viewHolder.itemsTextView.setText(numberOfItems + " " + items);
+        viewHolder.totalPriceTextView.setText("$" + String.valueOf(order.getTotal()));
+        return convertView;
     }
 
+    private static class ViewHolder {
+        public TextView descriptionTextView;
+        public TextView tableNumberTextView;
+        public TextView totalPriceTextView;
+        public TextView itemsTextView;
 
+        public ViewHolder(TextView descriptionTextView, TextView tableNumberTextView, TextView totalPriceTextView, TextView itemsTextView) {
+            this.descriptionTextView = descriptionTextView;
+            this.tableNumberTextView = tableNumberTextView;
+            this.totalPriceTextView = totalPriceTextView;
+            this.itemsTextView = itemsTextView;
+        }
+    }
 }
