@@ -1,19 +1,18 @@
 package com.tesis.restapp.restapp.activities.search;
 
-import android.app.Activity;
-import android.app.SearchManager;
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
-import android.view.MenuInflater;
-import android.widget.SearchView;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.models.Category;
 
-public class SearchActivity extends Activity implements SearchHandler {
+public class SearchActivity extends ActionBarActivity implements SearchHandler {
 
     private ItemsFragment itemsFragment;
     private boolean itemsMode = false;
@@ -56,16 +55,11 @@ public class SearchActivity extends Activity implements SearchHandler {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search, menu);
+        getMenuInflater().inflate(R.menu.search, menu);
 
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
         searchView.setOnQueryTextListener(queryTextListener);
         return true;
     }
