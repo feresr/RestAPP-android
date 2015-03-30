@@ -2,10 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="#FFBB33"
     android:layout_height="match_parent"
     tools:context="com.tesis.restapp.restapp.activities.intro.IntroActivity$PlaceholderFragment">
-
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+               android:layout_centerInParent="true"
+               android:adjustViewBounds="true"
+               android:scaleType="centerCrop"
+               android:src="@drawable/background_login_dark"
+               android:contentDescription="icon"
+            />
     <ImageView
         android:id="@+id/lock_icon"
         android:layout_width="140dp"
@@ -18,12 +23,14 @@
         android:id="@+id/usernameTxt"
         android:layout_width="290sp"
         android:layout_height="50dp"
+        android:textColorHighlight="@color/normal"
         android:layout_marginTop="30dp"
         android:background="@drawable/custominput"
         android:hint="@string/login_user_hint"
         android:inputType="textPersonName"
         android:paddingLeft="8sp"
-        android:textColor="#ddd"
+        android:textColor="#111"
+        android:textColorHint="#333"
         android:textSize="16sp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true">
@@ -39,10 +46,11 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/custominput"
         android:hint="@string/login_password_hint"
-        android:inputType="textPassword"
+        android:inputType="textWebPassword"
         android:layout_below="@+id/usernameTxt"
         android:paddingLeft="8sp"
-        android:textColor="#ddd"
+        android:textColor="#111"
+        android:textColorHint="#333"
         android:textSize="16sp" />
     <ImageButton
         android:id="@+id/config"

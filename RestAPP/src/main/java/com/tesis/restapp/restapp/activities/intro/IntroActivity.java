@@ -1,15 +1,14 @@
 package com.tesis.restapp.restapp.activities.intro;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StrictMode;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.activities.main.MainActivity;
 
-public class IntroActivity extends Activity implements IntroHandler {
+public class IntroActivity extends FragmentActivity implements IntroHandler {
 
     LogInFragment loginFragment;
 
@@ -18,14 +17,14 @@ public class IntroActivity extends Activity implements IntroHandler {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_intro);
 
-        loginFragment = (LogInFragment) getFragmentManager().findFragmentByTag(LogInFragment.class.getName());
+        loginFragment = (LogInFragment) getSupportFragmentManager().findFragmentByTag(LogInFragment.class.getName());
         if (loginFragment == null) {
             loginFragment = new LogInFragment();
         }
 
         //If it's the first time the activity is started. Add IntroFragment to it.
         if (savedInstanceState == null) {
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new IntroFragment())
                     .commit();
         }
@@ -46,7 +45,8 @@ public class IntroActivity extends Activity implements IntroHandler {
 
     @Override
     public void onShowLoginScreenClicked() {
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
         transaction.replace(R.id.container, loginFragment, LogInFragment.class.getName());
         transaction.addToBackStack(null);
         transaction.commit();

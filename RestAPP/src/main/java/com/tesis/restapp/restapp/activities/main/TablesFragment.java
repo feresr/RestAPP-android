@@ -126,7 +126,7 @@ public class TablesFragment extends ListFragment implements AdapterView.OnItemCl
 
     @Subscribe
     public void onTablesUpdated(TablesUpdatedEvent e) {
-        adapter.notifyDataSetChanged();
+        adapter.update();
         setListShown(true);
         mSwipeRefreshLayout.setRefreshing(false);
     }

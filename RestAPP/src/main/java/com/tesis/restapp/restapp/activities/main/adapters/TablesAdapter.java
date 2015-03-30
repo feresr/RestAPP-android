@@ -21,7 +21,6 @@ public class TablesAdapter extends ArrayAdapter<Table> {
 
     private Context context;
     private DatabaseHandler db;
-    private List<Table> tables;
 
     public TablesAdapter(Context context, int resource) {
         super(context, resource);
@@ -29,30 +28,25 @@ public class TablesAdapter extends ArrayAdapter<Table> {
 
         db = new DatabaseHandler(getContext());
         DatabaseHandler.registerAdapter(this);
-        tables = db.getTables();
-        Log.e("TABLES", tables.toString());
+        update();
+
     }
 
 
-    @Override
-    public int getCount() {
-        return tables.size();
-    }
 
-    @Override
-    public void notifyDataSetChanged() {
-        tables = db.getTables();
-        super.notifyDataSetChanged();
+    public void update() {
+        clear();
+        db.getTables(new DatabaseHandler.TableRunnableInterface() {
+            @Override
+            public void run(List<Table> tables) {
+                addAll(tables);
+            }
+        });
     }
 
     @Override
     public long getItemId(int position) {
-        return tables.get(position).getId();
-    }
-
-    @Override
-    public Table getItem(int position) {
-        return tables.get(position);
+        return getItem(position).getId();
     }
 
     @Override

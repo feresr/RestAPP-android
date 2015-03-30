@@ -1,8 +1,8 @@
 package com.tesis.restapp.restapp.activities.intro;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +31,7 @@ public class IntroFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_intro, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
 
         Button logInButton = (Button) rootView.findViewById(R.id.login_btn);
         logInButton.setOnClickListener(new View.OnClickListener() {
