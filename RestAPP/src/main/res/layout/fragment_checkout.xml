@@ -9,7 +9,14 @@
         android:background="@color/dark_black"
         android:gravity="center"
         android:orientation="vertical" >
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="¿Desea cerrar esta orden?"
+            android:textSize="24sp"
+            android:padding="20sp"
+            android:layout_marginBottom="60sp"
+            android:textColor="@color/white"/>
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -21,12 +28,11 @@
             android:id="@+id/order_total"
             android:layout_width="match_parent"
             android:layout_height="80sp"
-            android:background="@drawable/bw_gradient"
             android:gravity="center"
             android:text="$ 224.41"
             android:layout_marginBottom="30sp"
             android:textColor="#EEE"
-            android:textSize="22sp" />
+            android:textSize="26sp" />
 
     </LinearLayout>
 
@@ -43,7 +49,7 @@
             android:layout_height="50sp"
             android:layout_gravity="bottom"
             android:background="@drawable/normal_button"
-            android:text="DONE"
+            android:text="CERRAR"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:textStyle="bold" />
