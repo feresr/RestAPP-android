@@ -54,45 +54,48 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
 
 
     @Override
-    public View getView(final int position, final View convertView, final ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
 
-        TextView description;
-        TextView price;
-        View v = convertView;
+
+        final ViewHolder viewHolder;
+
         final ImageButton removeItemBtn;
 
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inflater.inflate(R.layout.listview_order_item, null);
-
+            convertView = inflater.inflate(R.layout.listview_order_item, null);
+            TextView description = (TextView) convertView.findViewById(R.id.item_description_txt);
+            TextView price = (TextView) convertView.findViewById(R.id.item_price_txt);
+            ImageButton imageButton = (ImageButton) convertView.findViewById(R.id.item_remove_btn);
+            viewHolder = new ViewHolder(price, description, imageButton);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        description = (TextView) v
-                .findViewById(R.id.item_description_txt);
-        price = (TextView) v.findViewById(R.id.item_price_txt);
+
 
         final Item item = getItem(position);
         if (item != null) {
-            description.setText(item.getName());
-            price.setText("$" + String.valueOf(item.getPrice()));
+            viewHolder.description.setText(item.getName());
+            viewHolder.price.setText("$" + String.valueOf(item.getPrice()));
         }
 
-        removeItemBtn = (ImageButton) v.findViewById(R.id.item_remove_btn);
-        removeItemBtn.setVisibility(View.VISIBLE);
-        removeItemBtn.setOnClickListener(new View.OnClickListener() {
+        viewHolder.mImageButton.setVisibility(View.VISIBLE);
+        viewHolder.mImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatabaseHandler db = new DatabaseHandler(context);
-                db.removeItemFromOrder(context, order, getItem(position), removeItemBtn);
+                db.removeItemFromOrder(context, order, getItem(position), viewHolder.mImageButton);
 
-                removeItemBtn.setVisibility(View.GONE);
+                viewHolder.mImageButton.setVisibility(View.GONE);
             }
         });
 
 
-        return v;
+        return convertView;
     }
 
 
@@ -101,6 +104,18 @@ public class ItemsInOrderAdapter extends ArrayAdapter<Item> {
         this.order = db.getOrderById(orderId);
         orderFragment.updatePrice(order);
         super.notifyDataSetChanged();
+    }
+
+    private static class ViewHolder {
+        public TextView price;
+        public TextView description;
+        public ImageButton mImageButton;
+
+        public ViewHolder(TextView price, TextView description, ImageButton imageButton) {
+            this.price = price;
+            this.description = description;
+            this.mImageButton = imageButton;
+        }
     }
 
 }

@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.Toast;
 
 import com.tesis.restapp.restapp.R;
@@ -17,7 +18,7 @@ import com.tesis.restapp.restapp.models.Table;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 
-public class TablesActivity extends FragmentActivity implements TablesFragment.TablesCallback{
+public class TablesActivity extends ActionBarActivity implements TablesFragment.TablesCallback{
     private ProgressDialog pDialog;
     private static final String KEY_DIALOG_SHOWING = "DIALOG_SHOWING";
 

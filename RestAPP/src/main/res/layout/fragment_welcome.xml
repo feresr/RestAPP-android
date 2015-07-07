@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tesis.restapp.restapp.activities.intro.IntroActivity$PlaceholderFragment">
+
+    <ImageView android:layout_width="match_parent" android:layout_height="match_parent"
+               android:layout_centerInParent="true"
+               android:adjustViewBounds="true"
+               android:scaleType="centerCrop"
+               android:src="@drawable/background_login"
+               android:contentDescription="icon"
+            />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+            android:background="@drawable/custombackground"
+            android:layout_centerInParent="true"
+            android:padding="60sp"
+            android:layout_above="@id/login_btn"
+            android:layout_margin="15sp"
+            android:orientation="vertical"
+            >
+        <ImageView android:layout_width="130dp" android:layout_height="130dp"
+                   android:src="@drawable/ic_launcher"
+                   android:contentDescription="icon"
+                   android:id="@+id/icon"
+                    android:layout_gravity="center"
+                   android:layout_marginBottom="30sp"
+                />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="RESTAPP"
+                  android:id="@+id/bienvenido"
+                  android:textStyle="bold"
+                  android:layout_gravity="center"
+                  android:textColor="@color/white"
+                  android:textSize="24dp"
+                  android:layout_below="@+id/icon"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Bienvenido"
+                  android:layout_gravity="center"
+                  android:layout_marginTop="40sp"
+                  android:textAlignment="center"
+                  android:textColor="@color/white"
+                  android:gravity="center"
+                  android:textSize="18dp"
+                  android:layout_below="@+id/icon"/>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:id="@+id/login_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_gravity="bottom"
+        android:background="@drawable/transparent_button"
+        android:text="@string/button_log_in"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

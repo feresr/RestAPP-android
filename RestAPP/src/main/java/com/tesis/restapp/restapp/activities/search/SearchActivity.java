@@ -3,14 +3,15 @@ package com.tesis.restapp.restapp.activities.search;
 
 import android.app.SearchManager;
 import android.content.Context;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.support.v7.widget.SearchView;
 
-import com.tesis.restapp.restapp.R;
+
 import com.tesis.restapp.restapp.models.Category;
 
 public class SearchActivity extends AppCompatActivity implements SearchHandler {
@@ -26,10 +27,14 @@ public class SearchActivity extends AppCompatActivity implements SearchHandler {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new CategoriesFragment())
                     .commit();
-            itemsFragment = new ItemsFragment();
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        itemsFragment = new ItemsFragment();
+    }
 
     @Override
     public void onCategorySelected(int categoryId) {

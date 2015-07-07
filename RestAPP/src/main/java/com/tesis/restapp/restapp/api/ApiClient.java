@@ -17,7 +17,7 @@ public class ApiClient{
 
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setLogLevel(RestAdapter.LogLevel.FULL)
-                    .setEndpoint("http://" + apiIP + "/RestAPP-api/public/index.php/")
+                    .setEndpoint("http://" + apiIP + "/RestAPP-api/public/")
                     .setRequestInterceptor(new RequestInterceptor() {
                         @Override
                         public void intercept(RequestFacade requestFacade) {
