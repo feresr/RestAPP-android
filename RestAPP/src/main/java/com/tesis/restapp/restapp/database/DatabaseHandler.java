@@ -246,7 +246,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         return orderList;
     }
 
-    public List<Table> getTables() {
+    public void getTables(TableRunnableInterface callback) {
         List<Table> tableList = new ArrayList<Table>();
         // Select All Query
         String selectQuery = "SELECT * FROM " + TABLE_TABLES;
@@ -274,7 +274,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         }
         db.close();
         // return tables list
-        return tableList;
+        callback.run(tableList);
     }
 
     public List<Category> getCategories() {
@@ -738,4 +738,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
     }
 
+    public interface TableRunnableInterface {
+         public void run(List<Table> tables);
+    }
 }
