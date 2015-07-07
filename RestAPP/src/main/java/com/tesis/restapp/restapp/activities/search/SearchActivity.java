@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 
 
+import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.models.Category;
 
 public class SearchActivity extends AppCompatActivity implements SearchHandler {
