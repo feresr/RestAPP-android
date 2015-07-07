@@ -24,5 +24,6 @@
     <string name="Settings">Settings</string>
     <string name="title_activity_tables">Mesas disponibles</string>
     <string name="title_activity_item">ItemActivity</string>
+    <string name="search_items">Search menu items</string>
 
 </resources>

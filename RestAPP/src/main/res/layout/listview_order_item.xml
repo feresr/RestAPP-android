@@ -37,10 +37,8 @@
         android:id="@+id/item_remove_btn"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:paddingLeft="10sp"
-        android:paddingRight="10sp"
-        android:src="@drawable/abc_ic_clear"
-        android:background="#4222"
+        android:background="?android:selectableItemBackground"
+        android:src="@drawable/ic_action_remove"
         android:focusable="false"
 
         />

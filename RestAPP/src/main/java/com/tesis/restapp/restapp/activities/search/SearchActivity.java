@@ -1,19 +1,19 @@
 package com.tesis.restapp.restapp.activities.search;
 
-import android.app.Activity;
+
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.SearchView;
-import android.widget.Toast;
+import android.support.v7.widget.SearchView;
 
 import com.tesis.restapp.restapp.R;
 import com.tesis.restapp.restapp.models.Category;
 
-public class SearchActivity extends Activity implements SearchHandler {
+public class SearchActivity extends AppCompatActivity implements SearchHandler {
 
     private ItemsFragment itemsFragment;
     private boolean itemsMode = false;
@@ -54,8 +54,8 @@ public class SearchActivity extends Activity implements SearchHandler {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search, menu);
-
         // Associate searchable configuration with the SearchView
+
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =

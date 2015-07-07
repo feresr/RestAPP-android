@@ -68,7 +68,7 @@ public class CategoriesAdapter extends ArrayAdapter<Category> {
         description.setText(getItem(position).getName());
 
 
-        layout.setBackgroundResource(images[position]);
+        layout.setBackgroundResource(images[position % images.length]);
 
 
         return v;

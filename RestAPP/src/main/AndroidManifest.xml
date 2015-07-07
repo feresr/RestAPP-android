@@ -23,7 +23,8 @@
         <activity
             android:name=".activities.main.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop" >
+            android:launchMode="singleTop"
+            android:theme="@style/TransparentAB" >
         </activity>
         <activity
             android:name=".activities.main.OrderActivity"
