@@ -23,25 +23,27 @@
                    android:src="@drawable/ic_launcher"
                    android:contentDescription="icon"
                    android:id="@+id/icon"
+                    android:layout_marginTop="40dp"
                     android:layout_gravity="center"
-                   android:layout_marginBottom="30sp"
+                   android:layout_marginBottom="10sp"
                 />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:text="RESTAPP"
-                  android:id="@+id/bienvenido"
+                  android:id="@+id/appname"
                   android:textStyle="bold"
                   android:layout_gravity="center"
                   android:textColor="@color/white"
-                  android:textSize="24dp"
+                  android:textSize="80dp"
                   android:layout_below="@+id/icon"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="Bienvenido"
+                  android:text="RESTAURANTES, BARES Y CAFÉS"
                   android:layout_gravity="center"
-                  android:layout_marginTop="40sp"
+                  android:layout_marginTop="2sp"
                   android:textAlignment="center"
                   android:textColor="@color/white"
                   android:gravity="center"
-                  android:textSize="18dp"
+                  android:textSize="24dp"
+            android:id="@+id/subtitle"
                   android:layout_below="@+id/icon"/>
 
     </LinearLayout>

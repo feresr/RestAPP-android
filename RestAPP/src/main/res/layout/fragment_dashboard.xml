@@ -14,11 +14,11 @@
         android:paddingTop="25sp">
 
         <ImageView
-            android:layout_width="70sp"
-            android:layout_height="70sp"
+            android:layout_width="80sp"
+            android:layout_height="80sp"
             android:layout_gravity="center"
             android:layout_margin="15sp"
-            android:background="@drawable/waiter_icon" />
+            android:background="@drawable/luigi_risotto" />
 
         <TextView
             android:id="@+id/firstLastNameTxt"

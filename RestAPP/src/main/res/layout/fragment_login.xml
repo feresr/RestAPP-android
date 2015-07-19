@@ -23,7 +23,8 @@
         android:hint="@string/login_user_hint"
         android:inputType="textPersonName"
         android:paddingLeft="8sp"
-        android:textColor="#ddd"
+        android:textColor="#333"
+
         android:textSize="16sp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true">
@@ -42,7 +43,7 @@
         android:inputType="textPassword"
         android:layout_below="@+id/usernameTxt"
         android:paddingLeft="8sp"
-        android:textColor="#ddd"
+        android:textColor="#333"
         android:textSize="16sp" />
     <ImageButton
         android:id="@+id/config"

@@ -53,23 +53,26 @@ public class ItemsAdapter extends ArrayAdapter<Item> {
     public View getView(int position, View convertView, ViewGroup parent) {
         TextView description;
         TextView price;
+        TextView itemId;
         View v = convertView;
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) super.getContext()
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             v = inflater.inflate(R.layout.listview_item, null);
-
         }
 
         description = (TextView) v
                 .findViewById(R.id.item_description_txt);
         price = (TextView) v.findViewById(R.id.item_price_txt);
 
+        itemId = (TextView) v.findViewById(R.id.item_quantity_txt);
+
         Item item = getItem(position);
         if (item != null) {
             description.setText(item.getName());
             price.setText(String.valueOf(item.getPrice()));
+            itemId.setText(String.valueOf(item.getId()));
         }
         return v;
     }
